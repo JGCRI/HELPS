@@ -9,7 +9,8 @@ library(tidyr)
 #' CALENDAR_MONTH_EXTENDED_MAJOR4_IRR
 #'
 #' A list of prebuilt grid-level crop calendar data objects.
-#' The output provides grid-level daily weight to build monthly mean value
+#' The output provides grid-level monthly weights to build annual mean value
+#' This weights make sure annual mean from monthly values equals to the annual mean from daily values
 #' Source data is from ISIMIP3b, need to check the data release requirement
 #' @author DS
 # crop-by-mgmt transform: from ISIMIP to SPAM
