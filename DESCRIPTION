@@ -2,11 +2,10 @@ Package: HELPS
 Title: Heat Effects on Labor Productivity by Sector
 Version: 0.0.0.9000
 Authors@R: 
-    person("Di", "Sheng", , "di.sheng@pnnl.gov", role = c("aut", "cre"))
-           comment = c(ORCID = "0009-0006-7567-380X"))
+    person("Di", "Sheng", , "di.sheng@pnnl.gov", role = c("aut", "cre"),
+    comment = c(ORCID = "0009-0006-7567-380X"))
 Description: This package translate climate variable projections to future human heat stress and heat-induced labor productivity losses across sectors.
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a license
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
@@ -16,3 +15,5 @@ Imports:
     ncdf4,
     raster,
     tidyr
+Depends: 
+    R (>= 2.10)
