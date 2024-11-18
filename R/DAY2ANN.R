@@ -7,7 +7,7 @@
 #' @param ... individual .nc file name of climate variables in order
 #'
 #' @import ncdf4
-#' @importFrom raster stack overlay calc stackApply as.matrix
+#' @importFrom raster stack overlay calc stackApply as.matrix ncell
 #' @importFrom dplyr %>%
 #'
 #' @return A list of two data frames of annual gridded WBGT and PWC
