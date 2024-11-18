@@ -4,14 +4,14 @@
 \alias{DAY2ANN}
 \title{DAY2ANN}
 \usage{
-DAY2ANN(CROP_IRR, WBGT, ETA, YEAR_INPUT = NULL, ...)
+DAY2ANN(CROP_IRR, WBGT, LHR, YEAR_INPUT = NULL, ...)
 }
 \arguments{
 \item{CROP_IRR}{choice of crop and irrigation practice}
 
 \item{WBGT}{choice of heat stress function}
 
-\item{ETA}{choice of labor-heat response function}
+\item{LHR}{choice of labor-heat response function}
 
 \item{YEAR_INPUT}{a vector of years of interest}
 
@@ -25,7 +25,7 @@ DAY2ANN
 }
 \examples{
 \dontrun{
-annual_output <- DAY2ANN(CROP_IRR = "MAIZ_I", WBGT = WBGT, ETA = ETA, YEAR_INPUT = 2027,
+annual_output <- DAY2ANN(CROP_IRR = "MAIZ_I", WBGT = WBGT1, LHR = ETA1, YEAR_INPUT = 2027,
 "hurs_day_GFDL-ESM2M_rcp60_r1i1p1_EWEMBI_20210101-20301231.nc4",
 "tas_day_GFDL-ESM2M_rcp60_r1i1p1_EWEMBI_20210101-20301231.nc4",
 "ps_day_GFDL-ESM2M_rcp60_r1i1p1_EWEMBI_20210101-20301231.nc4")
