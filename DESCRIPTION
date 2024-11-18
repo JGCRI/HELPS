@@ -12,6 +12,7 @@ RoxygenNote: 7.3.2
 Imports: 
     chron,
     dplyr,
+    magrittr,
     ncdf4,
     raster,
     tidyr
