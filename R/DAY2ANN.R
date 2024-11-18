@@ -1,4 +1,4 @@
-#' OM_JOB
+#' DAY2ANN
 #'
 #' @param CROP_IRR choice of crop and irrigation practice
 #' @param WBGT choice of heat stress function
@@ -6,14 +6,16 @@
 #' @param YEAR_INPUT a vector of years of interest
 #' @param ... individual .nc file name of climate variables in order
 #'
-#' @import chron dplyr ncdf4 raster tidyr
+#' @import ncdf4
+#' @importFrom raster stack overlay calc stackApply as.matrix
+#' @importFrom dplyr %>%
 #'
 #' @return A list of two data frames of annual gridded WBGT and PWC
 #' @export
 #'
 #' @examples
 #' \dontrun{
-#' annual_output <- ANNUAL_OUTPUT(CROP_IRR = "MAIZ_I", WBGT = WBGT, ETA = ETA, YEAR_INPUT = 2027,
+#' annual_output <- DAY2ANN(CROP_IRR = "MAIZ_I", WBGT = WBGT, ETA = ETA, YEAR_INPUT = 2027,
 #' "hurs_day_GFDL-ESM2M_rcp60_r1i1p1_EWEMBI_20210101-20301231.nc4",
 #' "tas_day_GFDL-ESM2M_rcp60_r1i1p1_EWEMBI_20210101-20301231.nc4",
 #' "ps_day_GFDL-ESM2M_rcp60_r1i1p1_EWEMBI_20210101-20301231.nc4")
@@ -22,7 +24,7 @@
 
 
 
-ANNUAL_OUTPUT <- function(CROP_IRR, WBGT, ETA, YEAR_INPUT = NULL, ...){
+DAY2ANN <- function(CROP_IRR, WBGT, ETA, YEAR_INPUT = NULL, ...){
 
   CROP_INDEX <- which(CROP == CROP_IRR)
   SPAM_INDEX <- which(SPAM_CROP == CROP_IRR)
