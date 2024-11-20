@@ -4,10 +4,10 @@
 \alias{DAY2ANN}
 \title{DAY2ANN}
 \usage{
-DAY2ANN(CROP_IRR, HS, LHR, YEAR_INPUT = NULL, ...)
+DAY2ANN(SECTOR, HS, LHR, YEAR_INPUT = NULL, ...)
 }
 \arguments{
-\item{CROP_IRR}{choice of crop and irrigation practice}
+\item{SECTOR}{choice of sector}
 
 \item{HS}{choice of heat stress function}
 
@@ -25,7 +25,7 @@ DAY2ANN
 }
 \examples{
 \dontrun{
-annual_output <- DAY2ANN(CROP_IRR = "MAIZ_I", HS = WBGT1, LHR = LHR1, YEAR_INPUT = 2027,
+annual_output <- DAY2ANN(SECTOR = "MAIZ_I", HS = WBGT1, LHR = LHR1, YEAR_INPUT = 2027,
 "hurs_day_GFDL-ESM2M_rcp60_r1i1p1_EWEMBI_20210101-20301231.nc4",
 "tas_day_GFDL-ESM2M_rcp60_r1i1p1_EWEMBI_20210101-20301231.nc4",
 "ps_day_GFDL-ESM2M_rcp60_r1i1p1_EWEMBI_20210101-20301231.nc4")

@@ -1,6 +1,6 @@
 #' DAY2ANN
 #'
-#' @param CROP_IRR choice of crop and irrigation practice
+#' @param SECTOR choice of sector
 #' @param HS choice of heat stress function
 #' @param LHR choice of labor-heat response function
 #' @param YEAR_INPUT a vector of years of interest
@@ -14,21 +14,17 @@
 #'
 #' @examples
 #' \dontrun{
-#' annual_output <- DAY2ANN(CROP_IRR = "MAIZ_I", HS = WBGT1, LHR = LHR1, YEAR_INPUT = 2027,
+#' annual_output <- DAY2ANN(SECTOR = "MAIZ_I", HS = WBGT1, LHR = LHR1, YEAR_INPUT = 2027,
 #' "hurs_day_GFDL-ESM2M_rcp60_r1i1p1_EWEMBI_20210101-20301231.nc4",
 #' "tas_day_GFDL-ESM2M_rcp60_r1i1p1_EWEMBI_20210101-20301231.nc4",
 #' "ps_day_GFDL-ESM2M_rcp60_r1i1p1_EWEMBI_20210101-20301231.nc4")
 #' }
 
+DAY2ANN <- function(SECTOR, HS, LHR, YEAR_INPUT = NULL, ...){
 
-
-
-DAY2ANN <- function(CROP_IRR, HS, LHR, YEAR_INPUT = NULL, ...){
-
-  CROP_INDEX <- which(CROP == CROP_IRR)
-  SPAM_INDEX <- which(SPAM_CROP == CROP_IRR)
-  crop_calendar <- CALENDAR_MONTH[[CROP_INDEX]]
-  HA_filter <- SPAM_HA_FILTER[[CROP_INDEX]]
+  SECTOR_INDEX <- which(CROP == SECTOR)
+  MONTH_WEIGHTS <- CALENDAR_MONTH[[SECTOR_INDEX]]
+  SECTOR_GRID <- SPAM_HA_FILTER[[SECTOR_INDEX]]
 
   # TODO:
   # add if else for HS and PWC
@@ -51,7 +47,7 @@ DAY2ANN <- function(CROP_IRR, HS, LHR, YEAR_INPUT = NULL, ...){
   layer_names <- names(var1.stack)
   layer_dates <- as.Date(gsub("X", "", layer_names), format = "%Y.%m.%d")
   date_range <- range(layer_dates)
-  start_date <- date_range[1]  # Replace with the actual start date of your data
+  start_date <- date_range[1]
   end_date <- date_range[2]
   dates <- seq.Date(start_date, end_date, by = "day")
   year <- format(dates, "%Y")
@@ -80,7 +76,7 @@ DAY2ANN <- function(CROP_IRR, HS, LHR, YEAR_INPUT = NULL, ...){
     variable_list <- list()
     for (i in 1:length(formals(HS))) {
       # assign SPAM HA area filter
-      assign(paste0("var", i, ".SPAM.y"), get(paste0("var", i, ".stack"))[[which(years == YOI)]] * HA_filter)
+      assign(paste0("var", i, ".SPAM.y"), get(paste0("var", i, ".stack"))[[which(years == YOI)]] * SECTOR_GRID)
       variable_list[[i]] <- get(paste0("var", i, ".SPAM.y"))
     }
     # Use do.call to overlay the climate variable list
@@ -116,7 +112,7 @@ DAY2ANN <- function(CROP_IRR, HS, LHR, YEAR_INPUT = NULL, ...){
     # apply the crop calendar weight matrix, the rowSums of weight = 1,
     # so use the rowSums to calculate the annual mean
 
-    month_HS_mtx_calendar <-  month_HS_mtx * crop_calendar
+    month_HS_mtx_calendar <- month_HS_mtx * MONTH_WEIGHTS
     annual_HS_mean <- apply(month_HS_mtx_calendar, 1, function(row) {
       if (all(is.na(row))) {
         return(NA)  # Return NA if the entire row is NA
@@ -125,7 +121,7 @@ DAY2ANN <- function(CROP_IRR, HS, LHR, YEAR_INPUT = NULL, ...){
       }
     })
 
-    month_PWC_mtx_calendar <- month_PWC_mtx * crop_calendar
+    month_PWC_mtx_calendar <- month_PWC_mtx * MONTH_WEIGHTS
     annual_PWC_mean <- apply(month_PWC_mtx_calendar, 1, function(row) {
       if (all(is.na(row))) {
         return(NA)  # Return NA if the entire row is NA
