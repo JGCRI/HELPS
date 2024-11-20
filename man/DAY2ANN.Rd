@@ -4,12 +4,12 @@
 \alias{DAY2ANN}
 \title{DAY2ANN}
 \usage{
-DAY2ANN(CROP_IRR, WBGT, LHR, YEAR_INPUT = NULL, ...)
+DAY2ANN(CROP_IRR, HS, LHR, YEAR_INPUT = NULL, ...)
 }
 \arguments{
 \item{CROP_IRR}{choice of crop and irrigation practice}
 
-\item{WBGT}{choice of heat stress function}
+\item{HS}{choice of heat stress function}
 
 \item{LHR}{choice of labor-heat response function}
 
@@ -18,14 +18,14 @@ DAY2ANN(CROP_IRR, WBGT, LHR, YEAR_INPUT = NULL, ...)
 \item{...}{individual .nc file name of climate variables in order}
 }
 \value{
-A list of two data frames of annual gridded WBGT and PWC
+A list of two data frames of annual gridded HS and PWC
 }
 \description{
 DAY2ANN
 }
 \examples{
 \dontrun{
-annual_output <- DAY2ANN(CROP_IRR = "MAIZ_I", WBGT = WBGT1, LHR = ETA1, YEAR_INPUT = 2027,
+annual_output <- DAY2ANN(CROP_IRR = "MAIZ_I", HS = WBGT1, LHR = LHR1, YEAR_INPUT = 2027,
 "hurs_day_GFDL-ESM2M_rcp60_r1i1p1_EWEMBI_20210101-20301231.nc4",
 "tas_day_GFDL-ESM2M_rcp60_r1i1p1_EWEMBI_20210101-20301231.nc4",
 "ps_day_GFDL-ESM2M_rcp60_r1i1p1_EWEMBI_20210101-20301231.nc4")
