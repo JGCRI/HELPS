@@ -204,6 +204,9 @@ CALENDAR_MONTH_EXTENDED_MAJOR4 <- c(CALENDAR_MONTH_EXTENDED_MAJOR4_IRR, CALENDAR
 # writeRaster(POP_agg, filename = "Grid_POP.tif", format = "GTiff", overwrite = TRUE)
 
 Grid_POP <- raster(system.file("extdata/landscan_global_2019/Grid_POP.tif", package = "HELPS"))
+FLAG_noncrop <- Grid_POP
+values(FLAG_noncrop) <- ifelse(values(Grid_POP) > 0, 1, NA)
+
 
 Grid_POP %>% as.data.frame(xy = T) %>%
   dplyr::mutate(value = ifelse(Grid_POP > 0, 1, 0)) -> df_grid_pop
@@ -219,8 +222,6 @@ df_grid_pop %>%
 ## save pkg data ----
 ### Combine crop & noncrop ----
 SECTOR_MONTH_WEIGHT <- c(CALENDAR_MONTH_EXTENDED_MAJOR4, list(CALENDAR_MONTH_NONCROP))
-
-
 
 # SECTOR FLAG ----
 
@@ -242,44 +243,38 @@ HA_rfd_list = list.files(path=SPAM_dir, pattern="_R.tif", all.files=FALSE, full.
 # TODO: expand to other crops
 key = c("MAIZ", "RICE", "WHEA", "SOYB")
 
-## IRR: matrix ----
+## IRR: raster ----
 major4_files <- HA_irr_list[grep(paste(key, collapse = "|"), HA_irr_list)]; major4_files
 SPAM_HA <- list()
 SPAM_HA_W <- list()
 for(i in 1:length(major4_files)){
-  Area <- raster(major4_files[[i]]);
-  Area_agg <- aggregate(Area, fact=6, fun=sum, na.rm=TRUE);
-  Area_agg.df <- as.data.frame(Area_agg, xy=TRUE) %>%
-    setNames(c("x", "y", "value")) %>%
-    mutate(flag = ifelse(value > 0, 1, 0))
-  flag <- as.matrix(Area_agg.df$flag) # binary filter
-  smw <- as.matrix(Area_agg.df %>% dplyr::select(x, y, value)) # spatial mapping weight
-  SPAM_HA[[i]] <- flag
-  SPAM_HA_W[[i]] <- smw
+  Area <- raster(major4_files[[i]])
+  Area_agg <- aggregate(Area, fact=6, fun=sum, na.rm=TRUE)
+  FLAG <- Area_agg
+  values(FLAG) <- ifelse(values(Area_agg) > 0, 1, NA)
+  SPAM_HA[[i]] <- FLAG
+  SPAM_HA_W[[i]] <- Area_agg
 }
 SPAM_HA_IRR <- SPAM_HA
 SPAM_HA_W_IRR <- SPAM_HA_W
 
-## RFD: matrix ----
+## RFD: raster ----
 major4_files <- HA_rfd_list[grep(paste(key, collapse = "|"), HA_rfd_list)]; major4_files
 SPAM_HA <- list()
 SPAM_HA_W <- list()
 for(i in 1:length(major4_files)){
-  Area <- raster(major4_files[[i]]);
-  Area_agg <- aggregate(Area, fact=6, fun=sum, na.rm=TRUE);
-  Area_agg.df <- as.data.frame(Area_agg, xy=TRUE) %>%
-    setNames(c("x", "y", "value")) %>%
-    mutate(flag = ifelse(value > 0, 1, 0))
-  flag <- as.matrix(Area_agg.df$flag) # binary filter
-  smw <- as.matrix(Area_agg.df %>% dplyr::select(x, y, value)) # spatial mapping weight
-  SPAM_HA[[i]] <- flag
-  SPAM_HA_W[[i]] <- smw
+  Area <- raster(major4_files[[i]])
+  Area_agg <- aggregate(Area, fact=6, fun=sum, na.rm=TRUE)
+  FLAG <- Area_agg
+  values(FLAG) <- ifelse(values(Area_agg) > 0, 1, NA)
+  SPAM_HA[[i]] <- FLAG
+  SPAM_HA_W[[i]] <- Area_agg
 }
 SPAM_HA_RFD <- SPAM_HA
 SPAM_HA_W_RFD <- SPAM_HA_W
 ## Combine crop & noncrop ----
-SECTOR_FLAG <- c(SPAM_HA_IRR, SPAM_HA_RFD, list(flag_noncrop))
-SECTOR_SMW <- c(SPAM_HA_W_IRR, SPAM_HA_W_RFD, list(smw_non_crop))
+SECTOR_FLAG <- c(SPAM_HA_IRR, SPAM_HA_RFD, list(FLAG_noncrop))
+SECTOR_SMW <- c(SPAM_HA_W_IRR, SPAM_HA_W_RFD, list(Grid_POP))
 
 
 # save pkg data ----
@@ -309,7 +304,7 @@ usethis::use_data(SECTOR_MONTH_WEIGHT, overwrite = TRUE)
 
 #' SECTOR_FLAG
 #'
-#' A list of prebuilt grid-level filter data objects
+#' A list of prebuilt grid-level filter raster data objects
 #' The output provides grid-level binary filter this data to filter relevant grids in the very first step
 #' This data is used to improve the data processing efficiency
 #' For crop sector the filter is based on SPAM harvested area
@@ -321,10 +316,10 @@ usethis::use_data(SECTOR_FLAG, overwrite = TRUE)
 
 #' SECTOR_SMW
 #'
-#' A list of prebuilt grid level spatial mapping data objects by sector, including 8 crop sectors and 1 noncrop sector
-#' The output provides grid-level value of harvested area or population
+#' A list of prebuilt rasters of harvested area or population by sector, including 8 crop sectors and 1 noncrop sector
 #' Harvested area is in 2020: SAPM
 #' Population data is in 2019: landscan
+#' harmonized to 0.5 degree
 #' @author DS
 usethis::use_data(SECTOR_SMW, overwrite = TRUE)
 
