@@ -44,6 +44,14 @@ DAY2ANN <- function(SECTOR, HS, LHR, YEAR_INPUT = NULL, ...){
     assign(paste0("var", i,".stack"), raster::stack(climate_vars[[i]]))
   }
 
+
+  # Assuming your raster stack is called "temp_stack" and has daily layers
+  # Create a vector of months corresponding to each layer
+  months <- format(as.Date("2001-01-01") + 0:(nlayers(temp_stack) - 1), "%m")
+
+  YEAR <- format(as.Date(paste0(YEAR_INPUT,"-01-01")) + 0:(nlayers(var1.stack) - 1), "%Y")
+
+
   layer_names <- names(var1.stack)
   layer_dates <- as.Date(gsub("X", "", layer_names), format = "%Y.%m.%d")
   date_range <- range(layer_dates)
