@@ -19,9 +19,7 @@ DAY2MON <- function(input_rack){
 # Create a vector of months corresponding to each layer
 layer_names <- names(input_rack)
 layer_dates <- as.Date(gsub("X", "", layer_names), format = "%Y.%m.%d")
-date_range <- range(layer_dates)
-start_date <- date_range[1]
-MONTHS <- format(as.Date(start_date) + 0:(nlayers(input_rack) - 1), "%m")
+MONTHS <- format(layer_dates, "%m")
 # Calculate monthly mean using stackApply
 monthly_mean <- stackApply(input_rack, indices = MONTHS, fun = mean)
 monthly_mean <- stack(monthly_mean)
