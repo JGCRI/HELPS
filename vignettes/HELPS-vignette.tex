@@ -1,0 +1,357 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={HELPS-vignette},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{HELPS-vignette}
+\author{}
+\date{\vspace{-2.5em}}
+
+\begin{document}
+\maketitle
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(HELPS)}
+\FunctionTok{library}\NormalTok{(ncdf4)}
+\FunctionTok{library}\NormalTok{(raster)}
+\FunctionTok{library}\NormalTok{(dplyr)}
+\FunctionTok{library}\NormalTok{(ggplot2)}
+\FunctionTok{library}\NormalTok{(knitr)}
+\end{Highlighting}
+\end{Shaded}
+
+\section{This package works with either daily or monthly 0.5-degree
+gridded weather
+projections.}\label{this-package-works-with-either-daily-or-monthly-0.5-degree-gridded-weather-projections.}
+
+\subsection{1. Daily gridded inputs:}\label{daily-gridded-inputs}
+
+\subsubsection{Step1.1: calculate daily gridded heat
+stress}\label{step1.1-calculate-daily-gridded-heat-stress}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{wbgt.sun.day }\OtherTok{\textless{}{-}} \FunctionTok{HeatStress}\NormalTok{(}\AttributeTok{SECTOR =} \StringTok{"MAIZ\_I"}\NormalTok{, }\AttributeTok{HS =}\NormalTok{ WBGT\_sun, }\AttributeTok{YEAR\_INPUT =} \DecValTok{2024}\NormalTok{,}
+                    \StringTok{"../hurs\_day\_GFDL{-}ESM2M\_rcp60\_r1i1p1\_EWEMBI\_20210101{-}20301231.nc4"}\NormalTok{,}
+                    \StringTok{"../tas\_day\_GFDL{-}ESM2M\_rcp60\_r1i1p1\_EWEMBI\_20210101{-}20301231.nc4"}\NormalTok{,}
+                    \StringTok{"../ps\_day\_GFDL{-}ESM2M\_rcp60\_r1i1p1\_EWEMBI\_20210101{-}20301231.nc4"}\NormalTok{)}
+\NormalTok{wbgt.sun.day}
+\CommentTok{\#\textgreater{} class      : RasterStack }
+\CommentTok{\#\textgreater{} dimensions : 360, 720, 259200, 366  (nrow, ncol, ncell, nlayers)}
+\CommentTok{\#\textgreater{} resolution : 0.5, 0.5  (x, y)}
+\CommentTok{\#\textgreater{} extent     : {-}180, 180, {-}90, 90  (xmin, xmax, ymin, ymax)}
+\CommentTok{\#\textgreater{} crs        : +proj=longlat +datum=WGS84 +no\_defs }
+\CommentTok{\#\textgreater{} names      : X2024.01.01, X2024.01.02, X2024.01.03, X2024.01.04, X2024.01.05, X2024.01.06, X2024.01.07, X2024.01.08, X2024.01.09, X2024.01.10, X2024.01.11, X2024.01.12, X2024.01.13, X2024.01.14, X2024.01.15, ... }
+\CommentTok{\#\textgreater{} min values : {-}18.6689354, {-}18.7167859, {-}23.0297190, {-}26.5233422, {-}27.7567447, {-}27.4797113, {-}26.3887823, {-}25.5296689, {-}25.5736836, {-}25.5192638, {-}25.2567931, {-}21.5112278, {-}18.4216959, {-}23.3963008, {-}23.0957743, ... }
+\CommentTok{\#\textgreater{} max values :    32.68951,    32.66616,    32.18866,    33.07450,    32.27624,    32.39644,    32.50221,    32.97666,    32.79682,    32.93623,    32.93041,    32.54576,    32.59282,    32.33681,    32.69230, ...}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Step1.2: calculate daily gridded physical work
+capacity}\label{step1.2-calculate-daily-gridded-physical-work-capacity}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pwc.hothaps.day }\OtherTok{\textless{}{-}} \FunctionTok{PWC}\NormalTok{(}\AttributeTok{WBGT =}\NormalTok{ wbgt.sun.day,  }\AttributeTok{LHR =}\NormalTok{ LHR\_Hothaps, }\AttributeTok{workload =} \StringTok{"high"}\NormalTok{)}
+\NormalTok{pwc.hothaps.day}
+\CommentTok{\#\textgreater{} class      : RasterStack }
+\CommentTok{\#\textgreater{} dimensions : 360, 720, 259200, 366  (nrow, ncol, ncell, nlayers)}
+\CommentTok{\#\textgreater{} resolution : 0.5, 0.5  (x, y)}
+\CommentTok{\#\textgreater{} extent     : {-}180, 180, {-}90, 90  (xmin, xmax, ymin, ymax)}
+\CommentTok{\#\textgreater{} crs        : +proj=longlat +datum=WGS84 +no\_defs }
+\CommentTok{\#\textgreater{} names      : X2024.01.01, X2024.01.02, X2024.01.03, X2024.01.04, X2024.01.05, X2024.01.06, X2024.01.07, X2024.01.08, X2024.01.09, X2024.01.10, X2024.01.11, X2024.01.12, X2024.01.13, X2024.01.14, X2024.01.15, ... }
+\CommentTok{\#\textgreater{} min values :   0.3573298,   0.3595205,   0.4069987,   0.3230669,   0.3979197,   0.3857245,   0.3752526,   0.3314406,   0.3474268,   0.3349677,   0.3354787,   0.3710139,   0.3664824,   0.3917355,   0.3570691, ... }
+\CommentTok{\#\textgreater{} max values :           1,           1,           1,           1,           1,           1,           1,           1,           1,           1,           1,           1,           1,           1,           1, ...}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Step1.3: aggregate daily value to monthly
+value}\label{step1.3-aggregate-daily-value-to-monthly-value}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{wbgt.sun.mon }\OtherTok{\textless{}{-}} \FunctionTok{DAY2MON}\NormalTok{(}\AttributeTok{input\_rack =}\NormalTok{ wbgt.sun.day)}
+\FunctionTok{rm}\NormalTok{(wbgt.sun.day)}
+\NormalTok{pwc.hothaps.mon }\OtherTok{\textless{}{-}} \FunctionTok{DAY2MON}\NormalTok{(}\AttributeTok{input\_rack =}\NormalTok{ pwc.hothaps.day)}
+\FunctionTok{rm}\NormalTok{(pwc.hothaps.day)}
+\NormalTok{wbgt.sun.mon}
+\CommentTok{\#\textgreater{} class      : RasterStack }
+\CommentTok{\#\textgreater{} dimensions : 360, 720, 259200, 12  (nrow, ncol, ncell, nlayers)}
+\CommentTok{\#\textgreater{} resolution : 0.5, 0.5  (x, y)}
+\CommentTok{\#\textgreater{} extent     : {-}180, 180, {-}90, 90  (xmin, xmax, ymin, ymax)}
+\CommentTok{\#\textgreater{} crs        : +proj=longlat +datum=WGS84 +no\_defs }
+\CommentTok{\#\textgreater{} names      :   index\_01,   index\_02,   index\_03,   index\_04,   index\_05,   index\_06,   index\_07,   index\_08,   index\_09,   index\_10,   index\_11,   index\_12 }
+\CommentTok{\#\textgreater{} min values : {-}21.303357, {-}19.115496, {-}10.590731,   4.904532,   8.704904,   6.542231,   5.568191,   6.831176,   7.978423,   3.396955,  {-}8.905765, {-}18.367150 }
+\CommentTok{\#\textgreater{} max values :   31.61075,   32.21583,   32.17099,   32.93763,   35.99677,   36.44158,   35.34854,   33.13324,   33.68050,   32.54319,   30.83735,   31.17765}
+\NormalTok{pwc.hothaps.mon}
+\CommentTok{\#\textgreater{} class      : RasterStack }
+\CommentTok{\#\textgreater{} dimensions : 360, 720, 259200, 12  (nrow, ncol, ncell, nlayers)}
+\CommentTok{\#\textgreater{} resolution : 0.5, 0.5  (x, y)}
+\CommentTok{\#\textgreater{} extent     : {-}180, 180, {-}90, 90  (xmin, xmax, ymin, ymax)}
+\CommentTok{\#\textgreater{} crs        : +proj=longlat +datum=WGS84 +no\_defs }
+\CommentTok{\#\textgreater{} names      :  index\_01,  index\_02,  index\_03,  index\_04,  index\_05,  index\_06,  index\_07,  index\_08,  index\_09,  index\_10,  index\_11,  index\_12 }
+\CommentTok{\#\textgreater{} min values : 0.4729112, 0.4056536, 0.4111237, 0.3359830, 0.1840317, 0.1614964, 0.1957440, 0.3282891, 0.2767895, 0.3724186, 0.5626674, 0.5221232 }
+\CommentTok{\#\textgreater{} max values :         1,         1,         1,         1,         1,         1,         1,         1,         1,         1,         1,         1}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Step1.4: aggregate monthly value to annual
+value}\label{step1.4-aggregate-monthly-value-to-annual-value}
+
+Make sure the \texttt{SECTOR} input in \texttt{MON2ANN()} is identical
+to the \texttt{SECTOR} input in \texttt{HeatStress()}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{wbgt.sun.ann }\OtherTok{\textless{}{-}} \FunctionTok{MON2ANN}\NormalTok{(}\AttributeTok{input\_rack =}\NormalTok{ wbgt.sun.mon, }\AttributeTok{SECTOR =} \StringTok{"MAIZ\_I"}\NormalTok{)}
+\NormalTok{pwc.hothaps.ann }\OtherTok{\textless{}{-}} \FunctionTok{MON2ANN}\NormalTok{(}\AttributeTok{input\_rack =}\NormalTok{ pwc.hothaps.mon, }\AttributeTok{SECTOR =} \StringTok{"MAIZ\_I"}\NormalTok{)}
+
+\FunctionTok{summary}\NormalTok{(wbgt.sun.ann)}
+\CommentTok{\#\textgreater{}        x                 y              value       }
+\CommentTok{\#\textgreater{}  Min.   :{-}179.75   Min.   :{-}89.75   Min.   :11.95   }
+\CommentTok{\#\textgreater{}  1st Qu.: {-}89.88   1st Qu.:{-}44.88   1st Qu.:19.70   }
+\CommentTok{\#\textgreater{}  Median :   0.00   Median :  0.00   Median :23.63   }
+\CommentTok{\#\textgreater{}  Mean   :   0.00   Mean   :  0.00   Mean   :23.77   }
+\CommentTok{\#\textgreater{}  3rd Qu.:  89.88   3rd Qu.: 44.88   3rd Qu.:28.00   }
+\CommentTok{\#\textgreater{}  Max.   : 179.75   Max.   : 89.75   Max.   :34.00   }
+\CommentTok{\#\textgreater{}                                     NA\textquotesingle{}s   :251575}
+\FunctionTok{summary}\NormalTok{(pwc.hothaps.ann)}
+\CommentTok{\#\textgreater{}        x                 y              value       }
+\CommentTok{\#\textgreater{}  Min.   :{-}179.75   Min.   :{-}89.75   Min.   :0.29    }
+\CommentTok{\#\textgreater{}  1st Qu.: {-}89.88   1st Qu.:{-}44.88   1st Qu.:0.81    }
+\CommentTok{\#\textgreater{}  Median :   0.00   Median :  0.00   Median :0.95    }
+\CommentTok{\#\textgreater{}  Mean   :   0.00   Mean   :  0.00   Mean   :0.88    }
+\CommentTok{\#\textgreater{}  3rd Qu.:  89.88   3rd Qu.: 44.88   3rd Qu.:0.99    }
+\CommentTok{\#\textgreater{}  Max.   : 179.75   Max.   : 89.75   Max.   :1.00    }
+\CommentTok{\#\textgreater{}                                     NA\textquotesingle{}s   :251575}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{2. Monthly gridded inputs:}\label{monthly-gridded-inputs}
+
+\subsubsection{Step2.1: calculate monthly gridded heat
+stress}\label{step2.1-calculate-monthly-gridded-heat-stress}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{esi.mon }\OtherTok{\textless{}{-}} \FunctionTok{HeatStress}\NormalTok{(}\AttributeTok{SECTOR =} \StringTok{"MAIZ\_I"}\NormalTok{, }\AttributeTok{HS =}\NormalTok{ WBGT\_ESI, }\AttributeTok{YEAR\_INPUT =} \DecValTok{2024}\NormalTok{,}
+                    \StringTok{"../hurs\_mon\_basd\_CanESM5\_W5E5v2\_GCAM\_ref\_2015{-}2100.nc"}\NormalTok{,}
+                    \StringTok{"../tas\_mon\_basd\_CanESM5\_W5E5v2\_GCAM\_ref\_2015{-}2100.nc"}\NormalTok{,}
+                    \StringTok{"../rsds\_mon\_basd\_CanESM5\_W5E5v2\_GCAM\_ref\_2015{-}2100.nc"}\NormalTok{)}
+\NormalTok{esi.mon}
+\CommentTok{\#\textgreater{} class      : RasterStack }
+\CommentTok{\#\textgreater{} dimensions : 360, 720, 259200, 12  (nrow, ncol, ncell, nlayers)}
+\CommentTok{\#\textgreater{} resolution : 0.5, 0.5  (x, y)}
+\CommentTok{\#\textgreater{} extent     : {-}180, 180, {-}90, 90  (xmin, xmax, ymin, ymax)}
+\CommentTok{\#\textgreater{} crs        : +proj=longlat +datum=WGS84 +no\_defs }
+\CommentTok{\#\textgreater{} names      :  X2024.01.01,  X2024.02.01,  X2024.03.01,  X2024.04.01,  X2024.05.01,  X2024.06.01,  X2024.07.01,  X2024.08.01,  X2024.09.01,  X2024.10.01,  X2024.11.01,  X2024.12.01 }
+\CommentTok{\#\textgreater{} min values : {-}25.09260543, {-}17.19823510, {-}11.03063765,  {-}4.23186857,  {-}1.33720376,  {-}0.09842501,  {-}0.28313166,   1.04227485,   1.79913408,  {-}6.80223549, {-}15.20202128, {-}21.46009319 }
+\CommentTok{\#\textgreater{} max values :     28.55405,     28.96498,     30.72392,     30.21399,     31.53198,     31.42811,     32.64251,     35.16210,     32.08807,     30.20970,     30.02945,     28.74671}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Step2.2: calculate daily gridded physical work
+capacity}\label{step2.2-calculate-daily-gridded-physical-work-capacity}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{start\_t }\OtherTok{=} \FunctionTok{Sys.time}\NormalTok{()}
+\NormalTok{pwc.mon.foster }\OtherTok{\textless{}{-}} \FunctionTok{PWC}\NormalTok{(}\AttributeTok{WBGT =}\NormalTok{ esi.mon,  }\AttributeTok{LHR =}\NormalTok{ LHR\_Foster, }\AttributeTok{workload =} \StringTok{"high"}\NormalTok{)}
+\NormalTok{end\_t }\OtherTok{=} \FunctionTok{Sys.time}\NormalTok{()}
+\NormalTok{end\_t }\SpecialCharTok{{-}}\NormalTok{ start\_t}
+\CommentTok{\#\textgreater{} Time difference of 17.60955 secs}
+\NormalTok{pwc.mon.foster}
+\CommentTok{\#\textgreater{} class      : RasterStack }
+\CommentTok{\#\textgreater{} dimensions : 360, 720, 259200, 12  (nrow, ncol, ncell, nlayers)}
+\CommentTok{\#\textgreater{} resolution : 0.5, 0.5  (x, y)}
+\CommentTok{\#\textgreater{} extent     : {-}180, 180, {-}90, 90  (xmin, xmax, ymin, ymax)}
+\CommentTok{\#\textgreater{} crs        : +proj=longlat +datum=WGS84 +no\_defs }
+\CommentTok{\#\textgreater{} names      : X2024.01.01, X2024.02.01, X2024.03.01, X2024.04.01, X2024.05.01, X2024.06.01, X2024.07.01, X2024.08.01, X2024.09.01, X2024.10.01, X2024.11.01, X2024.12.01 }
+\CommentTok{\#\textgreater{} min values :   0.7380218,   0.7201619,   0.6392443,   0.6632983,   0.6005492,   0.6055492,   0.5470242,   0.4299629,   0.5737321,   0.6634991,   0.6719038,   0.7297092 }
+\CommentTok{\#\textgreater{} max values :           1,           1,           1,           1,           1,           1,           1,           1,           1,           1,           1,           1}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{start\_t }\OtherTok{=} \FunctionTok{Sys.time}\NormalTok{()}
+\NormalTok{pwc.mon.hothaps }\OtherTok{\textless{}{-}} \FunctionTok{PWC}\NormalTok{(}\AttributeTok{WBGT =}\NormalTok{ esi.mon,  }\AttributeTok{LHR =}\NormalTok{ LHR\_Hothaps, }\AttributeTok{workload =} \StringTok{"high"}\NormalTok{)}
+\NormalTok{end\_t }\OtherTok{=} \FunctionTok{Sys.time}\NormalTok{()}
+\NormalTok{end\_t }\SpecialCharTok{{-}}\NormalTok{ start\_t}
+\CommentTok{\#\textgreater{} Time difference of 0.28075 secs}
+\NormalTok{pwc.mon.hothaps}
+\CommentTok{\#\textgreater{} class      : RasterStack }
+\CommentTok{\#\textgreater{} dimensions : 360, 720, 259200, 12  (nrow, ncol, ncell, nlayers)}
+\CommentTok{\#\textgreater{} resolution : 0.5, 0.5  (x, y)}
+\CommentTok{\#\textgreater{} extent     : {-}180, 180, {-}90, 90  (xmin, xmax, ymin, ymax)}
+\CommentTok{\#\textgreater{} crs        : +proj=longlat +datum=WGS84 +no\_defs }
+\CommentTok{\#\textgreater{} names      : X2024.01.01, X2024.02.01, X2024.03.01, X2024.04.01, X2024.05.01, X2024.06.01, X2024.07.01, X2024.08.01, X2024.09.01, X2024.10.01, X2024.11.01, X2024.12.01 }
+\CommentTok{\#\textgreater{} min values :   0.8125555,   0.7748311,   0.5762091,   0.6377613,   0.4796239,   0.4917250,   0.3617521,   0.1957158,   0.4176200,   0.6382729,   0.6595906,   0.7954085 }
+\CommentTok{\#\textgreater{} max values :           1,           1,           1,           1,           1,           1,           1,           1,           1,           1,           1,           1}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{start\_t }\OtherTok{=} \FunctionTok{Sys.time}\NormalTok{()}
+\NormalTok{pwc.mon.niosh }\OtherTok{\textless{}{-}} \FunctionTok{PWC}\NormalTok{(}\AttributeTok{WBGT =}\NormalTok{ esi.mon,  }\AttributeTok{LHR =}\NormalTok{ LHR\_NIOSH, }\AttributeTok{workload =} \StringTok{"high"}\NormalTok{)}
+\NormalTok{end\_t }\OtherTok{=} \FunctionTok{Sys.time}\NormalTok{()}
+\NormalTok{end\_t }\SpecialCharTok{{-}}\NormalTok{ start\_t}
+\CommentTok{\#\textgreater{} Time difference of 30.71063 secs}
+\NormalTok{pwc.mon.niosh}
+\CommentTok{\#\textgreater{} class      : RasterStack }
+\CommentTok{\#\textgreater{} dimensions : 360, 720, 259200, 12  (nrow, ncol, ncell, nlayers)}
+\CommentTok{\#\textgreater{} resolution : 0.5, 0.5  (x, y)}
+\CommentTok{\#\textgreater{} extent     : {-}180, 180, {-}90, 90  (xmin, xmax, ymin, ymax)}
+\CommentTok{\#\textgreater{} crs        : +proj=longlat +datum=WGS84 +no\_defs }
+\CommentTok{\#\textgreater{} names      : X2024.01.01, X2024.02.01, X2024.03.01, X2024.04.01, X2024.05.01, X2024.06.01, X2024.07.01, X2024.08.01, X2024.09.01, X2024.10.01, X2024.11.01, X2024.12.01 }
+\CommentTok{\#\textgreater{} min values :   0.7104440,   0.6435126,   0.3570193,   0.4400760,   0.2254037,   0.2423230,   0.0445239,   0.0000000,   0.1348302,   0.4407751,   0.4701335,   0.6790654 }
+\CommentTok{\#\textgreater{} max values :           1,           1,           1,           1,           1,           1,           1,           1,           1,           1,           1,           1}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{start\_t }\OtherTok{=} \FunctionTok{Sys.time}\NormalTok{()}
+\NormalTok{pwc.mon.iso }\OtherTok{\textless{}{-}} \FunctionTok{PWC}\NormalTok{(}\AttributeTok{WBGT =}\NormalTok{ esi.mon,  }\AttributeTok{LHR =}\NormalTok{ LHR\_ISO, }\AttributeTok{workload =} \StringTok{"high"}\NormalTok{)}
+\NormalTok{end\_t }\OtherTok{=} \FunctionTok{Sys.time}\NormalTok{()}
+\NormalTok{end\_t }\SpecialCharTok{{-}}\NormalTok{ start\_t}
+\CommentTok{\#\textgreater{} Time difference of 30.45996 secs}
+\NormalTok{pwc.mon.iso}
+\CommentTok{\#\textgreater{} class      : RasterStack }
+\CommentTok{\#\textgreater{} dimensions : 360, 720, 259200, 12  (nrow, ncol, ncell, nlayers)}
+\CommentTok{\#\textgreater{} resolution : 0.5, 0.5  (x, y)}
+\CommentTok{\#\textgreater{} extent     : {-}180, 180, {-}90, 90  (xmin, xmax, ymin, ymax)}
+\CommentTok{\#\textgreater{} crs        : +proj=longlat +datum=WGS84 +no\_defs }
+\CommentTok{\#\textgreater{} names      : X2024.01.01, X2024.02.01, X2024.03.01, X2024.04.01, X2024.05.01, X2024.06.01, X2024.07.01, X2024.08.01, X2024.09.01, X2024.10.01, X2024.11.01, X2024.12.01 }
+\CommentTok{\#\textgreater{} min values :  0.61806888,  0.55127484,  0.26536931,  0.34825558,  0.13402365,  0.15090825,  0.00000000,  0.00000000,  0.04363597,  0.34895320,  0.37825140,  0.58675465 }
+\CommentTok{\#\textgreater{} max values :           1,           1,           1,           1,           1,           1,           1,           1,           1,           1,           1,           1}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Step2.3: aggregate monthly value to annual
+value}\label{step2.3-aggregate-monthly-value-to-annual-value}
+
+Make sure the \texttt{SECTOR} input in \texttt{MON2ANN()} is identical
+to the \texttt{SECTOR} input in \texttt{HeatStress()}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pwc.hothaps.ann2 }\OtherTok{\textless{}{-}} \FunctionTok{MON2ANN}\NormalTok{(}\AttributeTok{input\_rack =}\NormalTok{ pwc.mon.hothaps, }\AttributeTok{SECTOR =} \StringTok{"MAIZ\_I"}\NormalTok{)}
+\FunctionTok{summary}\NormalTok{(pwc.hothaps.ann2)}
+\CommentTok{\#\textgreater{}        x                 y              value       }
+\CommentTok{\#\textgreater{}  Min.   :{-}179.75   Min.   :{-}89.75   Min.   :0.51    }
+\CommentTok{\#\textgreater{}  1st Qu.: {-}89.88   1st Qu.:{-}44.88   1st Qu.:0.96    }
+\CommentTok{\#\textgreater{}  Median :   0.00   Median :  0.00   Median :0.99    }
+\CommentTok{\#\textgreater{}  Mean   :   0.00   Mean   :  0.00   Mean   :0.97    }
+\CommentTok{\#\textgreater{}  3rd Qu.:  89.88   3rd Qu.: 44.88   3rd Qu.:1.00    }
+\CommentTok{\#\textgreater{}  Max.   : 179.75   Max.   : 89.75   Max.   :1.00    }
+\CommentTok{\#\textgreater{}                                     NA\textquotesingle{}s   :251575}
+\end{Highlighting}
+\end{Shaded}
+
+
+\end{document}

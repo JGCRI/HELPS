@@ -1,0 +1,121 @@
+---
+title: "HELPS-vignette"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{HELPS-vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(HELPS)
+library(ncdf4)
+library(raster)
+library(dplyr)
+library(ggplot2)
+library(knitr)
+```
+
+# This package works with either daily or monthly 0.5-degree gridded weather projections.
+
+## 1. Daily gridded inputs: 
+
+### Step1.1: calculate daily gridded heat stress
+
+```{r Step1.1, warning=FALSE}
+wbgt.sun.day <- HeatStress(SECTOR = "MAIZ_I", HS = WBGT_sun, YEAR_INPUT = 2024,
+                    "../hurs_day_GFDL-ESM2M_rcp60_r1i1p1_EWEMBI_20210101-20301231.nc4",
+                    "../tas_day_GFDL-ESM2M_rcp60_r1i1p1_EWEMBI_20210101-20301231.nc4",
+                    "../ps_day_GFDL-ESM2M_rcp60_r1i1p1_EWEMBI_20210101-20301231.nc4")
+wbgt.sun.day
+```
+
+### Step1.2: calculate daily gridded physical work capacity 
+
+```{r Step1.2, warning=FALSE}
+pwc.hothaps.day <- PWC(WBGT = wbgt.sun.day,  LHR = LHR_Hothaps, workload = "high")
+pwc.hothaps.day
+```
+
+### Step1.3: aggregate daily value to monthly value 
+
+```{r Step1.3, warning=FALSE}
+wbgt.sun.mon <- DAY2MON(input_rack = wbgt.sun.day)
+rm(wbgt.sun.day)
+pwc.hothaps.mon <- DAY2MON(input_rack = pwc.hothaps.day)
+rm(pwc.hothaps.day)
+wbgt.sun.mon
+pwc.hothaps.mon
+
+```
+
+### Step1.4: aggregate monthly value to annual value 
+
+Make sure the `SECTOR` input in `MON2ANN()` is identical to the `SECTOR` input in `HeatStress()`
+
+```{r Step1.4, warning=FALSE}
+wbgt.sun.ann <- MON2ANN(input_rack = wbgt.sun.mon, SECTOR = "MAIZ_I")
+pwc.hothaps.ann <- MON2ANN(input_rack = pwc.hothaps.mon, SECTOR = "MAIZ_I")
+
+summary(wbgt.sun.ann)
+summary(pwc.hothaps.ann)
+```
+
+## 2. Monthly gridded inputs: 
+
+### Step2.1: calculate monthly gridded heat stress
+
+```{r Step2.1, warning=FALSE}
+esi.mon <- HeatStress(SECTOR = "MAIZ_I", HS = WBGT_ESI, YEAR_INPUT = 2024,
+                    "../hurs_mon_basd_CanESM5_W5E5v2_GCAM_ref_2015-2100.nc",
+                    "../tas_mon_basd_CanESM5_W5E5v2_GCAM_ref_2015-2100.nc",
+                    "../rsds_mon_basd_CanESM5_W5E5v2_GCAM_ref_2015-2100.nc")
+esi.mon
+```
+
+### Step2.2: calculate daily gridded physical work capacity 
+
+```{r Step2.2.1, warning=FALSE}
+start_t = Sys.time()
+pwc.mon.foster <- PWC(WBGT = esi.mon,  LHR = LHR_Foster, workload = "high")
+end_t = Sys.time()
+end_t - start_t
+pwc.mon.foster
+```
+```{r Step2.2.2, warning=FALSE}
+start_t = Sys.time()
+pwc.mon.hothaps <- PWC(WBGT = esi.mon,  LHR = LHR_Hothaps, workload = "high")
+end_t = Sys.time()
+end_t - start_t
+pwc.mon.hothaps
+```
+```{r Step2.2.3, warning=FALSE}
+start_t = Sys.time()
+pwc.mon.niosh <- PWC(WBGT = esi.mon,  LHR = LHR_NIOSH, workload = "high")
+end_t = Sys.time()
+end_t - start_t
+pwc.mon.niosh
+```
+```{r Step2.2.4, warning=FALSE}
+start_t = Sys.time()
+pwc.mon.iso <- PWC(WBGT = esi.mon,  LHR = LHR_ISO, workload = "high")
+end_t = Sys.time()
+end_t - start_t
+pwc.mon.iso
+```
+### Step2.3: aggregate monthly value to annual value 
+
+Make sure the `SECTOR` input in `MON2ANN()` is identical to the `SECTOR` input in `HeatStress()`
+
+```{r Step2.3, warning=FALSE}
+pwc.hothaps.ann2 <- MON2ANN(input_rack = pwc.mon.hothaps, SECTOR = "MAIZ_I")
+summary(pwc.hothaps.ann2)
+```
+
