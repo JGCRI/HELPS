@@ -23,21 +23,34 @@ library(ggplot2)
 library(knitr)
 ```
 
-# This package works with either daily or monthly 0.5-degree gridded weather projections.
+## Obtain example data:
+```{r Step0, warning=FALSE, eval = FALSE}
+get_example_data()
+```
 
 ## 1. Daily gridded inputs: 
 
 ### Step1.1: calculate daily gridded heat stress
 
+This step employs `HeatStress()` function, which takes multiple arguments. `SECTOR` denotes which sector the labor is involved in. The current version of **HELPS** supports 9 sectors, consists of 8 crop sectors (4 major crops by 2 irrigation practices) and 1 non-crop sector.
+`HS` denotes the heat stress function that takes atmospheric variables as input and outputs heat stress level. The current version of **HELPS** covers 3 `HS()`, `WBGT_ESI()`, `WBGT_shade()`, and `WBGT_sun()`.
+`YEAR_INPUT` denotes a year of interest.
+`...` denotes the file name(s) of atmospheric variable projections. Note that the number of files need to be equal to the number of argument of `HS()`.
+Example below takes monthly *hurs* (relative humidity), *tas* (near-surface air temperature), and *ps* (surface air pressure) and *WBGT_ESI* to calculate heat stress levels.
+
 ```{r Step1.1, warning=FALSE}
 wbgt.sun.day <- HeatStress(SECTOR = "MAIZ_I", HS = WBGT_sun, YEAR_INPUT = 2024,
-                    "../hurs_day_GFDL-ESM2M_rcp60_r1i1p1_EWEMBI_20210101-20301231.nc4",
-                    "../tas_day_GFDL-ESM2M_rcp60_r1i1p1_EWEMBI_20210101-20301231.nc4",
-                    "../ps_day_GFDL-ESM2M_rcp60_r1i1p1_EWEMBI_20210101-20301231.nc4")
+                    "../HELPS_Test_Data/hurs_day_GFDL-ESM2M_rcp60_r1i1p1_EWEMBI_20210101-20301231.nc4",
+                    "../HELPS_Test_Data/tas_day_GFDL-ESM2M_rcp60_r1i1p1_EWEMBI_20210101-20301231.nc4",
+                    "../HELPS_Test_Data/ps_day_GFDL-ESM2M_rcp60_r1i1p1_EWEMBI_20210101-20301231.nc4")
 wbgt.sun.day
 ```
 
 ### Step1.2: calculate daily gridded physical work capacity 
+
+This step employs `PWC()` function, which takes multiple arguments. 
+`WBGT` denotes the output of `HeatStress()` from last step. 
+`LHR` denotes the labor-heat response function that takes heat stress level and workload intensity as input and outputs physical work capacity (PWC). `workload` varies across alternative industries, we suggest 'high' for construction or agricultural work, 'moderate' for average manufacturing industry work, and 'low' for office desk work and service industries. 
 
 ```{r Step1.2, warning=FALSE}
 pwc.hothaps.day <- PWC(WBGT = wbgt.sun.day,  LHR = LHR_Hothaps, workload = "high")
@@ -45,6 +58,8 @@ pwc.hothaps.day
 ```
 
 ### Step1.3: aggregate daily value to monthly value 
+
+This step employs `DAY2MON()` function, which takes the daily output (a raster rack with 365/366 layers) from `HeatStress()` or `PWC()` as input, and outputs a raster rack of 12 layers with monthly mean.
 
 ```{r Step1.3, warning=FALSE}
 wbgt.sun.mon <- DAY2MON(input_rack = wbgt.sun.day)
@@ -58,7 +73,7 @@ pwc.hothaps.mon
 
 ### Step1.4: aggregate monthly value to annual value 
 
-Make sure the `SECTOR` input in `MON2ANN()` is identical to the `SECTOR` input in `HeatStress()`
+This step employs `MON2ANN()` function, which takes a raster rack with 12 layers of monthly mean as input, and outputs a data frame with grid-level annual mean. In this step, make sure the `SECTOR` input in `MON2ANN()` is identical to the `SECTOR` input in `HeatStress()`
 
 ```{r Step1.4, warning=FALSE}
 wbgt.sun.ann <- MON2ANN(input_rack = wbgt.sun.mon, SECTOR = "MAIZ_I")
@@ -72,15 +87,20 @@ summary(pwc.hothaps.ann)
 
 ### Step2.1: calculate monthly gridded heat stress
 
+Similar to *Step1.1*, this steps employs`HeatStress()` function. Example below takes monthly *hurs* (relative humidity), *tas* (near-surface air temperature), and *rsds* (surface downwelling shortwave radiation) and *WBGT_ESI* to calculate heat stress levels.
+
+
 ```{r Step2.1, warning=FALSE}
 esi.mon <- HeatStress(SECTOR = "MAIZ_I", HS = WBGT_ESI, YEAR_INPUT = 2024,
-                    "../hurs_mon_basd_CanESM5_W5E5v2_GCAM_ref_2015-2100.nc",
-                    "../tas_mon_basd_CanESM5_W5E5v2_GCAM_ref_2015-2100.nc",
-                    "../rsds_mon_basd_CanESM5_W5E5v2_GCAM_ref_2015-2100.nc")
+                    "../HELPS_Test_Data/hurs_mon_basd_CanESM5_W5E5v2_GCAM_ref_2015-2100.nc",
+                    "../HELPS_Test_Data/tas_mon_basd_CanESM5_W5E5v2_GCAM_ref_2015-2100.nc",
+                    "../HELPS_Test_Data/rsds_mon_basd_CanESM5_W5E5v2_GCAM_ref_2015-2100.nc")
 esi.mon
 ```
 
 ### Step2.2: calculate daily gridded physical work capacity 
+
+Similar to *Step1.2*, this step employs `PWC()` function to translate heat stress to PWC. Here we demonstrate the uncertainty in PWC introduced by alternative choices of `LHR()`.
 
 ```{r Step2.2.1, warning=FALSE}
 start_t = Sys.time()
@@ -112,7 +132,7 @@ pwc.mon.iso
 ```
 ### Step2.3: aggregate monthly value to annual value 
 
-Make sure the `SECTOR` input in `MON2ANN()` is identical to the `SECTOR` input in `HeatStress()`
+Same as *Step1.4*, make sure the `SECTOR` input in `MON2ANN()` is identical to the `SECTOR` input in `HeatStress()`
 
 ```{r Step2.3, warning=FALSE}
 pwc.hothaps.ann2 <- MON2ANN(input_rack = pwc.mon.hothaps, SECTOR = "MAIZ_I")
