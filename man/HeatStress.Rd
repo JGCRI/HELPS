@@ -4,9 +4,11 @@
 \alias{HeatStress}
 \title{HeatStress}
 \usage{
-HeatStress(SECTOR, HS, YEAR_INPUT, ...)
+HeatStress(TempRes, SECTOR, HS, YEAR_INPUT, ...)
 }
 \arguments{
+\item{TempRes}{temporal resolution of input, "day" or "month"}
+
 \item{SECTOR}{choice of sector}
 
 \item{HS}{choice of heat stress function}
@@ -23,7 +25,7 @@ HeatStress
 }
 \examples{
 \dontrun{
-GD_HS <- DAY2ANN(SECTOR = "MAIZ_I", HS = WBGT1, YEAR_INPUT = 2027,
+GD_HS <- DAY2ANN(TempRes = "day", SECTOR = "MAIZ_I", HS = WBGT1, YEAR_INPUT = 2027,
 "hurs_day_GFDL-ESM2M_rcp60_r1i1p1_EWEMBI_20210101-20301231.nc4",
 "tas_day_GFDL-ESM2M_rcp60_r1i1p1_EWEMBI_20210101-20301231.nc4",
 "ps_day_GFDL-ESM2M_rcp60_r1i1p1_EWEMBI_20210101-20301231.nc4")
