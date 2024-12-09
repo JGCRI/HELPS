@@ -8,8 +8,8 @@ get_example_data(
   write_dir = getwd(),
   dir_name = "HELPS_Example_Data",
   data_links =
-    c("https://zenodo.org/records/14270403/files/daily_inputs_example.zip?download=1",
-    "https://zenodo.org/records/14270403/files/monthly_inputs_example.zip?download=1")
+    c("https://zenodo.org/records/14270969/files/monthly_inputs_example.zip?download=1",
+    "https://zenodo.org/records/14270969/files/daily_inputs_example.zip?download=1")
 )
 }
 \arguments{
@@ -18,8 +18,8 @@ get_example_data(
 \item{dir_name}{= "HELPS_Example_Data". Name of directory to install zip file to.}
 
 \item{data_link}{Default =
-c("https://zenodo.org/records/14270403/files/daily_inputs_example.zip?download=1",
-"https://zenodo.org/records/14270403/files/monthly_inputs_example.zip?download=1")}
+c(""https://zenodo.org/records/14270969/files/daily_inputs_example.zip?download=1",
+"https://zenodo.org/records/14270969/files/monthly_inputs_example.zip?download=1")}
 }
 \value{
 path with example input data
