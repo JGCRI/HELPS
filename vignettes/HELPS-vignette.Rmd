@@ -39,10 +39,10 @@ This step employs `HeatStress()` function, which takes multiple arguments. `SECT
 Example below takes monthly *hurs* (relative humidity), *tas* (near-surface air temperature), and *ps* (surface air pressure) and *WBGT_ESI* to calculate heat stress levels.
 
 ```{r Step1.1, warning=FALSE}
-wbgt.sun.day <- HeatStress(SECTOR = "MAIZ_I", HS = WBGT_sun, YEAR_INPUT = 2024,
-                    "../HELPS_Test_Data/hurs_day_GFDL-ESM2M_rcp60_r1i1p1_EWEMBI_20210101-20301231.nc4",
-                    "../HELPS_Test_Data/tas_day_GFDL-ESM2M_rcp60_r1i1p1_EWEMBI_20210101-20301231.nc4",
-                    "../HELPS_Test_Data/ps_day_GFDL-ESM2M_rcp60_r1i1p1_EWEMBI_20210101-20301231.nc4")
+wbgt.sun.day <- HeatStress(TempRes = "day", SECTOR = "MAIZ_I", HS = WBGT_sun, YEAR_INPUT = 2024,
+                    "../HELPS_Example_Data/hurs_example_day.nc",
+                    "../HELPS_Example_Data/tas_example_day.nc",
+                    "../HELPS_Example_Data/ps_example_day.nc")
 wbgt.sun.day
 ```
 
@@ -91,10 +91,10 @@ Similar to *Step1.1*, this steps employs`HeatStress()` function. Example below t
 
 
 ```{r Step2.1, warning=FALSE}
-esi.mon <- HeatStress(SECTOR = "MAIZ_I", HS = WBGT_ESI, YEAR_INPUT = 2024,
-                    "../HELPS_Test_Data/hurs_mon_basd_CanESM5_W5E5v2_GCAM_ref_2015-2100.nc",
-                    "../HELPS_Test_Data/tas_mon_basd_CanESM5_W5E5v2_GCAM_ref_2015-2100.nc",
-                    "../HELPS_Test_Data/rsds_mon_basd_CanESM5_W5E5v2_GCAM_ref_2015-2100.nc")
+esi.mon <- HeatStress(TempRes = "month", SECTOR = "MAIZ_I", HS = WBGT_ESI, YEAR_INPUT = 2024,
+                    "../HELPS_Example_Data/hurs_example_month.nc",
+                    "../HELPS_Example_Data/tas_example_month.nc",
+                    "../HELPS_Example_Data/rsds_example_month.nc")
 esi.mon
 ```
 
