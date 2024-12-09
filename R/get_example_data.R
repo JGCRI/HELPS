@@ -5,8 +5,8 @@
 #' @param write_dir Default = getwd()
 #' @param dir_name = "HELPS_Example_Data". Name of directory to install zip file to.
 #' @param data_link Default =
-#' c("https://zenodo.org/records/14270403/files/daily_inputs_example.zip?download=1",
-#' "https://zenodo.org/records/14270403/files/monthly_inputs_example.zip?download=1")
+#' c(""https://zenodo.org/records/14270969/files/daily_inputs_example.zip?download=1",
+#' "https://zenodo.org/records/14270969/files/monthly_inputs_example.zip?download=1")
 #' @keywords test
 #' @return path with example input data
 #' @importFrom rlang :=
@@ -20,8 +20,8 @@
 
 get_example_data <- function(write_dir = getwd(),
                              dir_name = "HELPS_Example_Data",
-                             data_links = c("https://zenodo.org/records/14270403/files/daily_inputs_example.zip?download=1",
-                                            "https://zenodo.org/records/14270403/files/monthly_inputs_example.zip?download=1")) {
+                             data_links = c("https://zenodo.org/records/14270969/files/monthly_inputs_example.zip?download=1",
+                                            "https://zenodo.org/records/14270969/files/daily_inputs_example.zip?download=1")) {
 
   #.........................
   # Initialize
