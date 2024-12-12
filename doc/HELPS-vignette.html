@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>HELPS-vignette</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">HELPS-vignette</h1>
+
+
+
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(HELPS)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(ncdf4)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">library</span>(raster)</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="co">#&gt; Loading required package: sp</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="co">#&gt; Warning: package &#39;dplyr&#39; was built under R version 4.4.1</span></span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="co">#&gt; Attaching package: &#39;dplyr&#39;</span></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="co">#&gt; The following objects are masked from &#39;package:raster&#39;:</span></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="co">#&gt;     intersect, select, union</span></span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a><span class="co">#&gt; The following objects are masked from &#39;package:stats&#39;:</span></span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a><span class="co">#&gt;     filter, lag</span></span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a><span class="co">#&gt; The following objects are masked from &#39;package:base&#39;:</span></span>
+<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span>
+<span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a><span class="fu">library</span>(knitr)</span></code></pre></div>
+<div id="obtain-example-data" class="section level2">
+<h2>Obtain example data:</h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">get_example_data</span>()</span></code></pre></div>
+</div>
+<div id="daily-gridded-inputs" class="section level2">
+<h2>1. Daily gridded inputs:</h2>
+<div id="step1.1-calculate-daily-gridded-heat-stress" class="section level3">
+<h3>Step1.1: calculate daily gridded heat stress</h3>
+<p>This step employs <code>HeatStress()</code> function, which takes
+multiple arguments. <code>SECTOR</code> denotes which sector the labor
+is involved in. The current version of <strong>HELPS</strong> supports 9
+sectors, consists of 8 crop sectors (4 major crops by 2 irrigation
+practices) and 1 non-crop sector. <code>HS</code> denotes the heat
+stress function that takes atmospheric variables as input and outputs
+heat stress level. The current version of <strong>HELPS</strong> covers
+3 <code>HS()</code>, <code>WBGT_ESI()</code>, <code>WBGT_shade()</code>,
+and <code>WBGT_sun()</code>. <code>YEAR_INPUT</code> denotes a year of
+interest. <code>...</code> denotes the file name(s) of atmospheric
+variable projections. Note that the number of files need to be equal to
+the number of argument of <code>HS()</code>. Example below takes monthly
+<em>hurs</em> (relative humidity), <em>tas</em> (near-surface air
+temperature), and <em>ps</em> (surface air pressure) and
+<em>WBGT_ESI</em> to calculate heat stress levels.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>wbgt.sun.day <span class="ot">&lt;-</span> <span class="fu">HeatStress</span>(<span class="at">TempRes =</span> <span class="st">&quot;day&quot;</span>, <span class="at">SECTOR =</span> <span class="st">&quot;MAIZ_I&quot;</span>, <span class="at">HS =</span> WBGT_sun, <span class="at">YEAR_INPUT =</span> <span class="dv">2024</span>,</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>                    <span class="st">&quot;../HELPS_Example_Data/hurs_example_day.nc&quot;</span>,</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>                    <span class="st">&quot;../HELPS_Example_Data/tas_example_day.nc&quot;</span>,</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>                    <span class="st">&quot;../HELPS_Example_Data/ps_example_day.nc&quot;</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co">#&gt; |---------|---------|---------|---------|=========================================                                          |---------|---------|---------|---------|=========================================                                          |---------|---------|---------|---------|=========================================                                          </span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>wbgt.sun.day</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="co">#&gt; class      : RasterStack </span></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="co">#&gt; dimensions : 360, 720, 259200, 366  (nrow, ncol, ncell, nlayers)</span></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="co">#&gt; resolution : 0.5, 0.5  (x, y)</span></span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="co">#&gt; extent     : -180, 180, -90, 90  (xmin, xmax, ymin, ymax)</span></span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a><span class="co">#&gt; crs        : +proj=longlat +datum=WGS84 +no_defs </span></span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a><span class="co">#&gt; names      : X2024.01.01, X2024.01.02, X2024.01.03, X2024.01.04, X2024.01.05, X2024.01.06, X2024.01.07, X2024.01.08, X2024.01.09, X2024.01.10, X2024.01.11, X2024.01.12, X2024.01.13, X2024.01.14, X2024.01.15, ... </span></span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a><span class="co">#&gt; min values : -18.6689354, -18.7167859, -23.0297190, -26.5233422, -27.7567447, -27.4797113, -26.3887823, -25.5296689, -25.5736836, -25.5192638, -25.2567931, -21.5112278, -18.4216959, -23.3963008, -23.0957743, ... </span></span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a><span class="co">#&gt; max values :    32.68951,    32.66616,    32.18866,    33.07450,    32.27624,    32.39644,    32.50221,    32.97666,    32.79682,    32.93623,    32.93041,    32.54576,    32.59282,    32.33681,    32.69230, ...</span></span></code></pre></div>
+</div>
+<div id="step1.2-calculate-daily-gridded-physical-work-capacity" class="section level3">
+<h3>Step1.2: calculate daily gridded physical work capacity</h3>
+<p>This step employs <code>PWC()</code> function, which takes multiple
+arguments. <code>WBGT</code> denotes the output of
+<code>HeatStress()</code> from last step. <code>LHR</code> denotes the
+labor-heat response function that takes heat stress level and workload
+intensity as input and outputs physical work capacity (PWC).
+<code>workload</code> varies across alternative industries, we suggest
+‘high’ for construction or agricultural work, ‘moderate’ for average
+manufacturing industry work, and ‘low’ for office desk work and service
+industries.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>pwc.hothaps.day <span class="ot">&lt;-</span> <span class="fu">PWC</span>(<span class="at">WBGT =</span> wbgt.sun.day,  <span class="at">LHR =</span> LHR_Hothaps, <span class="at">workload =</span> <span class="st">&quot;high&quot;</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>pwc.hothaps.day</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="co">#&gt; class      : RasterStack </span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co">#&gt; dimensions : 360, 720, 259200, 366  (nrow, ncol, ncell, nlayers)</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co">#&gt; resolution : 0.5, 0.5  (x, y)</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">#&gt; extent     : -180, 180, -90, 90  (xmin, xmax, ymin, ymax)</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#&gt; crs        : +proj=longlat +datum=WGS84 +no_defs </span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co">#&gt; names      : X2024.01.01, X2024.01.02, X2024.01.03, X2024.01.04, X2024.01.05, X2024.01.06, X2024.01.07, X2024.01.08, X2024.01.09, X2024.01.10, X2024.01.11, X2024.01.12, X2024.01.13, X2024.01.14, X2024.01.15, ... </span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="co">#&gt; min values :   0.3573298,   0.3595205,   0.4069987,   0.3230669,   0.3979197,   0.3857245,   0.3752526,   0.3314406,   0.3474268,   0.3349677,   0.3354787,   0.3710139,   0.3664824,   0.3917355,   0.3570691, ... </span></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="co">#&gt; max values :           1,           1,           1,           1,           1,           1,           1,           1,           1,           1,           1,           1,           1,           1,           1, ...</span></span></code></pre></div>
+</div>
+<div id="step1.3-aggregate-daily-value-to-monthly-value" class="section level3">
+<h3>Step1.3: aggregate daily value to monthly value</h3>
+<p>This step employs <code>DAY2MON()</code> function, which takes the
+daily output (a raster rack with 365/366 layers) from
+<code>HeatStress()</code> or <code>PWC()</code> as input, and outputs a
+raster rack of 12 layers with monthly mean.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>wbgt.sun.mon <span class="ot">&lt;-</span> <span class="fu">DAY2MON</span>(<span class="at">input_rack =</span> wbgt.sun.day)</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="fu">rm</span>(wbgt.sun.day)</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>pwc.hothaps.mon <span class="ot">&lt;-</span> <span class="fu">DAY2MON</span>(<span class="at">input_rack =</span> pwc.hothaps.day)</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="fu">rm</span>(pwc.hothaps.day)</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>wbgt.sun.mon</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co">#&gt; class      : RasterStack </span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co">#&gt; dimensions : 360, 720, 259200, 12  (nrow, ncol, ncell, nlayers)</span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co">#&gt; resolution : 0.5, 0.5  (x, y)</span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="co">#&gt; extent     : -180, 180, -90, 90  (xmin, xmax, ymin, ymax)</span></span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="co">#&gt; crs        : +proj=longlat +datum=WGS84 +no_defs </span></span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="co">#&gt; names      :   index_01,   index_02,   index_03,   index_04,   index_05,   index_06,   index_07,   index_08,   index_09,   index_10,   index_11,   index_12 </span></span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="co">#&gt; min values : -21.303357, -19.115496, -10.590731,   4.904532,   8.704904,   6.542231,   5.568191,   6.831176,   7.978423,   3.396955,  -8.905765, -18.367150 </span></span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="co">#&gt; max values :   31.61075,   32.21583,   32.17099,   32.93763,   35.99677,   36.44158,   35.34854,   33.13324,   33.68050,   32.54319,   30.83735,   31.17765</span></span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a>pwc.hothaps.mon</span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="co">#&gt; class      : RasterStack </span></span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a><span class="co">#&gt; dimensions : 360, 720, 259200, 12  (nrow, ncol, ncell, nlayers)</span></span>
+<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a><span class="co">#&gt; resolution : 0.5, 0.5  (x, y)</span></span>
+<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a><span class="co">#&gt; extent     : -180, 180, -90, 90  (xmin, xmax, ymin, ymax)</span></span>
+<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a><span class="co">#&gt; crs        : +proj=longlat +datum=WGS84 +no_defs </span></span>
+<span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a><span class="co">#&gt; names      :  index_01,  index_02,  index_03,  index_04,  index_05,  index_06,  index_07,  index_08,  index_09,  index_10,  index_11,  index_12 </span></span>
+<span id="cb5-21"><a href="#cb5-21" tabindex="-1"></a><span class="co">#&gt; min values : 0.4729112, 0.4056536, 0.4111237, 0.3359830, 0.1840317, 0.1614964, 0.1957440, 0.3282891, 0.2767895, 0.3724186, 0.5626674, 0.5221232 </span></span>
+<span id="cb5-22"><a href="#cb5-22" tabindex="-1"></a><span class="co">#&gt; max values :         1,         1,         1,         1,         1,         1,         1,         1,         1,         1,         1,         1</span></span></code></pre></div>
+</div>
+<div id="step1.4-aggregate-monthly-value-to-annual-value" class="section level3">
+<h3>Step1.4: aggregate monthly value to annual value</h3>
+<p>This step employs <code>MON2ANN()</code> function, which takes a
+raster rack with 12 layers of monthly mean as input, and outputs a data
+frame with grid-level annual mean. In this step, make sure the
+<code>SECTOR</code> input in <code>MON2ANN()</code> is identical to the
+<code>SECTOR</code> input in <code>HeatStress()</code></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>wbgt.sun.ann <span class="ot">&lt;-</span> <span class="fu">MON2ANN</span>(<span class="at">input_rack =</span> wbgt.sun.mon, <span class="at">SECTOR =</span> <span class="st">&quot;MAIZ_I&quot;</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>pwc.hothaps.ann <span class="ot">&lt;-</span> <span class="fu">MON2ANN</span>(<span class="at">input_rack =</span> pwc.hothaps.mon, <span class="at">SECTOR =</span> <span class="st">&quot;MAIZ_I&quot;</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="fu">summary</span>(wbgt.sun.ann)</span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="co">#&gt;        x                 y              value       </span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="co">#&gt;  Min.   :-179.75   Min.   :-89.75   Min.   :11.95   </span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="co">#&gt;  1st Qu.: -89.88   1st Qu.:-44.88   1st Qu.:19.70   </span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="co">#&gt;  Median :   0.00   Median :  0.00   Median :23.63   </span></span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="co">#&gt;  Mean   :   0.00   Mean   :  0.00   Mean   :23.77   </span></span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a><span class="co">#&gt;  3rd Qu.:  89.88   3rd Qu.: 44.88   3rd Qu.:28.00   </span></span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a><span class="co">#&gt;  Max.   : 179.75   Max.   : 89.75   Max.   :34.00   </span></span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a><span class="co">#&gt;                                     NA&#39;s   :251575</span></span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a><span class="fu">summary</span>(pwc.hothaps.ann)</span>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a><span class="co">#&gt;        x                 y              value       </span></span>
+<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a><span class="co">#&gt;  Min.   :-179.75   Min.   :-89.75   Min.   :0.29    </span></span>
+<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a><span class="co">#&gt;  1st Qu.: -89.88   1st Qu.:-44.88   1st Qu.:0.81    </span></span>
+<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a><span class="co">#&gt;  Median :   0.00   Median :  0.00   Median :0.95    </span></span>
+<span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a><span class="co">#&gt;  Mean   :   0.00   Mean   :  0.00   Mean   :0.88    </span></span>
+<span id="cb6-19"><a href="#cb6-19" tabindex="-1"></a><span class="co">#&gt;  3rd Qu.:  89.88   3rd Qu.: 44.88   3rd Qu.:0.99    </span></span>
+<span id="cb6-20"><a href="#cb6-20" tabindex="-1"></a><span class="co">#&gt;  Max.   : 179.75   Max.   : 89.75   Max.   :1.00    </span></span>
+<span id="cb6-21"><a href="#cb6-21" tabindex="-1"></a><span class="co">#&gt;                                     NA&#39;s   :251575</span></span></code></pre></div>
+</div>
+</div>
+<div id="monthly-gridded-inputs" class="section level2">
+<h2>2. Monthly gridded inputs:</h2>
+<div id="step2.1-calculate-monthly-gridded-heat-stress" class="section level3">
+<h3>Step2.1: calculate monthly gridded heat stress</h3>
+<p>Similar to <em>Step1.1</em>, this steps
+employs<code>HeatStress()</code> function. Example below takes monthly
+<em>hurs</em> (relative humidity), <em>tas</em> (near-surface air
+temperature), and <em>rsds</em> (surface downwelling shortwave
+radiation) and <em>WBGT_ESI</em> to calculate heat stress levels.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>esi.mon <span class="ot">&lt;-</span> <span class="fu">HeatStress</span>(<span class="at">TempRes =</span> <span class="st">&quot;month&quot;</span>, <span class="at">SECTOR =</span> <span class="st">&quot;MAIZ_I&quot;</span>, <span class="at">HS =</span> WBGT_ESI, <span class="at">YEAR_INPUT =</span> <span class="dv">2024</span>,</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>                    <span class="st">&quot;../HELPS_Example_Data/hurs_example_month.nc&quot;</span>,</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>                    <span class="st">&quot;../HELPS_Example_Data/tas_example_month.nc&quot;</span>,</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>                    <span class="st">&quot;../HELPS_Example_Data/rsds_example_month.nc&quot;</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>esi.mon</span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="co">#&gt; class      : RasterStack </span></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="co">#&gt; dimensions : 360, 720, 259200, 12  (nrow, ncol, ncell, nlayers)</span></span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="co">#&gt; resolution : 0.5, 0.5  (x, y)</span></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="co">#&gt; extent     : -180, 180, -90, 90  (xmin, xmax, ymin, ymax)</span></span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a><span class="co">#&gt; crs        : +proj=longlat +datum=WGS84 +no_defs </span></span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a><span class="co">#&gt; names      :  X2024.01.01,  X2024.02.01,  X2024.03.01,  X2024.04.01,  X2024.05.01,  X2024.06.01,  X2024.07.01,  X2024.08.01,  X2024.09.01,  X2024.10.01,  X2024.11.01,  X2024.12.01 </span></span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a><span class="co">#&gt; min values : -25.09260543, -17.19823510, -11.03063765,  -4.23186857,  -1.33720376,  -0.09842501,  -0.28313166,   1.04227485,   1.79913408,  -6.80223549, -15.20202128, -21.46009319 </span></span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a><span class="co">#&gt; max values :     28.55405,     28.96498,     30.72392,     30.21399,     31.53198,     31.42811,     32.64251,     35.16210,     32.08807,     30.20970,     30.02945,     28.74671</span></span></code></pre></div>
+</div>
+<div id="step2.2-calculate-daily-gridded-physical-work-capacity" class="section level3">
+<h3>Step2.2: calculate daily gridded physical work capacity</h3>
+<p>Similar to <em>Step1.2</em>, this step employs <code>PWC()</code>
+function to translate heat stress to PWC. Here we demonstrate the
+uncertainty in PWC introduced by alternative choices of
+<code>LHR()</code>.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>start_t <span class="ot">=</span> <span class="fu">Sys.time</span>()</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>pwc.mon.foster <span class="ot">&lt;-</span> <span class="fu">PWC</span>(<span class="at">WBGT =</span> esi.mon,  <span class="at">LHR =</span> LHR_Foster, <span class="at">workload =</span> <span class="st">&quot;high&quot;</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>end_t <span class="ot">=</span> <span class="fu">Sys.time</span>()</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>end_t <span class="sc">-</span> start_t</span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="co">#&gt; Time difference of 11.38226 secs</span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>pwc.mon.foster</span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="co">#&gt; class      : RasterStack </span></span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="co">#&gt; dimensions : 360, 720, 259200, 12  (nrow, ncol, ncell, nlayers)</span></span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="co">#&gt; resolution : 0.5, 0.5  (x, y)</span></span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a><span class="co">#&gt; extent     : -180, 180, -90, 90  (xmin, xmax, ymin, ymax)</span></span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a><span class="co">#&gt; crs        : +proj=longlat +datum=WGS84 +no_defs </span></span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a><span class="co">#&gt; names      : X2024.01.01, X2024.02.01, X2024.03.01, X2024.04.01, X2024.05.01, X2024.06.01, X2024.07.01, X2024.08.01, X2024.09.01, X2024.10.01, X2024.11.01, X2024.12.01 </span></span>
+<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a><span class="co">#&gt; min values :   0.7380218,   0.7201619,   0.6392443,   0.6632983,   0.6005492,   0.6055492,   0.5470242,   0.4299629,   0.5737321,   0.6634991,   0.6719038,   0.7297092 </span></span>
+<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a><span class="co">#&gt; max values :           1,           1,           1,           1,           1,           1,           1,           1,           1,           1,           1,           1</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>start_t <span class="ot">=</span> <span class="fu">Sys.time</span>()</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>pwc.mon.hothaps <span class="ot">&lt;-</span> <span class="fu">PWC</span>(<span class="at">WBGT =</span> esi.mon,  <span class="at">LHR =</span> LHR_Hothaps, <span class="at">workload =</span> <span class="st">&quot;high&quot;</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>end_t <span class="ot">=</span> <span class="fu">Sys.time</span>()</span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>end_t <span class="sc">-</span> start_t</span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a><span class="co">#&gt; Time difference of 0.3683171 secs</span></span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>pwc.mon.hothaps</span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a><span class="co">#&gt; class      : RasterStack </span></span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a><span class="co">#&gt; dimensions : 360, 720, 259200, 12  (nrow, ncol, ncell, nlayers)</span></span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a><span class="co">#&gt; resolution : 0.5, 0.5  (x, y)</span></span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a><span class="co">#&gt; extent     : -180, 180, -90, 90  (xmin, xmax, ymin, ymax)</span></span>
+<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a><span class="co">#&gt; crs        : +proj=longlat +datum=WGS84 +no_defs </span></span>
+<span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a><span class="co">#&gt; names      : X2024.01.01, X2024.02.01, X2024.03.01, X2024.04.01, X2024.05.01, X2024.06.01, X2024.07.01, X2024.08.01, X2024.09.01, X2024.10.01, X2024.11.01, X2024.12.01 </span></span>
+<span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a><span class="co">#&gt; min values :   0.8125555,   0.7748311,   0.5762091,   0.6377613,   0.4796239,   0.4917250,   0.3617521,   0.1957158,   0.4176200,   0.6382729,   0.6595906,   0.7954085 </span></span>
+<span id="cb9-14"><a href="#cb9-14" tabindex="-1"></a><span class="co">#&gt; max values :           1,           1,           1,           1,           1,           1,           1,           1,           1,           1,           1,           1</span></span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>start_t <span class="ot">=</span> <span class="fu">Sys.time</span>()</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>pwc.mon.niosh <span class="ot">&lt;-</span> <span class="fu">PWC</span>(<span class="at">WBGT =</span> esi.mon,  <span class="at">LHR =</span> LHR_NIOSH, <span class="at">workload =</span> <span class="st">&quot;high&quot;</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>end_t <span class="ot">=</span> <span class="fu">Sys.time</span>()</span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>end_t <span class="sc">-</span> start_t</span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a><span class="co">#&gt; Time difference of 14.68622 secs</span></span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>pwc.mon.niosh</span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a><span class="co">#&gt; class      : RasterStack </span></span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a><span class="co">#&gt; dimensions : 360, 720, 259200, 12  (nrow, ncol, ncell, nlayers)</span></span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a><span class="co">#&gt; resolution : 0.5, 0.5  (x, y)</span></span>
+<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a><span class="co">#&gt; extent     : -180, 180, -90, 90  (xmin, xmax, ymin, ymax)</span></span>
+<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a><span class="co">#&gt; crs        : +proj=longlat +datum=WGS84 +no_defs </span></span>
+<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a><span class="co">#&gt; names      : X2024.01.01, X2024.02.01, X2024.03.01, X2024.04.01, X2024.05.01, X2024.06.01, X2024.07.01, X2024.08.01, X2024.09.01, X2024.10.01, X2024.11.01, X2024.12.01 </span></span>
+<span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a><span class="co">#&gt; min values :   0.7104440,   0.6435126,   0.3570193,   0.4400760,   0.2254037,   0.2423230,   0.0445239,   0.0000000,   0.1348302,   0.4407751,   0.4701335,   0.6790654 </span></span>
+<span id="cb10-14"><a href="#cb10-14" tabindex="-1"></a><span class="co">#&gt; max values :           1,           1,           1,           1,           1,           1,           1,           1,           1,           1,           1,           1</span></span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>start_t <span class="ot">=</span> <span class="fu">Sys.time</span>()</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>pwc.mon.iso <span class="ot">&lt;-</span> <span class="fu">PWC</span>(<span class="at">WBGT =</span> esi.mon,  <span class="at">LHR =</span> LHR_ISO, <span class="at">workload =</span> <span class="st">&quot;high&quot;</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>end_t <span class="ot">=</span> <span class="fu">Sys.time</span>()</span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>end_t <span class="sc">-</span> start_t</span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a><span class="co">#&gt; Time difference of 13.48745 secs</span></span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a>pwc.mon.iso</span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a><span class="co">#&gt; class      : RasterStack </span></span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a><span class="co">#&gt; dimensions : 360, 720, 259200, 12  (nrow, ncol, ncell, nlayers)</span></span>
+<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a><span class="co">#&gt; resolution : 0.5, 0.5  (x, y)</span></span>
+<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a><span class="co">#&gt; extent     : -180, 180, -90, 90  (xmin, xmax, ymin, ymax)</span></span>
+<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a><span class="co">#&gt; crs        : +proj=longlat +datum=WGS84 +no_defs </span></span>
+<span id="cb11-12"><a href="#cb11-12" tabindex="-1"></a><span class="co">#&gt; names      : X2024.01.01, X2024.02.01, X2024.03.01, X2024.04.01, X2024.05.01, X2024.06.01, X2024.07.01, X2024.08.01, X2024.09.01, X2024.10.01, X2024.11.01, X2024.12.01 </span></span>
+<span id="cb11-13"><a href="#cb11-13" tabindex="-1"></a><span class="co">#&gt; min values :  0.61806888,  0.55127484,  0.26536931,  0.34825558,  0.13402365,  0.15090825,  0.00000000,  0.00000000,  0.04363597,  0.34895320,  0.37825140,  0.58675465 </span></span>
+<span id="cb11-14"><a href="#cb11-14" tabindex="-1"></a><span class="co">#&gt; max values :           1,           1,           1,           1,           1,           1,           1,           1,           1,           1,           1,           1</span></span></code></pre></div>
+</div>
+<div id="step2.3-aggregate-monthly-value-to-annual-value" class="section level3">
+<h3>Step2.3: aggregate monthly value to annual value</h3>
+<p>Same as <em>Step1.4</em>, make sure the <code>SECTOR</code> input in
+<code>MON2ANN()</code> is identical to the <code>SECTOR</code> input in
+<code>HeatStress()</code></p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>pwc.hothaps.ann2 <span class="ot">&lt;-</span> <span class="fu">MON2ANN</span>(<span class="at">input_rack =</span> pwc.mon.hothaps, <span class="at">SECTOR =</span> <span class="st">&quot;MAIZ_I&quot;</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="fu">summary</span>(pwc.hothaps.ann2)</span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a><span class="co">#&gt;        x                 y              value       </span></span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a><span class="co">#&gt;  Min.   :-179.75   Min.   :-89.75   Min.   :0.51    </span></span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a><span class="co">#&gt;  1st Qu.: -89.88   1st Qu.:-44.88   1st Qu.:0.96    </span></span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a><span class="co">#&gt;  Median :   0.00   Median :  0.00   Median :0.99    </span></span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a><span class="co">#&gt;  Mean   :   0.00   Mean   :  0.00   Mean   :0.97    </span></span>
+<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a><span class="co">#&gt;  3rd Qu.:  89.88   3rd Qu.: 44.88   3rd Qu.:1.00    </span></span>
+<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a><span class="co">#&gt;  Max.   : 179.75   Max.   : 89.75   Max.   :1.00    </span></span>
+<span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a><span class="co">#&gt;                                     NA&#39;s   :251575</span></span></code></pre></div>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
