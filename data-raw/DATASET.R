@@ -277,6 +277,31 @@ SECTOR_FLAG <- c(SPAM_HA_IRR, SPAM_HA_RFD, list(FLAG_noncrop))
 SECTOR_SMW <- c(SPAM_HA_W_IRR, SPAM_HA_W_RFD, list(Grid_POP))
 
 
+
+# REGIONAL BOUNDARIES ----
+## country ----
+GCAM_country <- st_read("inst/extdata/maps/country_boundaries_moirai_combined_3p1_0p5arcmin.shp")
+names(GCAM_country) <- c("key" , "ctry_nm",  "region_id",  "geometry")
+# create an empty raster with global extend
+r.mask <- raster(resolution = 0.5,
+                 xmn = -180, xmx = 180,  # Set to global extent for example (-180 to 180 for longitude)
+                 ymn = -90,  ymx = 90)
+# assign spatial group to each grid
+country_raster <- rasterize(GCAM_country, r.mask, field = "region_id")
+names(country_raster) <- "region_id"
+
+
+## GCAM water basin ----
+reg_WB <- st_read("inst/extdata/maps/reg_glu_boundaries_moirai_landcells_3p1_0p5arcmin.shp")
+names(reg_WB) <- c("key","glu_nm",   "reg_nm",   "region_id",   "reg_id",   "geometry")
+# create an empty raster with global extend
+r.mask <- raster(resolution = 0.5,
+                 xmn = -180, xmx = 180,  # Set to global extent for example (-180 to 180 for longitude)
+                 ymn = -90,  ymx = 90)
+# assign spatial group to each grid
+reg_WB_raster <- rasterize(reg_WB, r.mask, field = "region_id")
+names(reg_WB_raster) <- "region_id"
+
 # save pkg data ----
 
 #' SECTOR_ALL
@@ -323,3 +348,29 @@ usethis::use_data(SECTOR_FLAG, overwrite = TRUE)
 #' @author DS
 usethis::use_data(SECTOR_SMW, overwrite = TRUE)
 
+
+#' reg_WB_raster
+#'
+#' A prebuilt raster of GCAM water basins
+#' grids within a water basin share the same region_id
+#' @author DS
+usethis::use_data(reg_WB_raster, overwrite = TRUE)
+
+#' country_raster
+#'
+#' A prebuilt raster of countries
+#' grids within a country share the same region_id
+#' @author DS
+usethis::use_data(country_raster, overwrite = TRUE)
+
+#' GCAM_country
+#'
+#' A prebuilt sf data.frame of country polygons
+#' @author DS
+usethis::use_data(GCAM_country, overwrite = TRUE)
+
+#' reg_WB
+#'
+#' A prebuilt sf data.frame of country polygons
+#' @author DS
+usethis::use_data(reg_WB, overwrite = TRUE)
