@@ -22,6 +22,7 @@ library(dplyr)
 library(ggplot2)
 library(knitr)
 library(sf)
+library(ggpattern)
 ```
 
 ## Obtain example data:
@@ -70,7 +71,7 @@ wbgt.day.plot %>%
   setNames(c("x", "y", "value")) %>%
   ggplot() +
   geom_tile(aes(x = x, y = y, fill = value)) +
-  scale_fill_gradient2(low = "blue", mid = "grey", high = "red", midpoint = 25,
+  scale_fill_gradient2(low = "blue", mid = "grey95", high = "red", midpoint = 25,
                        na.value = "white")+
   labs(x = "longitude", y = "latitude", fill = "WBGT",
        title = "Heat stress for labor in rain-fed maize sector: 2024-07-01") +
@@ -119,7 +120,7 @@ pwc.day.plot %>%
   setNames(c("x", "y", "value")) %>%
   ggplot() +
   geom_tile(aes(x = x, y = y, fill = 100*(1-value))) +
-  scale_fill_gradient(low = "grey85", high = "red",
+  scale_fill_gradient(low = "grey95", high = "red",
                       na.value = "white")+
   labs(x = "longitude", y = "latitude", fill = "PWC \nloss(%)",
        title = "Heat-induced PWC loss for labor in rain-fed maize sector: 2024-07-01") +
@@ -170,7 +171,7 @@ pwc.mon.plot %>%
   setNames(c("x", "y", "value")) %>% 
   ggplot() +
   geom_tile(aes(x = x, y = y, fill = 100*(1-value))) +
-  scale_fill_gradient(low = "grey85", high = "red",
+  scale_fill_gradient(low = "grey95", high = "red",
                       na.value = "white")+
   labs(x = "longitude", y = "latitude", fill = "PWC \nloss(%)",
        title = "Monthly heat-induced PWC loss for labor in rain-fed maize sector: 2024-07") +
@@ -218,7 +219,7 @@ pwc.hothaps.ann %>%
   setNames(c("x", "y", "value")) %>% 
   ggplot() +
   geom_tile(aes(x = x, y = y, fill = 100*(1-value))) +
-  scale_fill_gradient(low = "grey85", high = "red",
+  scale_fill_gradient(low = "grey95", high = "red",
                       na.value = "white")+
   labs(x = "longitude", y = "latitude", fill = "PWC \nloss(%)",
        title = "Annual heat-induced PWC loss for labor in rain-fed maize sector: 2024") +
@@ -292,65 +293,27 @@ summary(pwc.hothaps.ann2)
 
 ## 3. Spatial aggregation: grid to region
 
-```{r, warning=FALSE, echo = FALSE, include = FALSE }
+```{r, warning=FALSE}
+# aggregate grid level PWC to country level
+ctry_pwc <- G2R(grid_annual_value = pwc.hothaps.ann, SECTOR = "MAIZ_R", rast_boundary = country_raster)
+# aggregate grid level PWC to GCAM water basin level
+glu_pwc <- G2R(grid_annual_value = pwc.hothaps.ann, SECTOR = "MAIZ_R", rast_boundary = reg_WB_raster)
 
-GCAM_country <- st_read("../inst/extdata/maps/country_boundaries_moirai_combined_3p1_0p5arcmin.shp")
-GCAM_country.df <- as.data.frame(GCAM_country)
-
-reg_WB <- st_read("../inst/extdata/maps/reg_glu_boundaries_moirai_landcells_3p1_0p5arcmin.shp")
-reg_WB.df <- as.data.frame(reg_WB)
-
-r.mask <- raster(resolution = 0.5,
-                 xmn = -180, xmx = 180,  # Set to global extent for example (-180 to 180 for longitude)
-                 ymn = -90,  ymx = 90)
-# assign spatial group to each grid
-reg_WB_raster <- rasterize(reg_WB, r.mask, field = "glu_id")
-names(reg_WB_raster) <- "glu_id"
-
-# create an empty raster with extend
-r.mask <- raster(resolution = 0.5,
-                 xmn = -180, xmx = 180,  # Set to global extent for example (-180 to 180 for longitude)
-                 ymn = -90,  ymx = 90)
-# assign spatial group to each grid
-country_raster <- rasterize(GCAM_country, r.mask, field = "ctry_id")
-names(country_raster) <- "ctry_id"
-
-SECTOR_INDEX <- which(HELPS::SECTOR_ALL == "MAIZ_R")
-smw <- HELPS::SECTOR_SMW[[SECTOR_INDEX]]
-smw.df <- smw %>% as.data.frame(xy = T) %>% setNames(c("x", "y", "smw"))
-
-pwc.hothaps.ann %>% rename(PWC = value) %>% head
-country_raster %>% as.data.frame(xy = T) -> country_raster.df
-reg_WB_raster %>% as.data.frame(xy = T) -> reg_WB_raster.df
-
-agg.df <- pwc.hothaps.ann %>% rename(PWC = value)
-
-identical(agg.df$x, reg_WB_raster.df$x, country_raster.df$x, smw.df$x)
-identical(agg.df$y, reg_WB_raster.df$y, country_raster.df$y, smw.df$y)
-
-agg.df$smw <- smw.df$smw
-agg.df$ctry_id <- country_raster.df$ctry_id
-agg.df$glu_id <- reg_WB_raster.df$glu_id
-
-agg.df %>%
-  group_by(ctry_id) %>%
-  summarise(PWC = weighted.mean(PWC, smw, na.rm = T)) ->
-  ctry_pwc
-
-agg.df %>%
-  group_by(glu_id) %>%
-  summarise(PWC = weighted.mean(PWC, smw, na.rm = T)) ->
-  glu_pwc
 ```
 
 
 ### Step3.1: aggregate grid-level values to country-level values
 ```{r Step3.1, warning=FALSE, fig.width=10, fig.height=6}
-GCAM_country %>% left_join(ctry_pwc, by = "ctry_id") %>%
-  ggplot() +
-  geom_sf(aes(fill = 100 * (1-PWC))) +
-  scale_fill_gradient(low = "white", high = "red",
-                      na.value = "grey85")+
+
+GCAM_country %>% left_join(ctry_pwc, by = "region_id") -> df.plot
+
+df.plot %>%  ggplot() +
+  geom_sf_pattern(aes(fill = 100 * (1-value)),
+                  pattern = ifelse(is.na(df.plot$value), "stripe", "none"),
+                  pattern_color = "black",
+                  pattern_density = 0.3,
+                  pattern_spacing = 0.02) +
+  scale_fill_gradient(low = "grey95", high = "red")+
   labs(x = "longitude", y = "latitude", fill = "PWC \nloss(%)",
        title = "Country-level heat-induced PWC loss for labor in rain-fed maize sector: 2024") +
   theme_bw()
@@ -358,11 +321,16 @@ GCAM_country %>% left_join(ctry_pwc, by = "ctry_id") %>%
 
 ### Step3.2: aggregate grid-level values to GCAM waterbasin level values
 ```{r Step3.2, warning=FALSE, fig.width=10, fig.height=6}
-reg_WB %>% left_join(glu_pwc, by = "glu_id") %>%
+reg_WB %>% left_join(glu_pwc, by = "region_id") -> df.plot
+
+df.plot %>%  
   ggplot() +
-  geom_sf(aes(fill = 100 * (1-PWC))) +
-  scale_fill_gradient(low = "white", high = "red",
-                      na.value = "grey85")+
+  geom_sf_pattern(aes(fill = 100 * (1-value)),
+                  pattern = ifelse(is.na(df.plot$value), "stripe", "none"),
+                  pattern_color = "black",
+                  pattern_density = 0.3,
+                  pattern_spacing = 0.02) +
+  scale_fill_gradient(low = "grey95", high = "red")+
   labs(x = "longitude", y = "latitude", fill = "PWC \nloss(%)",
        title = "Water basin-level heat-induced PWC loss for labor in rain-fed maize sector: 2024") +
   theme_bw()
