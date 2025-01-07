@@ -2,6 +2,7 @@
 
 export(DAY2ANN)
 export(DAY2MON)
+export(G2R)
 export(HeatStress)
 export(LHR_Foster)
 export(LHR_Hothaps)
