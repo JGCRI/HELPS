@@ -8,18 +8,16 @@ library(sf)
 Grid_POP <- raster(system.file("extdata/landscan_global_2019/Grid_POP.tif", package = "HELPS"))
 FLAG_noncrop <- Grid_POP
 values(FLAG_noncrop) <- ifelse(values(Grid_POP) > 0, 1, NA)
-
-
 Grid_POP %>% as.data.frame(xy = T) %>%
   dplyr::mutate(value = ifelse(Grid_POP > 0, 1, 0)) -> df_grid_pop
 
 # PACKAGE DATA ----
-## SECTOR_ALL ----
+
 # SECTOR_ALL <- c("MAIZ_I", "RICE_I", "SOYB_I", "WHEA_I",
 #                 "MAIZ_R", "RICE_R", "SOYB_R", "WHEA_R",
 #                 "NONCROP")
 
-
+## SECTOR_ALL ----
 SECTOR_ALL <- c("WHEA_I", "RICE_I", "MAIZ_I", "SOYB_I", "BARL_I", "MILL_I", "PMIL_I", "SORG_I", "OCER_I",
                 "POTA_I", "SWPO_I", "YAMS_I", "CASS_I", "BEAN_I", "CHIC_I", "COWP_I", "PIGE_I", "LENT_I",
                 "GROU_I", "SUNF_I", "RAPE_I", "SESA_I", "SUGC_I", "SUGB_I", "COTT_I", "OFIB_I", "BANA_I",
@@ -36,15 +34,6 @@ SECTOR_ALL <- c("WHEA_I", "RICE_I", "MAIZ_I", "SOYB_I", "BARL_I", "MILL_I", "PMI
 
 days_in_month <- c(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
 regular_month_weight <- days_in_month / sum(days_in_month)
-
-Grid_POP <- raster(system.file("extdata/landscan_global_2019/Grid_POP.tif", package = "HELPS"))
-FLAG_noncrop <- Grid_POP
-values(FLAG_noncrop) <- ifelse(values(Grid_POP) > 0, 1, NA)
-
-
-Grid_POP %>% as.data.frame(xy = T) %>%
-  dplyr::mutate(value = ifelse(Grid_POP > 0, 1, 0)) -> df_grid_pop
-
 
 # PACKAGE DATA ----
 ## ISIMIP: crop calendar ----
@@ -137,9 +126,12 @@ for (crop_index in 1:length(ggcmi_key)){
       extended_weight[i, ] <- days_in_month[extended_mtx[i, ] == 1] / total_days
     }
   }
+  # extended_weight_int <- matrix(as.integer(extended_weight * 100), nrow = nrow(extended_weight), ncol = ncol(extended_weight))
   CALENDAR_MONTH_EXTENDED[[crop_index]] <- extended_weight
 }
+
 CALENDAR_MONTH_EXTENDED_CROP_IRR <- CALENDAR_MONTH_EXTENDED
+rm(CALENDAR_MONTH_EXTENDED)
 
 ### RFD  ----
 
@@ -211,19 +203,24 @@ for (crop_index in 1:length(ggcmi_key)){
       extended_weight[i, ] <- days_in_month[extended_mtx[i, ] == 1] / total_days
     }
   }
+  # extended_weight_int <- matrix(as.integer(extended_weight * 100), nrow = nrow(extended_weight), ncol = ncol(extended_weight))
   CALENDAR_MONTH_EXTENDED[[crop_index]] <- extended_weight
 }
 CALENDAR_MONTH_EXTENDED_CROP_RFD <- CALENDAR_MONTH_EXTENDED
+rm(CALENDAR_MONTH_EXTENDED)
 
-###  Combine IRR&RFD ----
+# PACKAGE DATA ----
+## SECTOR_MONTH_WEIGHT ----
+
+SECTOR_MONTH_WEIGHT <- c(CALENDAR_MONTH_EXTENDED_CROP_IRR,
+                         CALENDAR_MONTH_EXTENDED_CROP_RFD)
+rm(CALENDAR_MONTH_EXTENDED_CROP_IRR, CALENDAR_MONTH_EXTENDED_CROP_RFD)
 
 
 #### for crops w/o ggcmi crop calendar, use regular_month_weight
 # grids w/o harvested area weight = NA
 
 extended_weight_others <- matrix(rep(regular_month_weight, nrow(extended_weight)), nrow = nrow(extended_weight), byrow = TRUE)
-# TODO: filter out grids without harvested area
-# TODO: this is the step to separate for IRR and RFD
 colnames(extended_weight_others) <- colnames(extended_weight)
 
 # PACKAGE DATA ----
@@ -257,6 +254,8 @@ for(i in 1:length(HA_irr_list)){
 }
 SPAM_HA_IRR <- SPAM_HA
 SPAM_HA_W_IRR <- SPAM_HA_W
+rm(SPAM_HA, SPAM_HA_W)
+rm(FLAG, Area_agg)
 
 ### RFD: raster ----
 # crop_files <- HA_rfd_list[grep(paste(key, collapse = "|"), HA_rfd_list)]; crop_files
@@ -273,29 +272,30 @@ for(i in 1:length(HA_rfd_list)){
 }
 SPAM_HA_RFD <- SPAM_HA
 SPAM_HA_W_RFD <- SPAM_HA_W
-## Combine crop & noncrop ----
-SECTOR_FLAG <- c(SPAM_HA_IRR, SPAM_HA_RFD, list(FLAG_noncrop))
-SECTOR_SMW <- c(SPAM_HA_W_IRR, SPAM_HA_W_RFD, list(Grid_POP))
+rm(SPAM_HA, SPAM_HA_W)
+rm(FLAG, Area_agg)
 
-# monthly weights for other crops ----
-begin <- which(key == "OFIB"); begin
-end <- which(key == "REST"); end
 
-for (i in begin:end){
-  flag <- as.data.frame(SPAM_HA_IRR[[i]], xy = T) %>% setNames(c("x", "y", "flag"))
-  extended_weight_others %>% as.data.frame() %>%
-    mutate(across(starts_with("Mon"), ~ .x * flag$flag)) %>% as.matrix() -> extended_weight_irr_others
-  CALENDAR_MONTH_EXTENDED_CROP_IRR[[i]] <- extended_weight_irr_others # append other crops to the main list
-}
 
-for (i in begin:end){
-  flag <- as.data.frame(SPAM_HA_RFD[[i]], xy = T) %>% setNames(c("x", "y", "flag"))
-  extended_weight_others %>% as.data.frame() %>%
-    mutate(across(starts_with("Mon"), ~ .x * flag$flag)) %>% as.matrix() -> extended_weight_rfd_others
-  CALENDAR_MONTH_EXTENDED_CROP_RFD[[i]] <- extended_weight_rfd_others # append other crops to the main list
-}
+# # monthly weights for other crops
+# simply use regular_month_weight with the global extend, the SPAM HA filter is applied in the HS and PWC process
+# begin <- which(key == "OFIB"); begin
+# end <- which(key == "REST"); end
+#
+# for (i in begin:end){
+#   flag <- as.data.frame(SPAM_HA_IRR[[i]], xy = T) %>% setNames(c("x", "y", "flag"))
+#   extended_weight_others %>% as.data.frame() %>%
+#     mutate(across(starts_with("Mon"), ~ .x * flag$flag)) %>% as.matrix() -> extended_weight_irr_others
+#   CALENDAR_MONTH_EXTENDED_CROP_IRR[[i]] <- extended_weight_irr_others # append other crops to the main list
+# }
+#
+# for (i in begin:end){
+#   flag <- as.data.frame(SPAM_HA_RFD[[i]], xy = T) %>% setNames(c("x", "y", "flag"))
+#   extended_weight_others %>% as.data.frame() %>%
+#     mutate(across(starts_with("Mon"), ~ .x * flag$flag)) %>% as.matrix() -> extended_weight_rfd_others
+#   CALENDAR_MONTH_EXTENDED_CROP_RFD[[i]] <- extended_weight_rfd_others # append other crops to the main list
+# }
 
-CALENDAR_MONTH_EXTENDED_CROP <- c(CALENDAR_MONTH_EXTENDED_CROP_IRR, CALENDAR_MONTH_EXTENDED_CROP_RFD)
 
 # equal weights of each month
 df_grid_pop[paste0("Mon", 1:12)] <- 1 / 12 # equal month weight for non-crop sector -> df_grid_pop
@@ -309,10 +309,13 @@ df_grid_pop %>%
   dplyr::select(Mon1:Mon12) %>% as.matrix() ->
   CALENDAR_MONTH_NONCROP
 
-
-# PACKAGE DATA ----
-## SECTOR_MONTH_WEIGHT ----
-SECTOR_MONTH_WEIGHT <- c(CALENDAR_MONTH_EXTENDED_CROP, list(CALENDAR_MONTH_NONCROP))
+## SECTOR_GGCMI ----
+SECTOR_GGCMI <- c("WHEA_I", "RICE_I", "MAIZ_I", "SOYB_I", "BARL_I", "MILL_I", "PMIL_I", "SORG_I", "OCER_I",
+                  "POTA_I", "SWPO_I", "YAMS_I", "CASS_I", "BEAN_I", "CHIC_I", "COWP_I", "PIGE_I", "LENT_I",
+                  "GROU_I", "SUNF_I", "RAPE_I", "SESA_I", "SUGC_I", "SUGB_I", "COTT_I",
+                  "WHEA_R", "RICE_R", "MAIZ_R", "SOYB_R", "BARL_R", "MILL_R", "PMIL_R", "SORG_R", "OCER_R",
+                  "POTA_R", "SWPO_R", "YAMS_R", "CASS_R", "BEAN_R", "CHIC_R", "COWP_R", "PIGE_R", "LENT_R",
+                  "GROU_R", "SUNF_R", "RAPE_R", "SESA_R", "SUGC_R", "SUGB_R", "COTT_R")
 
 ## SECTOR FLAG ----
 
@@ -358,6 +361,14 @@ names(reg_WB_raster) <- "region_id"
 usethis::use_data(SECTOR_ALL, overwrite = TRUE)
 
 
+#' SECTOR_GGCMI
+#'
+#' A vector of sector with crop calendar information to choose from, consists of
+#' 25 irrgated SPAM crop sectors, 25 rain-fed SPAM crop sectors
+#' @author DS
+usethis::use_data(SECTOR_GGCMI, overwrite = TRUE)
+
+
 #' SECTOR_MONTH_WEIGHT
 #'
 #' A list of prebuilt grid-level month weights data objects, consists of
@@ -374,6 +385,18 @@ usethis::use_data(SECTOR_ALL, overwrite = TRUE)
 #' For noncrop sector, regular_month_weight, grids w/o population has NA weights
 #' non-relevant grids are assigned NA value
 usethis::use_data(SECTOR_MONTH_WEIGHT, overwrite = TRUE)
+
+
+
+#' extended_weight_others
+#'
+#' A prebuilt grid-level month weights data object, for crop sectors without ggcmi crop calendar information
+#' The output provides grid-level monthly weights to aggregate monthly values to annual mean value
+#' This weights make sure annual mean from monthly values equals to the annual mean from daily values
+#' Source data is from https://zenodo.org/records/5062513, need to check the data release requirement
+#' @author DS
+#' with global extend
+usethis::use_data(extended_weight_others, overwrite = TRUE)
 
 
 
