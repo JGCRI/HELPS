@@ -34,14 +34,14 @@ get_example_data()
 
 ### Step1.1: calculate daily gridded heat stress
 
-This step employs `HeatStress()` function, which takes multiple arguments. `SECTOR` denotes which sector the labor is involved in. The current version of **HELPS** supports 9 sectors, consists of 8 crop sectors (4 major crops by 2 irrigation practices) and 1 non-crop sector.
+This step employs `HeatStress()` function, which takes multiple arguments. `SECTOR` denotes which sector the labor is involved in. The current version of **HELPS** supports 93 sectors, consists of 92 crop sectors (46 SPAM crops by 2 irrigation practices) and 1 non-crop sector.
 `HS` denotes the heat stress function that takes atmospheric variables as input and outputs heat stress level. The current version of **HELPS** covers 3 `HS()`, `WBGT_ESI()`, `WBGT_shade()`, and `WBGT_sun()`.
 `YEAR_INPUT` denotes a year of interest.
 `...` denotes the file name(s) of atmospheric variable projections. Note that the number of files need to be equal to the number of argument of `HS()`.
 Example below takes monthly *hurs* (relative humidity), *tas* (near-surface air temperature), and *ps* (surface air pressure) and *WBGT_ESI* to calculate heat stress levels.
 
 ```{r Step1.1, warning=FALSE}
-wbgt.sun.day <- HeatStress(TempRes = "day", SECTOR = "MAIZ_R", HS = WBGT_sun, YEAR_INPUT = 2024,
+wbgt.sun.day <- HeatStress(TempRes = "day", SECTOR = "SUNF_R", HS = WBGT_sun, YEAR_INPUT = 2024,
                     "../HELPS_Example_Data/hurs_example_day.nc",
                     "../HELPS_Example_Data/tas_example_day.nc",
                     "../HELPS_Example_Data/ps_example_day.nc")
@@ -74,7 +74,7 @@ wbgt.day.plot %>%
   scale_fill_gradient2(low = "blue", mid = "grey95", high = "red", midpoint = 25,
                        na.value = "white")+
   labs(x = "longitude", y = "latitude", fill = "WBGT",
-       title = "Heat stress for labor in rain-fed maize sector: 2024-07-01") +
+       title = "Heat stress for labor in rain-fed sunflower sector: 2024-07-01") +
 
   scale_x_continuous(
     breaks = seq(-180, 180, by = 60), # Longitude breaks
@@ -123,7 +123,7 @@ pwc.day.plot %>%
   scale_fill_gradient(low = "grey95", high = "red",
                       na.value = "white")+
   labs(x = "longitude", y = "latitude", fill = "PWC \nloss(%)",
-       title = "Heat-induced PWC loss for labor in rain-fed maize sector: 2024-07-01") +
+       title = "Heat-induced PWC loss for labor in rain-fed sunflower sector: 2024-07-01") +
 
   scale_x_continuous(
     breaks = seq(-180, 180, by = 60), # Longitude breaks
@@ -174,7 +174,7 @@ pwc.mon.plot %>%
   scale_fill_gradient(low = "grey95", high = "red",
                       na.value = "white")+
   labs(x = "longitude", y = "latitude", fill = "PWC \nloss(%)",
-       title = "Monthly heat-induced PWC loss for labor in rain-fed maize sector: 2024-07") +
+       title = "Monthly heat-induced PWC loss for labor in rain-fed sunflower sector: 2024-07") +
   scale_x_continuous(
     breaks = seq(-180, 180, by = 60), # Longitude breaks
     labels = format_longitude         # Apply custom labels
@@ -192,8 +192,8 @@ This step employs `MON2ANN()` function, which takes a raster rack with 12 layers
 
 
 ```{r Step1.4, warning=FALSE}
-wbgt.sun.ann <- MON2ANN(input_rack = wbgt.sun.mon, SECTOR = "MAIZ_R")
-pwc.hothaps.ann <- MON2ANN(input_rack = pwc.hothaps.mon, SECTOR = "MAIZ_R")
+wbgt.sun.ann <- MON2ANN(input_rack = wbgt.sun.mon, SECTOR = "SUNF_R")
+pwc.hothaps.ann <- MON2ANN(input_rack = pwc.hothaps.mon, SECTOR = "SUNF_R")
 
 summary(wbgt.sun.ann)
 summary(pwc.hothaps.ann)
@@ -222,7 +222,7 @@ pwc.hothaps.ann %>%
   scale_fill_gradient(low = "grey95", high = "red",
                       na.value = "white")+
   labs(x = "longitude", y = "latitude", fill = "PWC \nloss(%)",
-       title = "Annual heat-induced PWC loss for labor in rain-fed maize sector: 2024") +
+       title = "Annual heat-induced PWC loss for labor in rain-fed sunflower sector: 2024") +
   scale_x_continuous(
     breaks = seq(-180, 180, by = 60), # Longitude breaks
     labels = format_longitude         # Apply custom labels
@@ -241,7 +241,7 @@ pwc.hothaps.ann %>%
 Similar to *Step1.1*, this steps employs`HeatStress()` function. Example below takes monthly *hurs* (relative humidity), *tas* (near-surface air temperature), and *rsds* (surface downwelling shortwave radiation) and *WBGT_ESI* to calculate heat stress levels.
 
 ```{r Step2.1, warning=FALSE}
-esi.mon <- HeatStress(TempRes = "month", SECTOR = "MAIZ_R", HS = WBGT_ESI, YEAR_INPUT = 2024,
+esi.mon <- HeatStress(TempRes = "month", SECTOR = "SUNF_R", HS = WBGT_ESI, YEAR_INPUT = 2024,
                     "../HELPS_Example_Data/hurs_example_month.nc",
                     "../HELPS_Example_Data/tas_example_month.nc",
                     "../HELPS_Example_Data/rsds_example_month.nc")
@@ -287,7 +287,7 @@ pwc.mon.iso
 Same as *Step1.4*, make sure the `SECTOR` input in `MON2ANN()` is identical to the `SECTOR` input in `HeatStress()`.
 
 ```{r Step2.3, warning=FALSE}
-pwc.hothaps.ann2 <- MON2ANN(input_rack = pwc.mon.hothaps, SECTOR = "MAIZ_R")
+pwc.hothaps.ann2 <- MON2ANN(input_rack = pwc.mon.hothaps, SECTOR = "SUNF_R")
 summary(pwc.hothaps.ann2)
 ```
 
@@ -295,9 +295,9 @@ summary(pwc.hothaps.ann2)
 
 ```{r, warning=FALSE}
 # aggregate grid level PWC to country level
-ctry_pwc <- G2R(grid_annual_value = pwc.hothaps.ann, SECTOR = "MAIZ_R", rast_boundary = country_raster)
+ctry_pwc <- G2R(grid_annual_value = pwc.hothaps.ann, SECTOR = "SUNF_R", rast_boundary = country_raster)
 # aggregate grid level PWC to GCAM water basin level
-glu_pwc <- G2R(grid_annual_value = pwc.hothaps.ann, SECTOR = "MAIZ_R", rast_boundary = reg_WB_raster)
+glu_pwc <- G2R(grid_annual_value = pwc.hothaps.ann, SECTOR = "SUNF_R", rast_boundary = reg_WB_raster)
 
 ```
 
@@ -315,7 +315,7 @@ df.plot %>%  ggplot() +
                   pattern_spacing = 0.02) +
   scale_fill_gradient(low = "grey95", high = "red")+
   labs(x = "longitude", y = "latitude", fill = "PWC \nloss(%)",
-       title = "Country-level heat-induced PWC loss for labor in rain-fed maize sector: 2024") +
+       title = "Country-level heat-induced PWC loss for labor in rain-fed sunflower sector: 2024") +
   theme_bw()
 ```
 
@@ -332,6 +332,6 @@ df.plot %>%
                   pattern_spacing = 0.02) +
   scale_fill_gradient(low = "grey95", high = "red")+
   labs(x = "longitude", y = "latitude", fill = "PWC \nloss(%)",
-       title = "Water basin-level heat-induced PWC loss for labor in rain-fed maize sector: 2024") +
+       title = "Water basin-level heat-induced PWC loss for labor in rain-fed sunflower sector: 2024") +
   theme_bw()
 ```
