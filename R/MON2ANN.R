@@ -22,16 +22,16 @@ MON2ANN <- function(input_rack, SECTOR){
                     "GROU_I", "SUNF_I", "RAPE_I", "SESA_I", "SUGC_I", "SUGB_I", "COTT_I",
                     "WHEA_R", "RICE_R", "MAIZ_R", "SOYB_R", "BARL_R", "MILL_R", "PMIL_R", "SORG_R", "OCER_R",
                     "POTA_R", "SWPO_R", "YAMS_R", "CASS_R", "BEAN_R", "CHIC_R", "COWP_R", "PIGE_R", "LENT_R",
-                    "GROU_R", "SUNF_R", "RAPE_R", "SESA_R", "SUGC_R", "SUGB_R", "COTT_R",
-                    "NONCROP") ) {
-    SECTOR_INDEX <- which(SECTOR_ALL == SECTOR)
+                    "GROU_R", "SUNF_R", "RAPE_R", "SESA_R", "SUGC_R", "SUGB_R", "COTT_R") ) {
+    SECTOR_INDEX <- which(SECTOR_GGCMI == SECTOR)
     month_weight <- SECTOR_MONTH_WEIGHT[[SECTOR_INDEX]]
   } else if (SECTOR %in% c("OFIB_I", "BANA_I", "PLNT_I", "CITR_I", "TROF_I", "TEMF_I", "TOMA_I", "ONIO_I", "VEGE_I",
                            "ORTS_I", "OPUL_I", "CNUT_I", "OILP_I", "OOIL_I", "COFF_I", "RCOF_I", "COCO_I", "RUBB_I",
                            "TEAS_I", "TOBA_I", "REST_I",
                            "OFIB_R", "BANA_R", "PLNT_R", "CITR_R", "TROF_R", "TEMF_R", "TOMA_R", "ONIO_R", "VEGE_R",
                            "ORTS_R", "OPUL_R", "CNUT_R", "OILP_R", "OOIL_R", "COFF_R", "RCOF_R", "COCO_R", "RUBB_R",
-                           "TEAS_R", "TOBA_R", "REST_R") ) {
+                           "TEAS_R", "TOBA_R", "REST_R",
+                           "NONCROP") ) {
     month_weight <- extended_weight_others
   }
   input_mtx <- as.matrix(input_rack) * month_weight
