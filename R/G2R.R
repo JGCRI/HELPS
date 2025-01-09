@@ -39,8 +39,8 @@ grid_annual_value$smw <- smw_df$smw
 grid_annual_value$region_id <- rast_boundary_df[,3]
 
 grid_annual_value %>%
-  group_by(region_id) %>%
-  summarise(value = weighted.mean(value, smw, na.rm = T)) ->
+  dplyr::group_by(region_id) %>%
+  dplyr::summarise(value = weighted.mean(value, smw, na.rm = T)) ->
   reg_annual_value
 return(reg_annual_value)
 }
