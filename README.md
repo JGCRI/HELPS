@@ -68,8 +68,7 @@
 
 ```
 install.packages('devtools')
-devtools::install_github('JGCRI/rgcam')
-devtools::install_github('JGCRI/GCAMUSAJobs')
+devtools::install_github('dsheng1026/HELPS')
 ```
 
 [Back to Contents](#Contents)
