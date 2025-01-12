@@ -22,8 +22,8 @@
 <!-------------------------->
 <!-------------------------->
 
-- Github: 
-- Webpage: 
+- Github: https://github.com/dsheng1026/HELPS
+- Webpage: https://dsheng1026.github.io/HELPS/
 
 [Back to Contents](#Contents)
 
@@ -83,7 +83,7 @@ devtools::install_github('JGCRI/GCAMUSAJobs')
 <!-------------------------->
 <!-------------------------->
 
-- [Package vignette](insert a link)
+- [Package vignette](https://dsheng1026.github.io/HELPS/articles/HELPS-vignette.html)
 
 [Back to Contents](#Contents)
 
