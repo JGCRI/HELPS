@@ -22,8 +22,8 @@
 <!-------------------------->
 <!-------------------------->
 
-- Github: https://github.com/JGCRI/GCAMUSAJobs/tree/paper
-- Webpage: https://jgcri.github.io/GCAMUSAJobs/
+- Github: 
+- Webpage: 
 
 [Back to Contents](#Contents)
 
@@ -63,15 +63,8 @@
 
     - R (https://www.r-project.org/)
     - R studio (https://www.rstudio.com/)
-
-2. For Linux users, install following libraries:
-
-```
-sudo apt install build-essential libcurl4-gnutls-dev libxml2-dev libssl-dev
-sudo apt-get install libxml2-dev
-```
     
-3. Open R studio:
+2. Open R studio:
 
 ```
 install.packages('devtools')
@@ -90,7 +83,7 @@ devtools::install_github('JGCRI/GCAMUSAJobs')
 <!-------------------------->
 <!-------------------------->
 
-- [Package vignette](https://jgcri.github.io/GCAMUSAJobs/articles/package_vignette.html)
+- [Package vignette](insert a link)
 
 [Back to Contents](#Contents)
 
