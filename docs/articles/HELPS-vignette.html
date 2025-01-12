@@ -132,7 +132,7 @@ temperature), and <em>ps</em> (surface air pressure) and
 <span>                    <span class="st">"../HELPS_Example_Data/hurs_example_day.nc"</span>,</span>
 <span>                    <span class="st">"../HELPS_Example_Data/tas_example_day.nc"</span>,</span>
 <span>                    <span class="st">"../HELPS_Example_Data/ps_example_day.nc"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; |---------|---------|---------|---------|=========================================                                          |---------|---------|---------|---------|=========================================                                          </span></span>
+<span><span class="co">#&gt; |---------|---------|---------|---------|=========================================                                          |---------|---------|---------|---------|=========================================                                          |---------|---------|---------|---------|=========================================                                          </span></span>
 <span><span class="va">wbgt.sun.day</span></span>
 <span><span class="co">#&gt; class      : RasterStack </span></span>
 <span><span class="co">#&gt; dimensions : 360, 720, 259200, 366  (nrow, ncol, ncell, nlayers)</span></span>
@@ -412,7 +412,7 @@ uncertainty in PWC introduced by alternative choices of
 <span><span class="va">pwc.mon.foster</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/PWC.html">PWC</a></span><span class="op">(</span>WBGT <span class="op">=</span> <span class="va">esi.mon</span>,  LHR <span class="op">=</span> <span class="va">LHR_Foster</span>, workload <span class="op">=</span> <span class="st">"high"</span><span class="op">)</span></span>
 <span><span class="va">end_t</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">end_t</span> <span class="op">-</span> <span class="va">start_t</span></span>
-<span><span class="co">#&gt; Time difference of 26.40551 secs</span></span>
+<span><span class="co">#&gt; Time difference of 12.37046 secs</span></span>
 <span><span class="va">pwc.mon.foster</span></span>
 <span><span class="co">#&gt; class      : RasterStack </span></span>
 <span><span class="co">#&gt; dimensions : 360, 720, 259200, 12  (nrow, ncol, ncell, nlayers)</span></span>
@@ -427,7 +427,7 @@ uncertainty in PWC introduced by alternative choices of
 <span><span class="va">pwc.mon.hothaps</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/PWC.html">PWC</a></span><span class="op">(</span>WBGT <span class="op">=</span> <span class="va">esi.mon</span>,  LHR <span class="op">=</span> <span class="va">LHR_Hothaps</span>, workload <span class="op">=</span> <span class="st">"high"</span><span class="op">)</span></span>
 <span><span class="va">end_t</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">end_t</span> <span class="op">-</span> <span class="va">start_t</span></span>
-<span><span class="co">#&gt; Time difference of 1.814757 secs</span></span>
+<span><span class="co">#&gt; Time difference of 0.8347061 secs</span></span>
 <span><span class="va">pwc.mon.hothaps</span></span>
 <span><span class="co">#&gt; class      : RasterStack </span></span>
 <span><span class="co">#&gt; dimensions : 360, 720, 259200, 12  (nrow, ncol, ncell, nlayers)</span></span>
@@ -442,7 +442,7 @@ uncertainty in PWC introduced by alternative choices of
 <span><span class="va">pwc.mon.niosh</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/PWC.html">PWC</a></span><span class="op">(</span>WBGT <span class="op">=</span> <span class="va">esi.mon</span>,  LHR <span class="op">=</span> <span class="va">LHR_NIOSH</span>, workload <span class="op">=</span> <span class="st">"high"</span><span class="op">)</span></span>
 <span><span class="va">end_t</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">end_t</span> <span class="op">-</span> <span class="va">start_t</span></span>
-<span><span class="co">#&gt; Time difference of 37.99287 secs</span></span>
+<span><span class="co">#&gt; Time difference of 17.88027 secs</span></span>
 <span><span class="va">pwc.mon.niosh</span></span>
 <span><span class="co">#&gt; class      : RasterStack </span></span>
 <span><span class="co">#&gt; dimensions : 360, 720, 259200, 12  (nrow, ncol, ncell, nlayers)</span></span>
@@ -457,7 +457,7 @@ uncertainty in PWC introduced by alternative choices of
 <span><span class="va">pwc.mon.iso</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/PWC.html">PWC</a></span><span class="op">(</span>WBGT <span class="op">=</span> <span class="va">esi.mon</span>,  LHR <span class="op">=</span> <span class="va">LHR_ISO</span>, workload <span class="op">=</span> <span class="st">"high"</span><span class="op">)</span></span>
 <span><span class="va">end_t</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">end_t</span> <span class="op">-</span> <span class="va">start_t</span></span>
-<span><span class="co">#&gt; Time difference of 26.48418 secs</span></span>
+<span><span class="co">#&gt; Time difference of 17.84502 secs</span></span>
 <span><span class="va">pwc.mon.iso</span></span>
 <span><span class="co">#&gt; class      : RasterStack </span></span>
 <span><span class="co">#&gt; dimensions : 360, 720, 259200, 12  (nrow, ncol, ncell, nlayers)</span></span>
