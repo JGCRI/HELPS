@@ -117,6 +117,9 @@
 <!-------------------------->
 <!-------------------------->
 <p><code>HELPS</code> is designed to translate climate projections to heat-induced labor productivity loss by sectors.</p>
+<div class="float">
+<img src="paper/Schematic.jpg" alt="Figure. 1. HELPS package schematic. HELPS can process daily and monthly 0.5-degree grid-level input data. Stars denote package functions."><div class="figcaption">Figure. 1. HELPS package schematic. HELPS can process daily and monthly 0.5-degree grid-level input data. Stars denote package functions.</div>
+</div>
 <p><a href="#Contents">Back to Contents</a></p>
 <p><br></p>
 <!-------------------------->
@@ -150,7 +153,12 @@
 <li><p>Open R studio:</p></li>
 </ol>
 <pre><code><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">'devtools'</span><span class="op">)</span></span>
-<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">'dsheng1026/HELPS'</span><span class="op">)</span></span></code></pre>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">'dsheng1026/HELPS'</span><span class="op">)</span></span>
+<span><span class="fu">renv</span><span class="fu">::</span><span class="fu"><a href="https://rstudio.github.io/renv/reference/init.html" class="external-link">init</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu">renv</span><span class="fu">::</span><span class="fu"><a href="https://rstudio.github.io/renv/reference/restore.html" class="external-link">restore</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/load_all.html" class="external-link">load_all</a></span><span class="op">(</span><span class="op">)</span></span></code></pre>
+<p>renv::restore() helps to install package dependencies for <code>HELPS</code>, but users might need to download a few R packages individually through RStudio’s guidance. You should now be set to run the driver without running into any package version issues. Note that if you have completed steps related to renv once, your R session should automatically connect to a private library when you open <code>HELPS.Rproj</code>, and you can run the code below to use the package.</p>
+<pre><code><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/load_all.html" class="external-link">load_all</a></span><span class="op">(</span><span class="op">)</span></span></code></pre>
 <p><a href="#Contents">Back to Contents</a></p>
 <p><br></p>
 <!-------------------------->
@@ -176,7 +184,8 @@
 </h1>
 <!-------------------------->
 <!-------------------------->
-<p><code>HELPS</code>, by default, works with 0.5-degree daily and monthly bias corrected climate projections.</p>
+<p>The <code>HELPS</code> package operates on 0.5 degree resolution, bias-corrected outputs from Earth System Models and General Circulation Models participating in the CMIP process. Several options to access such data exist: - The ISIMIP2b repository (<a href="https://data.isimip.org/search/tree/ISIMIP2b/InputData/climate/atmosphere/" class="external-link uri">https://data.isimip.org/search/tree/ISIMIP2b/InputData/climate/atmosphere/</a>) contains outputs from CMIP5-era models (GFDL-ESM2M, HadGEM2-ES, IPSL-CM5A-LR, and MIROC5) for specific scenarios - The ISIMIP3b repository (<a href="https://data.isimip.org/search/tree/ISIMIP3b/InputData/climate/atmosphere/" class="external-link uri">https://data.isimip.org/search/tree/ISIMIP3b/InputData/climate/atmosphere/</a>) contains outputs from CMIP6-era models (GFDL-ESM4, IPSL-CM6A-LR, MPI-ESM1-2-HR, MRI-ESM2-0, and UKSEM1-0-LL) for specific scenarios - If a user wishes to explore other CMIP models or bias-correct model data against different observational data than that used by ISIMIP, the BASD python package (<a href="https://github.com/JGCRI/basd" class="external-link uri">https://github.com/JGCRI/basd</a>) is available for ease of use. BASD implements an extension of the bias adjustment and statistical downscaling method used in ISIMIP3b (ISIMIP3BASD, Lange 2021 <a href="https://zenodo.org/records/4686991" class="external-link uri">https://zenodo.org/records/4686991</a> and <a href="https://gmd.copernicus.org/articles/12/3055/2019/" class="external-link uri">https://gmd.copernicus.org/articles/12/3055/2019/</a>). The ISIMIP3BASD code base can also be used directly. For additional information, please see <a href="https://www.isimip.org/documents/413/ISIMIP3b_bias_adjustment_fact_sheet_Gnsz7CO.pdf" class="external-link uri">https://www.isimip.org/documents/413/ISIMIP3b_bias_adjustment_fact_sheet_Gnsz7CO.pdf</a> - If a user wishes to explore novel scenarios not covered by CMIP models or the ISIMIP collection, we suggest a combination of STITCHES emulation (<a href="https://github.com/JGCRI/stitches" class="external-link uri">https://github.com/JGCRI/stitches</a>) and BASD bias correction and downscaling.</p>
+<p>HELPS has been tested with both ISIMIP data and outputs from BASD.</p>
 <p><a href="#Contents">Back to Contents</a></p>
 <p><br></p>
 </div>
