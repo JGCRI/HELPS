@@ -50,6 +50,7 @@
 <!-------------------------->
 <!-------------------------->
 
+Sheng, D. et al. Omitting labor responses to heat stress underestimates future climate impact on agriculture. (Under review) doi:https://doi.org/10.21203/rs.3.rs-5000229/v1.
 
 [Back to Contents](#Contents)
 
