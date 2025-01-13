@@ -38,7 +38,7 @@
 `HELPS` is designed to translate climate projections to heat-induced labor productivity loss by sectors.
 
 
-![Figure. 1. HELPS package schematic. HELPS can process daily and monthly 0.5-degree grid-level input data. Stars denote package functions.](Schematic.jpg) \newline
+![Figure. 1. HELPS package schematic. HELPS can process daily and monthly 0.5-degree grid-level input data. Stars denote package functions.](paper/Schematic.jpg) \newline
 
 [Back to Contents](#Contents)
 
