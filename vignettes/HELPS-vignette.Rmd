@@ -25,17 +25,56 @@ library(sf)
 library(ggpattern)
 ```
 
-## Obtain example data:
+## Gather input data:
+
+### Download example data
+Users can download a set of example data into folder `HELPS_Example_Data` by running this function. The example data includes grid-level daily and monthly near-surface air temperature (tas), daily and monthly near-surface relative humidity (hurs), daily surface air pressure (ps), and monthly grid-level surface downwelling shortwave radiation (rsds). *User Notice* in the *README* provides more details of input data `HELPS` is compatible with. 
+
 ```{r Step0, warning=FALSE, eval = FALSE}
 get_example_data()
 ```
+
+### Prepare your own input data
+
+The `HELPS` package operates on 0.5 degree resolution, bias-corrected outputs from Earth System Models and General Circulation Models participating in the CMIP process. Several options to access such data exist:
+- The ISIMIP2b repository (https://data.isimip.org/search/tree/ISIMIP2b/InputData/climate/atmosphere/) contains outputs from CMIP5-era models (GFDL-ESM2M, HadGEM2-ES, IPSL-CM5A-LR, and MIROC5) for specific scenarios
+- The ISIMIP3b repository (https://data.isimip.org/search/tree/ISIMIP3b/InputData/climate/atmosphere/) contains outputs from CMIP6-era models (GFDL-ESM4, IPSL-CM6A-LR, MPI-ESM1-2-HR, MRI-ESM2-0, and UKSEM1-0-LL) for specific scenarios
+- If a user wishes to explore other CMIP models or bias-correct model data against different observational data than that used by ISIMIP, the BASD python package (https://github.com/JGCRI/basd) is available for ease of use. BASD implements an extension of the bias adjustment and statistical downscaling method used in ISIMIP3b (ISIMIP3BASD, Lange 2021 https://zenodo.org/records/4686991 and  https://gmd.copernicus.org/articles/12/3055/2019/). The ISIMIP3BASD code base can also be used directly. For additional information, please see https://www.isimip.org/documents/413/ISIMIP3b_bias_adjustment_fact_sheet_Gnsz7CO.pdf 
+- If a user wishes to explore novel scenarios not covered by CMIP models or the ISIMIP collection, we suggest a combination of STITCHES emulation (https://github.com/JGCRI/stitches) and BASD bias correction and downscaling. 
+
+HELPS has been tested with both ISIMIP data and outputs from BASD.
+
+Besides the climate projections, `HELPS` also takes crop calendar (https://zenodo.org/records/5062513) and harvested area (https://doi.org/10.7910/DVN/SWPENT) data as input for temporal and spatial aggregation in the package.
+
+`HELPS` provides measurement of crop specific labor heat stress exposure and heat-induced physical work capacity loss for 93 sectors, consisting of 46 SPAM crops by 2 irrigation practices (rain-fed and irrigated) and 1 noncrop sector. Below is the fUll list of sectors supported in `HELPS`: 
+```
+SECTOR_ALL <- c("WHEA_I", "RICE_I", "MAIZ_I", "SOYB_I", "BARL_I", "MILL_I", "PMIL_I", "SORG_I", "OCER_I",
+                "POTA_I", "SWPO_I", "YAMS_I", "CASS_I", "BEAN_I", "CHIC_I", "COWP_I", "PIGE_I", "LENT_I",
+                "GROU_I", "SUNF_I", "RAPE_I", "SESA_I", "SUGC_I", "SUGB_I", "COTT_I", "OFIB_I", "BANA_I",
+                "PLNT_I", "CITR_I", "TROF_I", "TEMF_I", "TOMA_I", "ONIO_I", "VEGE_I", "ORTS_I", "OPUL_I",
+                "CNUT_I", "OILP_I", "OOIL_I", "COFF_I", "RCOF_I", "COCO_I", "RUBB_I", "TEAS_I", "TOBA_I",
+                "REST_I",
+                "WHEA_R", "RICE_R", "MAIZ_R", "SOYB_R", "BARL_R", "MILL_R", "PMIL_R", "SORG_R", "OCER_R",
+                "POTA_R", "SWPO_R", "YAMS_R", "CASS_R", "BEAN_R", "CHIC_R", "COWP_R", "PIGE_R", "LENT_R",
+                "GROU_R", "SUNF_R", "RAPE_R", "SESA_R", "SUGC_R", "SUGB_R", "COTT_R", "OFIB_R", "BANA_R",
+                "PLNT_R", "CITR_R", "TROF_R", "TEMF_R", "TOMA_R", "ONIO_R", "VEGE_R", "ORTS_R", "OPUL_R",
+                "CNUT_R", "OILP_R", "OOIL_R", "COFF_R", "RCOF_R", "COCO_R", "RUBB_R", "TEAS_R", "TOBA_R",
+                "REST_R",
+                "NONCROP")
+```
+
+
 
 ## 1. Daily gridded inputs: 
 
 ### Step1.1: calculate daily gridded heat stress
 
 This step employs `HeatStress()` function, which takes multiple arguments. `SECTOR` denotes which sector the labor is involved in. The current version of **HELPS** supports 93 sectors, consists of 92 crop sectors (46 SPAM crops by 2 irrigation practices) and 1 non-crop sector.
-`HS` denotes the heat stress function that takes atmospheric variables as input and outputs heat stress level. The current version of **HELPS** covers 3 `HS()`, `WBGT_ESI()`, `WBGT_shade()`, and `WBGT_sun()`.
+`HS` denotes the heat stress function that takes atmospheric variables as input and outputs heat stress level. The current version of **HELPS** covers 3 `HS()`, `WBGT_ESI()`, `WBGT_shade()`, and `WBGT_sun()`. 
+`WBGT_ESI`, Environmental Stress Index, takes hurs, tas, and rsds as inputs to approximate WBGT.
+`WBGT_shade`, from Dunne et al. (2013), takes hurs, tas, and ps as inputs to approximate WBGT. This method assumes full shade and night adaptation and optimization of structures, clothing, activity scheduling.
+`WBGT_sun`, is `WBGT_shade + 3`, that approximate the WBGT without shade.
+
 `YEAR_INPUT` denotes a year of interest.
 `...` denotes the file name(s) of atmospheric variable projections. Note that the number of files need to be equal to the number of argument of `HS()`.
 Example below takes monthly *hurs* (relative humidity), *tas* (near-surface air temperature), and *ps* (surface air pressure) and *WBGT_ESI* to calculate heat stress levels.
@@ -93,6 +132,13 @@ wbgt.day.plot %>%
 This step employs `PWC()` function, which takes multiple arguments. 
 `WBGT` denotes the output of `HeatStress()` from last step. 
 `LHR` denotes the labor-heat response function that takes heat stress level and workload intensity as input and outputs physical work capacity (PWC). `workload` varies across alternative industries, we suggest 'high' for construction or agricultural work, 'moderate' for average manufacturing industry work, and 'low' for office desk work and service industries. 
+There are 4 built-in `LHR` functions in `HELPS`. 
+`LHR_Hothaps` is based on the *high occupational temperature health and productivity suppression (Hothaps)* programme, derived by Kjellstrom et al. (2018).
+`LHR_NOISH` calculate the labor productivity based on the National Institute for Occupational Safety and Health (NIOSH) standard.
+`LHR_ISO` calculate the labor productivity based on the ISO7243 standard.
+`LHR_Foster` calculate the labor productivity based on Foster et al (2021) Table 3. 
+Note that `LHR_Foster` does not need workload as input, while the rest three LHRs need.
+
 
 ```{r Step1.2, warning=FALSE}
 pwc.hothaps.day <- PWC(WBGT = wbgt.sun.day,  LHR = LHR_Hothaps, workload = "high")
@@ -188,7 +234,7 @@ pwc.mon.plot %>%
 
 ### Step1.4: aggregate monthly value to annual value 
 
-This step employs `MON2ANN()` function, which takes a raster rack with 12 layers of monthly mean as input, and outputs a data frame with grid-level annual mean. In this step, make sure the `SECTOR` input in `MON2ANN()` is identical to the `SECTOR` input in `HeatStress()`
+This step employs `MON2ANN()` function, which takes a raster rack with 12 layers of monthly mean as input, and outputs a data frame with grid-level annual mean. In this step, make sure the `SECTOR` input in `MON2ANN()` is identical to the `SECTOR` input in `HeatStress()`.
 
 
 ```{r Step1.4, warning=FALSE}
