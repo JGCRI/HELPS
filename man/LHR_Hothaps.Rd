@@ -10,8 +10,8 @@ LHR_Hothaps(WBGT, workload)
 \item{WBGT}{web bulb globe temperature (C)}
 
 \item{workload}{'high', 'moderate', 'low'
-This function is from Foster et al (2021)
-For additional adjustment, see Smallcombe et al. (2022)}
+This function is from the high occupational temperature health and productivity suppression (Hothaps) programme
+Derived by Kjellstrom et al. (2018) adopted by Bröde et al. (2018) and Orlov et al. (2020).}
 }
 \value{
 value of physical work capacity, range from 0 to 1

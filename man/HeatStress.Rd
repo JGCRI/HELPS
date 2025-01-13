@@ -21,7 +21,8 @@ HeatStress(TempRes, SECTOR, HS, YEAR_INPUT, ...)
 A raster stack of daily grid-level heat stress level
 }
 \description{
-HeatStress
+This function takes specified climate .nc files and a user-specifed heat stress function as arguments,
+reshapes them, calculates the heat stress and returns as raster
 }
 \examples{
 \dontrun{
