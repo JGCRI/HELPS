@@ -1,5 +1,8 @@
 #' HeatStress
 #'
+#' This function takes specified climate .nc files and a user-specifed heat stress function as arguments,
+#' reshapes them, calculates the heat stress and returns as raster
+#'
 #' @param TempRes temporal resolution of input, "day" or "month"
 #' @param SECTOR choice of sector
 #' @param HS choice of heat stress function

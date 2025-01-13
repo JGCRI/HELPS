@@ -2,7 +2,6 @@
 #'
 #' @param WBGT relative humidity (%)
 #' @param workload 'high', 'moderate', 'low', specifying the rate of metabolic heat production (Watts)
-#' This function is from Kjellstrom et al. (2014)
 #' Based on Kjellstrom et al (2009):
 #' M = 200W for office desk work and service industries
 #' M = 300W for average manufacturing industry work
