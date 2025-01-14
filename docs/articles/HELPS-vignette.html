@@ -79,7 +79,6 @@
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">HELPS</span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://cirrus.ucsd.edu/~pierce/ncdf/" class="external-link">ncdf4</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/raster" class="external-link">raster</a></span><span class="op">)</span></span>
 <span><span class="co">#&gt; Loading required package: sp</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
@@ -97,8 +96,6 @@
 <span><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://yihui.org/knitr/" class="external-link">knitr</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; Linking to GEOS 3.12.1, GDAL 3.8.4, PROJ 9.3.1; sf_use_s2() is TRUE</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/trevorld/ggpattern" class="external-link">ggpattern</a></span><span class="op">)</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="gather-input-data">Gather input data:<a class="anchor" aria-label="anchor" href="#gather-input-data"></a>
@@ -123,34 +120,34 @@ input data <code>HELPS</code> is compatible with.</p>
 <p>The <code>HELPS</code> package operates on 0.5 degree resolution,
 bias-corrected outputs from Earth System Models and General Circulation
 Models participating in the CMIP process. Several options to access such
-data exist: - The ISIMIP2b repository (<a href="https://data.isimip.org/search/tree/ISIMIP2b/InputData/climate/atmosphere/" class="external-link uri">https://data.isimip.org/search/tree/ISIMIP2b/InputData/climate/atmosphere/</a>)
-contains outputs from CMIP5-era models (GFDL-ESM2M, HadGEM2-ES,
-IPSL-CM5A-LR, and MIROC5) for specific scenarios - The ISIMIP3b
-repository (<a href="https://data.isimip.org/search/tree/ISIMIP3b/InputData/climate/atmosphere/" class="external-link uri">https://data.isimip.org/search/tree/ISIMIP3b/InputData/climate/atmosphere/</a>)
-contains outputs from CMIP6-era models (GFDL-ESM4, IPSL-CM6A-LR,
-MPI-ESM1-2-HR, MRI-ESM2-0, and UKSEM1-0-LL) for specific scenarios - If
-a user wishes to explore other CMIP models or bias-correct model data
-against different observational data than that used by ISIMIP, the BASD
-python package (<a href="https://github.com/JGCRI/basd" class="external-link uri">https://github.com/JGCRI/basd</a>) is available for ease of
-use. BASD implements an extension of the bias adjustment and statistical
-downscaling method used in ISIMIP3b (ISIMIP3BASD, Lange 2021 <a href="https://zenodo.org/records/4686991" class="external-link uri">https://zenodo.org/records/4686991</a> and <a href="https://gmd.copernicus.org/articles/12/3055/2019/" class="external-link uri">https://gmd.copernicus.org/articles/12/3055/2019/</a>). The
-ISIMIP3BASD code base can also be used directly. For additional
-information, please see <a href="https://www.isimip.org/documents/413/ISIMIP3b_bias_adjustment_fact_sheet_Gnsz7CO.pdf" class="external-link uri">https://www.isimip.org/documents/413/ISIMIP3b_bias_adjustment_fact_sheet_Gnsz7CO.pdf</a>
+data exist: - The <a href="https://data.isimip.org/search/tree/ISIMIP2b/InputData/climate/atmosphere/" class="external-link">ISIMIP2b</a>
+repository contains outputs from CMIP5-era models (GFDL-ESM2M,
+HadGEM2-ES, IPSL-CM5A-LR, and MIROC5) for specific scenarios - The <a href="https://data.isimip.org/search/tree/ISIMIP3b/InputData/climate/atmosphere/" class="external-link">ISIMIP3b</a>
+repository contains outputs from CMIP6-era models (GFDL-ESM4,
+IPSL-CM6A-LR, MPI-ESM1-2-HR, MRI-ESM2-0, and UKSEM1-0-LL) for specific
+scenarios - If a user wishes to explore other CMIP models or
+bias-correct model data against different observational data than that
+used by ISIMIP, the <a href="https://github.com/JGCRI/basd" class="external-link">BASD</a>
+python package is available for ease of use. BASD implements an
+extension of the bias adjustment and statistical downscaling method used
+in ISIMIP3b (<a href="https://zenodo.org/records/4686991%20and%20https://gmd.copernicus.org/articles/12/3055/2019/" class="external-link">ISIMIP3BASD</a>,
+Lange 2021). The ISIMIP3BASD code base can also be used directly. For
+additional information, please see <a href="https://www.isimip.org/documents/413/ISIMIP3b_bias_adjustment_fact_sheet_Gnsz7CO.pdf" class="external-link">here</a>.
 - If a user wishes to explore novel scenarios not covered by CMIP models
-or the ISIMIP collection, we suggest a combination of STITCHES emulation
-(<a href="https://github.com/JGCRI/stitches" class="external-link uri">https://github.com/JGCRI/stitches</a>) and BASD bias
-correction and downscaling.</p>
+or the ISIMIP collection, we suggest a combination of <a href="https://github.com/JGCRI/stitches" class="external-link">STITCHES</a> emulation and BASD
+bias correction and downscaling.</p>
 <p>HELPS has been tested with both ISIMIP data and outputs from
 BASD.</p>
-<p>Besides the climate projections, <code>HELPS</code> also takes crop
-calendar (<a href="https://zenodo.org/records/5062513" class="external-link uri">https://zenodo.org/records/5062513</a>) and harvested area
-(<a href="https://doi.org/10.7910/DVN/SWPENT" class="external-link uri">https://doi.org/10.7910/DVN/SWPENT</a>) data as input for
+<p>Besides the climate projections, <code>HELPS</code> also takes GGCMI
+Phase 3 crop calendar (Jägermeyr et al. 2021) (<a href="https://zenodo.org/records/5062513" class="external-link uri">https://zenodo.org/records/5062513</a>) and SPAM harvested
+area (IFPRI, 2024) (<a href="https://doi.org/10.7910/DVN/SWPENT" class="external-link uri">https://doi.org/10.7910/DVN/SWPENT</a>) data as input for
 temporal and spatial aggregation in the package.</p>
 <p><code>HELPS</code> provides measurement of crop specific labor heat
 stress exposure and heat-induced physical work capacity loss for 93
 sectors, consisting of 46 SPAM crops by 2 irrigation practices (rain-fed
 and irrigated) and 1 noncrop sector. Below is the fUll list of sectors
-supported in <code>HELPS</code>:</p>
+supported in <code>HELPS</code>, and refer to Table 1 for crop
+mapping:</p>
 <pre><code><span><span class="va">SECTOR_ALL</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"WHEA_I"</span>, <span class="st">"RICE_I"</span>, <span class="st">"MAIZ_I"</span>, <span class="st">"SOYB_I"</span>, <span class="st">"BARL_I"</span>, <span class="st">"MILL_I"</span>, <span class="st">"PMIL_I"</span>, <span class="st">"SORG_I"</span>, <span class="st">"OCER_I"</span>,</span>
 <span>                <span class="st">"POTA_I"</span>, <span class="st">"SWPO_I"</span>, <span class="st">"YAMS_I"</span>, <span class="st">"CASS_I"</span>, <span class="st">"BEAN_I"</span>, <span class="st">"CHIC_I"</span>, <span class="st">"COWP_I"</span>, <span class="st">"PIGE_I"</span>, <span class="st">"LENT_I"</span>,</span>
 <span>                <span class="st">"GROU_I"</span>, <span class="st">"SUNF_I"</span>, <span class="st">"RAPE_I"</span>, <span class="st">"SESA_I"</span>, <span class="st">"SUGC_I"</span>, <span class="st">"SUGB_I"</span>, <span class="st">"COTT_I"</span>, <span class="st">"OFIB_I"</span>, <span class="st">"BANA_I"</span>,</span>
@@ -164,6 +161,296 @@ supported in <code>HELPS</code>:</p>
 <span>                <span class="st">"CNUT_R"</span>, <span class="st">"OILP_R"</span>, <span class="st">"OOIL_R"</span>, <span class="st">"COFF_R"</span>, <span class="st">"RCOF_R"</span>, <span class="st">"COCO_R"</span>, <span class="st">"RUBB_R"</span>, <span class="st">"TEAS_R"</span>, <span class="st">"TOBA_R"</span>,</span>
 <span>                <span class="st">"REST_R"</span>,</span>
 <span>                <span class="st">"NONCROP"</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="section level3">
+<h3 id="table-1--crop-mapping-between-data-sources-">Table 1. Crop mapping between data sources.<a class="anchor" aria-label="anchor" href="#table-1--crop-mapping-between-data-sources-"></a>
+</h3>
+<table class="table">
+<thead><tr class="header">
+<th>SPAM</th>
+<th>SPAM Crop Name</th>
+<th>ggcmi</th>
+<th>ggcmi Crop Name</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>WHEA</td>
+<td>Wheat</td>
+<td>wh</td>
+<td>wheat</td>
+</tr>
+<tr class="even">
+<td>RICE</td>
+<td>Rice</td>
+<td>ri</td>
+<td>rice</td>
+</tr>
+<tr class="odd">
+<td>MAIZ</td>
+<td>Maize</td>
+<td>mai</td>
+<td>maize</td>
+</tr>
+<tr class="even">
+<td>SOYB</td>
+<td>Soybean</td>
+<td>soy</td>
+<td>soybean</td>
+</tr>
+<tr class="odd">
+<td>BARL</td>
+<td>Barley</td>
+<td>bar</td>
+<td>barley</td>
+</tr>
+<tr class="even">
+<td>MILL</td>
+<td>Small Millet</td>
+<td>mil</td>
+<td>millet</td>
+</tr>
+<tr class="odd">
+<td>PMIL</td>
+<td>Pearl Millet</td>
+<td>mil</td>
+<td>millet</td>
+</tr>
+<tr class="even">
+<td>SORG</td>
+<td>Sorghum</td>
+<td>sor</td>
+<td>sorghum</td>
+</tr>
+<tr class="odd">
+<td>OCER</td>
+<td>Other Cereals</td>
+<td>rye</td>
+<td>rye</td>
+</tr>
+<tr class="even">
+<td>POTA</td>
+<td>Potato</td>
+<td>pot</td>
+<td>potato</td>
+</tr>
+<tr class="odd">
+<td>SWPO</td>
+<td>Sweet Potato</td>
+<td>cas</td>
+<td>cassava</td>
+</tr>
+<tr class="even">
+<td>YAMS</td>
+<td>Yams</td>
+<td>cas</td>
+<td>cassava</td>
+</tr>
+<tr class="odd">
+<td>CASS</td>
+<td>Cassava</td>
+<td>cas</td>
+<td>cassava</td>
+</tr>
+<tr class="even">
+<td>BEAN</td>
+<td>Bean</td>
+<td>bea</td>
+<td>beans</td>
+</tr>
+<tr class="odd">
+<td>CHIC</td>
+<td>Chickpea</td>
+<td>pea</td>
+<td>field peas</td>
+</tr>
+<tr class="even">
+<td>COWP</td>
+<td>Cowpea</td>
+<td>pea</td>
+<td>beans</td>
+</tr>
+<tr class="odd">
+<td>PIGE</td>
+<td>Pigeon Pea</td>
+<td>pea</td>
+<td>beans</td>
+</tr>
+<tr class="even">
+<td>LENT</td>
+<td>Lentil</td>
+<td>pea</td>
+<td>field peas</td>
+</tr>
+<tr class="odd">
+<td>GROU</td>
+<td>Groundnut</td>
+<td>nut</td>
+<td>groundnut</td>
+</tr>
+<tr class="even">
+<td>SUNF</td>
+<td>Sunflower</td>
+<td>sun</td>
+<td>sunflower</td>
+</tr>
+<tr class="odd">
+<td>RAPE</td>
+<td>Rapeseed</td>
+<td>rap</td>
+<td>rapeseed</td>
+</tr>
+<tr class="even">
+<td>SESA</td>
+<td>Sesame Seed</td>
+<td>sun</td>
+<td>sunflower</td>
+</tr>
+<tr class="odd">
+<td>SUGC</td>
+<td>Sugarcane</td>
+<td>sgc</td>
+<td>sugar cane</td>
+</tr>
+<tr class="even">
+<td>SUGB</td>
+<td>Sugarbeet</td>
+<td>sgb</td>
+<td>sugar beet</td>
+</tr>
+<tr class="odd">
+<td>COTT</td>
+<td>Cotton</td>
+<td>cot</td>
+<td>cotton</td>
+</tr>
+<tr class="even">
+<td>OFIB</td>
+<td>Other Fiber Crops</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>BANA</td>
+<td>Banana</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>PLNT</td>
+<td>Plantain</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>CITR</td>
+<td>Citrus</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>TROF</td>
+<td>Other Tropical Fruit</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>TEMF</td>
+<td>Temperate Fruit</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>TOMA</td>
+<td>Tomato</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>ONIO</td>
+<td>Onion</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>VEGE</td>
+<td>Other Vegetables</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>ORTS</td>
+<td>Other Roots</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>OPUL</td>
+<td>Other Pulses</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>CNUT</td>
+<td>Coconut</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>OILP</td>
+<td>Oilpalm</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>OOIL</td>
+<td>Other Oil Crops</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>COFF</td>
+<td>Arabic Coffee</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>RCOF</td>
+<td>Robust Coffee</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>COCO</td>
+<td>Cocoa</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>RUBB</td>
+<td>Rubber</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>TEAS</td>
+<td>Tea</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>TOBA</td>
+<td>Tobacco</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>REST</td>
+<td>Rest Of Crops</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <div class="section level2">
@@ -199,7 +486,6 @@ levels.</p>
 <span>                    <span class="st">"../HELPS_Example_Data/hurs_example_day.nc"</span>,</span>
 <span>                    <span class="st">"../HELPS_Example_Data/tas_example_day.nc"</span>,</span>
 <span>                    <span class="st">"../HELPS_Example_Data/ps_example_day.nc"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; |---------|---------|---------|---------|=========================================                                          </span></span>
 <span><span class="va">wbgt.sun.day</span></span>
 <span><span class="co">#&gt; class      : RasterStack </span></span>
 <span><span class="co">#&gt; dimensions : 360, 720, 259200, 366  (nrow, ncol, ncell, nlayers)</span></span>
@@ -489,7 +775,7 @@ uncertainty in PWC introduced by alternative choices of
 <span><span class="va">pwc.mon.foster</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/PWC.html">PWC</a></span><span class="op">(</span>WBGT <span class="op">=</span> <span class="va">esi.mon</span>,  LHR <span class="op">=</span> <span class="va">LHR_Foster</span>, workload <span class="op">=</span> <span class="st">"high"</span><span class="op">)</span></span>
 <span><span class="va">end_t</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">end_t</span> <span class="op">-</span> <span class="va">start_t</span></span>
-<span><span class="co">#&gt; Time difference of 13.81614 secs</span></span>
+<span><span class="co">#&gt; Time difference of 12.05804 secs</span></span>
 <span><span class="va">pwc.mon.foster</span></span>
 <span><span class="co">#&gt; class      : RasterStack </span></span>
 <span><span class="co">#&gt; dimensions : 360, 720, 259200, 12  (nrow, ncol, ncell, nlayers)</span></span>
@@ -504,7 +790,7 @@ uncertainty in PWC introduced by alternative choices of
 <span><span class="va">pwc.mon.hothaps</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/PWC.html">PWC</a></span><span class="op">(</span>WBGT <span class="op">=</span> <span class="va">esi.mon</span>,  LHR <span class="op">=</span> <span class="va">LHR_Hothaps</span>, workload <span class="op">=</span> <span class="st">"high"</span><span class="op">)</span></span>
 <span><span class="va">end_t</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">end_t</span> <span class="op">-</span> <span class="va">start_t</span></span>
-<span><span class="co">#&gt; Time difference of 0.763947 secs</span></span>
+<span><span class="co">#&gt; Time difference of 0.7341189 secs</span></span>
 <span><span class="va">pwc.mon.hothaps</span></span>
 <span><span class="co">#&gt; class      : RasterStack </span></span>
 <span><span class="co">#&gt; dimensions : 360, 720, 259200, 12  (nrow, ncol, ncell, nlayers)</span></span>
@@ -519,7 +805,7 @@ uncertainty in PWC introduced by alternative choices of
 <span><span class="va">pwc.mon.niosh</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/PWC.html">PWC</a></span><span class="op">(</span>WBGT <span class="op">=</span> <span class="va">esi.mon</span>,  LHR <span class="op">=</span> <span class="va">LHR_NIOSH</span>, workload <span class="op">=</span> <span class="st">"high"</span><span class="op">)</span></span>
 <span><span class="va">end_t</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">end_t</span> <span class="op">-</span> <span class="va">start_t</span></span>
-<span><span class="co">#&gt; Time difference of 15.95208 secs</span></span>
+<span><span class="co">#&gt; Time difference of 18.30968 secs</span></span>
 <span><span class="va">pwc.mon.niosh</span></span>
 <span><span class="co">#&gt; class      : RasterStack </span></span>
 <span><span class="co">#&gt; dimensions : 360, 720, 259200, 12  (nrow, ncol, ncell, nlayers)</span></span>
@@ -534,7 +820,7 @@ uncertainty in PWC introduced by alternative choices of
 <span><span class="va">pwc.mon.iso</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/PWC.html">PWC</a></span><span class="op">(</span>WBGT <span class="op">=</span> <span class="va">esi.mon</span>,  LHR <span class="op">=</span> <span class="va">LHR_ISO</span>, workload <span class="op">=</span> <span class="st">"high"</span><span class="op">)</span></span>
 <span><span class="va">end_t</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">end_t</span> <span class="op">-</span> <span class="va">start_t</span></span>
-<span><span class="co">#&gt; Time difference of 27.06221 secs</span></span>
+<span><span class="co">#&gt; Time difference of 18.64814 secs</span></span>
 <span><span class="va">pwc.mon.iso</span></span>
 <span><span class="co">#&gt; class      : RasterStack </span></span>
 <span><span class="co">#&gt; dimensions : 360, 720, 259200, 12  (nrow, ncol, ncell, nlayers)</span></span>
