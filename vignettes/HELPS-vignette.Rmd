@@ -16,19 +16,17 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 library(HELPS)
-library(ncdf4)
 library(raster)
 library(dplyr)
 library(ggplot2)
 library(knitr)
-library(sf)
 library(ggpattern)
 ```
 
 ## Gather input data:
 
 ### Download example data
-Users can download a set of example data into folder `HELPS_Example_Data` by running this function. The example data includes grid-level daily and monthly near-surface air temperature (tas), daily and monthly near-surface relative humidity (hurs), daily surface air pressure (ps), and monthly grid-level surface downwelling shortwave radiation (rsds). *User Notice* in the *README* provides more details of input data `HELPS` is compatible with. 
+Users can download a set of example data into folder `HELPS_Example_Data` by running `get_example_data()`. The example data includes grid-level daily and monthly near-surface air temperature (tas), daily and monthly near-surface relative humidity (hurs), daily surface air pressure (ps), and monthly grid-level surface downwelling shortwave radiation (rsds). *User Notice* in the *README* provides more details of input data `HELPS` is compatible with. 
 
 ```{r Step0, warning=FALSE, eval = FALSE}
 get_example_data()
@@ -37,16 +35,16 @@ get_example_data()
 ### Prepare your own input data
 
 The `HELPS` package operates on 0.5 degree resolution, bias-corrected outputs from Earth System Models and General Circulation Models participating in the CMIP process. Several options to access such data exist:
-- The ISIMIP2b repository (https://data.isimip.org/search/tree/ISIMIP2b/InputData/climate/atmosphere/) contains outputs from CMIP5-era models (GFDL-ESM2M, HadGEM2-ES, IPSL-CM5A-LR, and MIROC5) for specific scenarios
-- The ISIMIP3b repository (https://data.isimip.org/search/tree/ISIMIP3b/InputData/climate/atmosphere/) contains outputs from CMIP6-era models (GFDL-ESM4, IPSL-CM6A-LR, MPI-ESM1-2-HR, MRI-ESM2-0, and UKSEM1-0-LL) for specific scenarios
-- If a user wishes to explore other CMIP models or bias-correct model data against different observational data than that used by ISIMIP, the BASD python package (https://github.com/JGCRI/basd) is available for ease of use. BASD implements an extension of the bias adjustment and statistical downscaling method used in ISIMIP3b (ISIMIP3BASD, Lange 2021 https://zenodo.org/records/4686991 and  https://gmd.copernicus.org/articles/12/3055/2019/). The ISIMIP3BASD code base can also be used directly. For additional information, please see https://www.isimip.org/documents/413/ISIMIP3b_bias_adjustment_fact_sheet_Gnsz7CO.pdf 
-- If a user wishes to explore novel scenarios not covered by CMIP models or the ISIMIP collection, we suggest a combination of STITCHES emulation (https://github.com/JGCRI/stitches) and BASD bias correction and downscaling. 
+- The [ISIMIP2b](https://data.isimip.org/search/tree/ISIMIP2b/InputData/climate/atmosphere/) repository contains outputs from CMIP5-era models (GFDL-ESM2M, HadGEM2-ES, IPSL-CM5A-LR, and MIROC5) for specific scenarios
+- The [ISIMIP3b](https://data.isimip.org/search/tree/ISIMIP3b/InputData/climate/atmosphere/) repository contains outputs from CMIP6-era models (GFDL-ESM4, IPSL-CM6A-LR, MPI-ESM1-2-HR, MRI-ESM2-0, and UKSEM1-0-LL) for specific scenarios
+- If a user wishes to explore other CMIP models or bias-correct model data against different observational data than that used by ISIMIP, the [BASD](https://github.com/JGCRI/basd) python package is available for ease of use. BASD implements an extension of the bias adjustment and statistical downscaling method used in ISIMIP3b ([ISIMIP3BASD](https://zenodo.org/records/4686991 and  https://gmd.copernicus.org/articles/12/3055/2019/), Lange 2021). The ISIMIP3BASD code base can also be used directly. For additional information, please see [here](https://www.isimip.org/documents/413/ISIMIP3b_bias_adjustment_fact_sheet_Gnsz7CO.pdf). 
+- If a user wishes to explore novel scenarios not covered by CMIP models or the ISIMIP collection, we suggest a combination of [STITCHES](https://github.com/JGCRI/stitches) emulation and BASD bias correction and downscaling. 
 
 HELPS has been tested with both ISIMIP data and outputs from BASD.
 
-Besides the climate projections, `HELPS` also takes crop calendar (https://zenodo.org/records/5062513) and harvested area (https://doi.org/10.7910/DVN/SWPENT) data as input for temporal and spatial aggregation in the package.
+Besides the climate projections, `HELPS` also takes GGCMI Phase 3 crop calendar (Jägermeyr et al. 2021) (https://zenodo.org/records/5062513)  and SPAM harvested area (IFPRI, 2024) (https://doi.org/10.7910/DVN/SWPENT) data as input for temporal and spatial aggregation in the package.
 
-`HELPS` provides measurement of crop specific labor heat stress exposure and heat-induced physical work capacity loss for 93 sectors, consisting of 46 SPAM crops by 2 irrigation practices (rain-fed and irrigated) and 1 noncrop sector. Below is the fUll list of sectors supported in `HELPS`: 
+`HELPS` provides measurement of crop specific labor heat stress exposure and heat-induced physical work capacity loss for 93 sectors, consisting of 46 SPAM crops by 2 irrigation practices (rain-fed and irrigated) and 1 noncrop sector. Below is the fUll list of sectors supported in `HELPS`, and refer to Table 1 for crop mapping: 
 ```
 SECTOR_ALL <- c("WHEA_I", "RICE_I", "MAIZ_I", "SOYB_I", "BARL_I", "MILL_I", "PMIL_I", "SORG_I", "OCER_I",
                 "POTA_I", "SWPO_I", "YAMS_I", "CASS_I", "BEAN_I", "CHIC_I", "COWP_I", "PIGE_I", "LENT_I",
@@ -62,6 +60,55 @@ SECTOR_ALL <- c("WHEA_I", "RICE_I", "MAIZ_I", "SOYB_I", "BARL_I", "MILL_I", "PMI
                 "REST_R",
                 "NONCROP")
 ```
+### Table 1. Crop mapping between data sources.
+| SPAM | SPAM Crop Name    | ggcmi | ggcmi Crop Name|
+|------|-------------------|-------|----------------|
+| WHEA | Wheat             | wh    | wheat          |
+| RICE | Rice              | ri    | rice           |
+| MAIZ | Maize             | mai   | maize          |
+| SOYB | Soybean           | soy   | soybean        |
+| BARL | Barley            | bar   | barley         |
+| MILL | Small Millet      | mil   | millet         |
+| PMIL | Pearl Millet      | mil   | millet         |
+| SORG | Sorghum           | sor   | sorghum        |
+| OCER | Other Cereals     | rye   | rye            |
+| POTA | Potato            | pot   | potato         |
+| SWPO | Sweet Potato      | cas   | cassava        |
+| YAMS | Yams              | cas   | cassava        |
+| CASS | Cassava           | cas   | cassava        |
+| BEAN | Bean              | bea   | beans          |
+| CHIC | Chickpea          | pea   | field peas     |
+| COWP | Cowpea            | pea   | beans          |
+| PIGE | Pigeon Pea        | pea   | beans          |
+| LENT | Lentil            | pea   | field peas     |
+| GROU | Groundnut         | nut   | groundnut      |
+| SUNF | Sunflower         | sun   | sunflower      |
+| RAPE | Rapeseed          | rap   | rapeseed       |
+| SESA | Sesame Seed       | sun   | sunflower      |
+| SUGC | Sugarcane         | sgc   | sugar cane     |
+| SUGB | Sugarbeet         | sgb   | sugar beet     |
+| COTT | Cotton            | cot   | cotton         |
+| OFIB | Other Fiber Crops |       |                |
+| BANA | Banana            |       |                |
+| PLNT | Plantain          |       |                |
+| CITR | Citrus            |       |                |
+| TROF | Other Tropical Fruit |    |                |
+| TEMF | Temperate Fruit   |       |                |
+| TOMA | Tomato            |       |                |
+| ONIO | Onion             |       |                |
+| VEGE | Other Vegetables  |       |                |
+| ORTS | Other Roots       |       |                |
+| OPUL | Other Pulses      |       |                |
+| CNUT | Coconut           |       |                |
+| OILP | Oilpalm           |       |                |
+| OOIL | Other Oil Crops   |       |                |
+| COFF | Arabic Coffee     |       |                |
+| RCOF | Robust Coffee     |       |                |
+| COCO | Cocoa             |       |                |
+| RUBB | Rubber            |       |                |
+| TEAS | Tea               |       |                |
+| TOBA | Tobacco           |       |                |
+| REST | Rest Of Crops     |       |                |
 
 
 
