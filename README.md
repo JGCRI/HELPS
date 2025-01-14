@@ -97,7 +97,7 @@ devtools::load_all()
 
 
 
-- Please explore the package vignette (https://dsheng1026.github.io/HELPS/articles/HELPS-vignette.html) to use the package.
+- Please explore the package vignette (https://jgcri.github.io/HELPS/articles/HELPS-vignette.html) to use the package.
 
 [Back to Contents](#Contents)
 
