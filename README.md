@@ -22,8 +22,8 @@
 <!-------------------------->
 <!-------------------------->
 
-- Github: https://github.com/dsheng1026/HELPS
-- Webpage: https://dsheng1026.github.io/HELPS/
+- Github: https://github.com/JGCRI/HELPS
+- Webpage: https://jgcri.github.io/HELPS/
 
 [Back to Contents](#Contents)
 
@@ -46,7 +46,7 @@
 
 <!-------------------------->
 <!-------------------------->
-# <a name="Citation"></a>Citation
+# <a name="RelatedPublications"></a>Related Publications
 <!-------------------------->
 <!-------------------------->
 
@@ -97,7 +97,7 @@ devtools::load_all()
 
 
 
-- [Package vignette](https://dsheng1026.github.io/HELPS/articles/HELPS-vignette.html)
+- Please explore the package vignette (https://dsheng1026.github.io/HELPS/articles/HELPS-vignette.html) to use the package.
 
 [Back to Contents](#Contents)
 
