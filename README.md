@@ -50,7 +50,7 @@
 <!-------------------------->
 <!-------------------------->
 
-Sheng, D. et al. Omitting labor responses to heat stress underestimates future climate impact on agriculture. (Under review) doi:https://doi.org/10.21203/rs.3.rs-5000229/v1.
+Sheng, D. et al. Omitting labor responses to heat stress underestimates future climate impact on agriculture. (Under review). doi: https://doi.org/10.21203/rs.3.rs-5000229/v1.
 
 [Back to Contents](#Contents)
 
@@ -73,7 +73,6 @@ Sheng, D. et al. Omitting labor responses to heat stress underestimates future c
 ```
 install.packages('devtools')
 devtools::install_github('dsheng1026/HELPS')
-renv::init()
 renv::restore()
 devtools::load_all()
 ```
@@ -97,7 +96,15 @@ devtools::load_all()
 
 
 
-- Please explore the package vignette (https://jgcri.github.io/HELPS/articles/HELPS-vignette.html) to use the package.
+- Please explore the package [vignette](https://jgcri.github.io/HELPS/articles/HELPS-vignette.html) to use the package.
+
+To run `vignette/HELPS-vignette.Rmd`, users need first download a set of example data into folder `HELPS_Example_Data` by running
+
+```
+devtools::load_all()
+get_example_data()
+```
+
 
 [Back to Contents](#Contents)
 
@@ -110,10 +117,10 @@ devtools::load_all()
 <!-------------------------->
 
 The `HELPS` package operates on 0.5 degree resolution, bias-corrected outputs from Earth System Models and General Circulation Models participating in the CMIP process. Several options to access such data exist:
-- The ISIMIP2b repository (https://data.isimip.org/search/tree/ISIMIP2b/InputData/climate/atmosphere/) contains outputs from CMIP5-era models (GFDL-ESM2M, HadGEM2-ES, IPSL-CM5A-LR, and MIROC5) for specific scenarios
-- The ISIMIP3b repository (https://data.isimip.org/search/tree/ISIMIP3b/InputData/climate/atmosphere/) contains outputs from CMIP6-era models (GFDL-ESM4, IPSL-CM6A-LR, MPI-ESM1-2-HR, MRI-ESM2-0, and UKSEM1-0-LL) for specific scenarios
-- If a user wishes to explore other CMIP models or bias-correct model data against different observational data than that used by ISIMIP, the BASD python package (https://github.com/JGCRI/basd) is available for ease of use. BASD implements an extension of the bias adjustment and statistical downscaling method used in ISIMIP3b (ISIMIP3BASD, Lange 2021 https://zenodo.org/records/4686991 and  https://gmd.copernicus.org/articles/12/3055/2019/). The ISIMIP3BASD code base can also be used directly. For additional information, please see https://www.isimip.org/documents/413/ISIMIP3b_bias_adjustment_fact_sheet_Gnsz7CO.pdf 
-- If a user wishes to explore novel scenarios not covered by CMIP models or the ISIMIP collection, we suggest a combination of STITCHES emulation (https://github.com/JGCRI/stitches) and BASD bias correction and downscaling. 
+- The [ISIMIP2b](https://data.isimip.org/search/tree/ISIMIP2b/InputData/climate/atmosphere/) repository contains outputs from CMIP5-era models (GFDL-ESM2M, HadGEM2-ES, IPSL-CM5A-LR, and MIROC5) for specific scenarios
+- The [ISIMIP3b](https://data.isimip.org/search/tree/ISIMIP3b/InputData/climate/atmosphere/) repository  contains outputs from CMIP6-era models (GFDL-ESM4, IPSL-CM6A-LR, MPI-ESM1-2-HR, MRI-ESM2-0, and UKSEM1-0-LL) for specific scenarios
+- If a user wishes to explore other CMIP models or bias-correct model data against different observational data than that used by ISIMIP, the [BASD](https://github.com/JGCRI/basd) python package is available for ease of use. BASD implements an extension of the bias adjustment and statistical downscaling method used in ISIMIP3b (ISIMIP3BASD, [Lange 2021](https://zenodo.org/records/4686991 and  https://gmd.copernicus.org/articles/12/3055/2019/)). The ISIMIP3BASD code base can also be used directly. For additional information, please see [here](https://www.isimip.org/documents/413/ISIMIP3b_bias_adjustment_fact_sheet_Gnsz7CO.pdf) 
+- If a user wishes to explore novel scenarios not covered by CMIP models or the ISIMIP collection, we suggest a combination of [STITCHES](https://github.com/JGCRI/stitches) emulation and BASD bias correction and downscaling. 
 
 HELPS has been tested with both ISIMIP data and outputs from BASD.
 
