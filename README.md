@@ -72,7 +72,7 @@ Sheng, D. et al. Omitting labor responses to heat stress underestimates future c
 
 ```
 install.packages('devtools')
-devtools::install_github('dsheng1026/HELPS')
+devtools::install_github('JGCRI/HELPS')
 renv::restore()
 devtools::load_all()
 ```
