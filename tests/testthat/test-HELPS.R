@@ -16,41 +16,19 @@ unlink(zip_name)
 # ------------------------------------
 
 testthat::test_that("key function tests", {
-  esi.mon <- HeatStress(TempRes = "month", SECTOR = "MAIZ_R", HS = WBGT_ESI, YEAR_INPUT = 2024,
+  esi.mon <- cal_heat_stress(TempRes = "month", SECTOR = "MAIZ_R", HS = WBGT_ESI, YEAR_INPUT = 2024,
                         paste0(target_dir,"/hurs_example_month.nc"),
                         paste0(target_dir,"/tas_example_month.nc"),
                         paste0(target_dir,"/rsds_example_month.nc"))
   testthat::expect_snapshot(esi.mon)
 
-  pwc.mon.foster <- PWC(WBGT = esi.mon,  LHR = LHR_Foster, workload = "high")
+  pwc.mon.foster <- cal_pwc(WBGT = esi.mon,  LHR = LHR_Foster, workload = "high")
   testthat::expect_snapshot(pwc.mon.foster)
 
-  pwc.foster.ann <- MON2ANN(input_rack = pwc.mon.foster, SECTOR = "MAIZ_R")
+  pwc.foster.ann <- monthly_to_annual(input_rack = pwc.mon.foster, SECTOR = "MAIZ_R")
   testthat::expect_snapshot(pwc.foster.ann)
 
-  ctry_pwc <- G2R(grid_annual_value = pwc.foster.ann, SECTOR = "MAIZ_R", rast_boundary = country_raster)
+  ctry_pwc <- grid_to_region(grid_annual_value = pwc.foster.ann, SECTOR = "MAIZ_R", rast_boundary = country_raster)
   testthat::expect_snapshot(ctry_pwc)
 })
 
-# testthat::test_that("monthly LHR_Foster test", {
-#   esi.mon <- HeatStress(TempRes = "month", SECTOR = "MAIZ_R", HS = WBGT_ESI, YEAR_INPUT = 2024,
-#                         paste0(target_dir,"/hurs_example_month.nc"),
-#                         paste0(target_dir,"/tas_example_month.nc"),
-#                         paste0(target_dir,"/rsds_example_month.nc"))
-#   pwc.mon.foster <- PWC(WBGT = esi.mon,  LHR = LHR_Foster, workload = "high")
-#
-#   testthat::expect_snapshot(pwc.mon.foster)
-# })
-#
-# testthat::test_that("month to anual test", {
-#   pwc.foster.ann <- MON2ANN(input_rack = pwc.mon.foster, SECTOR = "MAIZ_R")
-#   testthat::expect_snapshot(pwc.foster.ann)
-# })
-#
-# testthat::test_that("grid to region test", {
-#   ctry_pwc <- G2R(grid_annual_value = pwc.foster.ann, SECTOR = "MAIZ_R", rast_boundary = country_raster)
-#   testthat::expect_snapshot(ctry_pwc)
-# })
-#
-#
-#
