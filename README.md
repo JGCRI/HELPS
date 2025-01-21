@@ -10,7 +10,7 @@
 - [Key Links](#KeyLinks)
 - [Introduction](#Introduction)
 - [Citation](#Citation)
-- [Installation Guide](#InstallGuides)
+- [Installation Guide](#InstallationGuides)
 - [How-to Guides](#How-toGuides)
 - [User Notice](#UserNotice)
 
