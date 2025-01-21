@@ -44,7 +44,7 @@ HELPS has been tested with both ISIMIP data and outputs from BASD.
 
 Besides the climate projections, `HELPS` also takes GGCMI Phase 3 crop calendar (Jägermeyr et al. 2021) (https://zenodo.org/records/5062513)  and SPAM harvested area (IFPRI, 2024) (https://doi.org/10.7910/DVN/SWPENT) data as input for temporal and spatial aggregation in the package.
 
-`HELPS` provides measurement of crop specific labor heat stress exposure and heat-induced physical work capacity loss for 93 sectors, consisting of 46 SPAM crops by 2 irrigation practices (rain-fed and irrigated) and 1 noncrop sector. Below is the fUll list of sectors supported in `HELPS`, and refer to Table 1 for crop mapping: 
+`HELPS` provides measurement of crop specific labor heat stress exposure and heat-induced physical work capacity loss for 93 sectors, consisting of 46 SPAM crops by 2 irrigation practices (rain-fed and irrigated) and 1 noncrop sector. Below is the fUll list of sectors supported in `HELPS`, and refer to Table 1 for crop mapping. Note that for SPAM crops without corresponding ggcmi crop calendar, the crop calendar is assumed to be the whole year. 
 ```
 SECTOR_ALL <- c("WHEA_I", "RICE_I", "MAIZ_I", "SOYB_I", "BARL_I", "MILL_I", "PMIL_I", "SORG_I", "OCER_I",
                 "POTA_I", "SWPO_I", "YAMS_I", "CASS_I", "BEAN_I", "CHIC_I", "COWP_I", "PIGE_I", "LENT_I",
@@ -54,13 +54,13 @@ SECTOR_ALL <- c("WHEA_I", "RICE_I", "MAIZ_I", "SOYB_I", "BARL_I", "MILL_I", "PMI
                 "REST_I",
                 "WHEA_R", "RICE_R", "MAIZ_R", "SOYB_R", "BARL_R", "MILL_R", "PMIL_R", "SORG_R", "OCER_R",
                 "POTA_R", "SWPO_R", "YAMS_R", "CASS_R", "BEAN_R", "CHIC_R", "COWP_R", "PIGE_R", "LENT_R",
-                "GROU_R", "SUNF_R", "RAPE_R", "SESA_R", "SUGC_R", "SUGB_R", "COTT_R", "OFIB_R", "BANA_R",
+                "GROU_R", "MAIZ_R", "RAPE_R", "SESA_R", "SUGC_R", "SUGB_R", "COTT_R", "OFIB_R", "BANA_R",
                 "PLNT_R", "CITR_R", "TROF_R", "TEMF_R", "TOMA_R", "ONIO_R", "VEGE_R", "ORTS_R", "OPUL_R",
                 "CNUT_R", "OILP_R", "OOIL_R", "COFF_R", "RCOF_R", "COCO_R", "RUBB_R", "TEAS_R", "TOBA_R",
                 "REST_R",
                 "NONCROP")
 ```
-### Table 1. Crop mapping between data sources.
+### Table 1. Mapping ggcmi crop calendar to SPAM crops. 
 | SPAM | SPAM Crop Name    | ggcmi | ggcmi Crop Name|
 |------|-------------------|-------|----------------|
 | WHEA | Wheat             | wh    | wheat          |
@@ -116,7 +116,7 @@ SECTOR_ALL <- c("WHEA_I", "RICE_I", "MAIZ_I", "SOYB_I", "BARL_I", "MILL_I", "PMI
 
 ### Step1.1: calculate daily gridded heat stress
 
-This step employs `HeatStress()` function, which takes multiple arguments. `SECTOR` denotes which sector the labor is involved in. The current version of **HELPS** supports 93 sectors, consists of 92 crop sectors (46 SPAM crops by 2 irrigation practices) and 1 non-crop sector.
+This step employs `cal_heat_stress()` function, which takes multiple arguments. `SECTOR` denotes which sector the labor is involved in. The current version of **HELPS** supports 93 sectors, consists of 92 crop sectors (46 SPAM crops by 2 irrigation practices) and 1 non-crop sector.
 `HS` denotes the heat stress function that takes atmospheric variables as input and outputs heat stress level. The current version of **HELPS** covers 3 `HS()`, `WBGT_ESI()`, `WBGT_shade()`, and `WBGT_sun()`. 
 `WBGT_ESI`, Environmental Stress Index, takes hurs, tas, and rsds as inputs to approximate WBGT.
 `WBGT_shade`, from Dunne et al. (2013), takes hurs, tas, and ps as inputs to approximate WBGT. This method assumes full shade and night adaptation and optimization of structures, clothing, activity scheduling.
@@ -127,7 +127,7 @@ This step employs `HeatStress()` function, which takes multiple arguments. `SECT
 Example below takes monthly *hurs* (relative humidity), *tas* (near-surface air temperature), and *ps* (surface air pressure) and *WBGT_ESI* to calculate heat stress levels.
 
 ```{r Step1.1, warning=FALSE}
-wbgt.sun.day <- HeatStress(TempRes = "day", SECTOR = "SUNF_R", HS = WBGT_sun, YEAR_INPUT = 2024,
+wbgt.sun.day <- cal_heat_stress(TempRes = "day", SECTOR = "MAIZ_R", HS = WBGT_sun, YEAR_INPUT = 2024,
                     "../HELPS_Example_Data/hurs_example_day.nc",
                     "../HELPS_Example_Data/tas_example_day.nc",
                     "../HELPS_Example_Data/ps_example_day.nc")
@@ -160,7 +160,7 @@ wbgt.day.plot %>%
   scale_fill_gradient2(low = "blue", mid = "grey95", high = "red", midpoint = 25,
                        na.value = "white")+
   labs(x = "longitude", y = "latitude", fill = "WBGT",
-       title = "Heat stress for labor in rain-fed sunflower sector: 2024-07-01") +
+       title = "Heat stress for labor in rain-fed maize sector: 2024-07-01") +
 
   scale_x_continuous(
     breaks = seq(-180, 180, by = 60), # Longitude breaks
@@ -176,8 +176,8 @@ wbgt.day.plot %>%
 
 ### Step1.2: calculate daily gridded physical work capacity 
 
-This step employs `PWC()` function, which takes multiple arguments. 
-`WBGT` denotes the output of `HeatStress()` from last step. 
+This step employs `cal_pwc()` function, which takes multiple arguments. 
+`WBGT` denotes the output of `cal_heat_stress()` from last step. 
 `LHR` denotes the labor-heat response function that takes heat stress level and workload intensity as input and outputs physical work capacity (PWC). `workload` varies across alternative industries, we suggest 'high' for construction or agricultural work, 'moderate' for average manufacturing industry work, and 'low' for office desk work and service industries. 
 There are 4 built-in `LHR` functions in `HELPS`. 
 `LHR_Hothaps` is based on the *high occupational temperature health and productivity suppression (Hothaps)* programme, derived by Kjellstrom et al. (2018).
@@ -188,7 +188,7 @@ Note that `LHR_Foster` does not need workload as input, while the rest three LHR
 
 
 ```{r Step1.2, warning=FALSE}
-pwc.hothaps.day <- PWC(WBGT = wbgt.sun.day,  LHR = LHR_Hothaps, workload = "high")
+pwc.hothaps.day <- cal_pwc(WBGT = wbgt.sun.day,  LHR = LHR_Hothaps, workload = "high")
 pwc.hothaps.day
 ```
 ```{r Step1.2.1, warning=FALSE, fig.width=10, fig.height=6}
@@ -216,7 +216,7 @@ pwc.day.plot %>%
   scale_fill_gradient(low = "grey95", high = "red",
                       na.value = "white")+
   labs(x = "longitude", y = "latitude", fill = "PWC \nloss(%)",
-       title = "Heat-induced PWC loss for labor in rain-fed sunflower sector: 2024-07-01") +
+       title = "Heat-induced PWC loss for labor in rain-fed maize sector: 2024-07-01") +
 
   scale_x_continuous(
     breaks = seq(-180, 180, by = 60), # Longitude breaks
@@ -231,12 +231,12 @@ pwc.day.plot %>%
 
 ### Step1.3: aggregate daily value to monthly value 
 
-This step employs `DAY2MON()` function, which takes the daily output (a raster rack with 365/366 layers) from `HeatStress()` or `PWC()` as input, and outputs a raster rack of 12 layers with monthly mean.
+This step employs `daily_to_monthly()` function, which takes the daily output (a raster rack with 365/366 layers) from `cal_heat_stress()` or `cal_pwc()` as input, and outputs a raster rack of 12 layers with monthly mean.
 
 ```{r Step1.3, warning=FALSE}
-wbgt.sun.mon <- DAY2MON(input_rack = wbgt.sun.day)
+wbgt.sun.mon <- daily_to_monthly(input_rack = wbgt.sun.day)
 # rm(wbgt.sun.day)
-pwc.hothaps.mon <- DAY2MON(input_rack = pwc.hothaps.day)
+pwc.hothaps.mon <- daily_to_monthly(input_rack = pwc.hothaps.day)
 # rm(pwc.hothaps.day)
 wbgt.sun.mon
 pwc.hothaps.mon
@@ -267,7 +267,7 @@ pwc.mon.plot %>%
   scale_fill_gradient(low = "grey95", high = "red",
                       na.value = "white")+
   labs(x = "longitude", y = "latitude", fill = "PWC \nloss(%)",
-       title = "Monthly heat-induced PWC loss for labor in rain-fed sunflower sector: 2024-07") +
+       title = "Monthly heat-induced PWC loss for labor in rain-fed maize sector: 2024-07") +
   scale_x_continuous(
     breaks = seq(-180, 180, by = 60), # Longitude breaks
     labels = format_longitude         # Apply custom labels
@@ -281,12 +281,12 @@ pwc.mon.plot %>%
 
 ### Step1.4: aggregate monthly value to annual value 
 
-This step employs `MON2ANN()` function, which takes a raster rack with 12 layers of monthly mean as input, and outputs a data frame with grid-level annual mean. In this step, make sure the `SECTOR` input in `MON2ANN()` is identical to the `SECTOR` input in `HeatStress()`.
+This step employs `monthly_to_annual()` function, which takes a raster rack with 12 layers of monthly mean as input, and outputs a data frame with grid-level annual mean. In this step, make sure the `SECTOR` input in `monthly_to_annual()` is identical to the `SECTOR` input in `cal_heat_stress()`.
 
 
 ```{r Step1.4, warning=FALSE}
-wbgt.sun.ann <- MON2ANN(input_rack = wbgt.sun.mon, SECTOR = "SUNF_R")
-pwc.hothaps.ann <- MON2ANN(input_rack = pwc.hothaps.mon, SECTOR = "SUNF_R")
+wbgt.sun.ann <- monthly_to_annual(input_rack = wbgt.sun.mon, SECTOR = "MAIZ_R")
+pwc.hothaps.ann <- monthly_to_annual(input_rack = pwc.hothaps.mon, SECTOR = "MAIZ_R")
 
 summary(wbgt.sun.ann)
 summary(pwc.hothaps.ann)
@@ -315,7 +315,7 @@ pwc.hothaps.ann %>%
   scale_fill_gradient(low = "grey95", high = "red",
                       na.value = "white")+
   labs(x = "longitude", y = "latitude", fill = "PWC \nloss(%)",
-       title = "Annual heat-induced PWC loss for labor in rain-fed sunflower sector: 2024") +
+       title = "Annual heat-induced PWC loss for labor in rain-fed maize sector: 2024") +
   scale_x_continuous(
     breaks = seq(-180, 180, by = 60), # Longitude breaks
     labels = format_longitude         # Apply custom labels
@@ -331,10 +331,10 @@ pwc.hothaps.ann %>%
 
 ### Step2.1: calculate monthly gridded heat stress
 
-Similar to *Step1.1*, this steps employs`HeatStress()` function. Example below takes monthly *hurs* (relative humidity), *tas* (near-surface air temperature), and *rsds* (surface downwelling shortwave radiation) and *WBGT_ESI* to calculate heat stress levels.
+Similar to *Step1.1*, this steps employs`cal_heat_stress()` function. Example below takes monthly *hurs* (relative humidity), *tas* (near-surface air temperature), and *rsds* (surface downwelling shortwave radiation) and *WBGT_ESI* to calculate heat stress levels.
 
 ```{r Step2.1, warning=FALSE}
-esi.mon <- HeatStress(TempRes = "month", SECTOR = "SUNF_R", HS = WBGT_ESI, YEAR_INPUT = 2024,
+esi.mon <- cal_heat_stress(TempRes = "month", SECTOR = "MAIZ_R", HS = WBGT_ESI, YEAR_INPUT = 2024,
                     "../HELPS_Example_Data/hurs_example_month.nc",
                     "../HELPS_Example_Data/tas_example_month.nc",
                     "../HELPS_Example_Data/rsds_example_month.nc")
@@ -343,11 +343,11 @@ esi.mon
 
 ### Step2.2: calculate daily gridded physical work capacity 
 
-Similar to *Step1.2*, this step employs `PWC()` function to translate heat stress to PWC. Here we demonstrate the uncertainty in PWC introduced by alternative choices of `LHR()`.
+Similar to *Step1.2*, this step employs `cal_pwc()` function to translate heat stress to PWC. Here we demonstrate the uncertainty in PWC introduced by alternative choices of `LHR()`.
 
 ```{r Step2.2.1, warning=FALSE}
 start_t = Sys.time()
-pwc.mon.foster <- PWC(WBGT = esi.mon,  LHR = LHR_Foster, workload = "high")
+pwc.mon.foster <- cal_pwc(WBGT = esi.mon,  LHR = LHR_Foster, workload = "high")
 end_t = Sys.time()
 end_t - start_t
 pwc.mon.foster
@@ -355,14 +355,14 @@ pwc.mon.foster
 
 ```{r Step2.2.2, warning=FALSE}
 start_t = Sys.time()
-pwc.mon.hothaps <- PWC(WBGT = esi.mon,  LHR = LHR_Hothaps, workload = "high")
+pwc.mon.hothaps <- cal_pwc(WBGT = esi.mon,  LHR = LHR_Hothaps, workload = "high")
 end_t = Sys.time()
 end_t - start_t
 pwc.mon.hothaps
 ```
 ```{r Step2.2.3, warning=FALSE}
 start_t = Sys.time()
-pwc.mon.niosh <- PWC(WBGT = esi.mon,  LHR = LHR_NIOSH, workload = "high")
+pwc.mon.niosh <- cal_pwc(WBGT = esi.mon,  LHR = LHR_NIOSH, workload = "high")
 end_t = Sys.time()
 end_t - start_t
 pwc.mon.niosh
@@ -370,17 +370,17 @@ pwc.mon.niosh
 
 ```{r Step2.2.4, warning=FALSE}
 start_t = Sys.time()
-pwc.mon.iso <- PWC(WBGT = esi.mon,  LHR = LHR_ISO, workload = "high")
+pwc.mon.iso <- cal_pwc(WBGT = esi.mon,  LHR = LHR_ISO, workload = "high")
 end_t = Sys.time()
 end_t - start_t
 pwc.mon.iso
 ```
 ### Step2.3: aggregate monthly value to annual value 
 
-Same as *Step1.4*, make sure the `SECTOR` input in `MON2ANN()` is identical to the `SECTOR` input in `HeatStress()`.
+Same as *Step1.4*, make sure the `SECTOR` input in `monthly_to_annual()` is identical to the `SECTOR` input in `cal_heat_stress()`.
 
 ```{r Step2.3, warning=FALSE}
-pwc.hothaps.ann2 <- MON2ANN(input_rack = pwc.mon.hothaps, SECTOR = "SUNF_R")
+pwc.hothaps.ann2 <- monthly_to_annual(input_rack = pwc.mon.hothaps, SECTOR = "MAIZ_R")
 summary(pwc.hothaps.ann2)
 ```
 
@@ -388,9 +388,9 @@ summary(pwc.hothaps.ann2)
 
 ```{r, warning=FALSE}
 # aggregate grid level PWC to country level
-ctry_pwc <- G2R(grid_annual_value = pwc.hothaps.ann, SECTOR = "SUNF_R", rast_boundary = country_raster)
+ctry_pwc <- grid_to_region(grid_annual_value = pwc.hothaps.ann, SECTOR = "MAIZ_R", rast_boundary = country_raster)
 # aggregate grid level PWC to GCAM water basin level
-glu_pwc <- G2R(grid_annual_value = pwc.hothaps.ann, SECTOR = "SUNF_R", rast_boundary = reg_WB_raster)
+glu_pwc <- grid_to_region(grid_annual_value = pwc.hothaps.ann, SECTOR = "MAIZ_R", rast_boundary = reg_WB_raster)
 
 ```
 
@@ -408,7 +408,7 @@ df.plot %>%  ggplot() +
                   pattern_spacing = 0.02) +
   scale_fill_gradient(low = "grey95", high = "red")+
   labs(x = "longitude", y = "latitude", fill = "PWC \nloss(%)",
-       title = "Country-level heat-induced PWC loss for labor in rain-fed sunflower sector: 2024") +
+       title = "Country-level heat-induced PWC loss for labor in rain-fed maize sector: 2024") +
   theme_bw()
 ```
 
@@ -425,6 +425,6 @@ df.plot %>%
                   pattern_spacing = 0.02) +
   scale_fill_gradient(low = "grey95", high = "red")+
   labs(x = "longitude", y = "latitude", fill = "PWC \nloss(%)",
-       title = "Water basin-level heat-induced PWC loss for labor in rain-fed sunflower sector: 2024") +
+       title = "Water basin-level heat-induced PWC loss for labor in rain-fed maize sector: 2024") +
   theme_bw()
 ```
