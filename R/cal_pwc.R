@@ -1,4 +1,10 @@
-#' PWC
+#' cal_pwc
+#'
+#' Calculate Physical Work Capacity (PWC)
+#'
+#' The `cal_pwc` function computes daily grid-level physical work capacity (PWC),
+#' which range from 0 to 1, based on heat stress levels, a chosen labor heat response function,
+#' and workload intensity.
 #'
 #' @param WBGT output from HeatStress function
 #' @param LHR choice of labor heat response function
@@ -12,10 +18,9 @@
 #'
 #' @examples
 #' \dontrun{
-#' GD_PWC <- PWC(HeatStress = HS.stack.y,  LHR = LHR_Foster, workload = "high")
+#' GD_PWC <- cal_pwc(HeatStress = HS.stack.y, LHR = LHR_Foster, workload = "high")
 #' }
-
-PWC <- function(WBGT, LHR, workload){
+cal_pwc <- function(WBGT, LHR, workload) {
   PWC.stack.y <- stack(lapply(1:nlayers(WBGT), function(nlay) {
     calc(WBGT[[nlay]], function(x) LHR(x, workload))
   }))
