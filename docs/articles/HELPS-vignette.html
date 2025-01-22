@@ -146,8 +146,9 @@ temporal and spatial aggregation in the package.</p>
 stress exposure and heat-induced physical work capacity loss for 93
 sectors, consisting of 46 SPAM crops by 2 irrigation practices (rain-fed
 and irrigated) and 1 noncrop sector. Below is the fUll list of sectors
-supported in <code>HELPS</code>, and refer to Table 1 for crop
-mapping:</p>
+supported in <code>HELPS</code>, and refer to Table 1 for crop mapping.
+Note that for SPAM crops without corresponding ggcmi crop calendar, the
+crop calendar is assumed to be the whole year.</p>
 <pre><code><span><span class="va">SECTOR_ALL</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"WHEA_I"</span>, <span class="st">"RICE_I"</span>, <span class="st">"MAIZ_I"</span>, <span class="st">"SOYB_I"</span>, <span class="st">"BARL_I"</span>, <span class="st">"MILL_I"</span>, <span class="st">"PMIL_I"</span>, <span class="st">"SORG_I"</span>, <span class="st">"OCER_I"</span>,</span>
 <span>                <span class="st">"POTA_I"</span>, <span class="st">"SWPO_I"</span>, <span class="st">"YAMS_I"</span>, <span class="st">"CASS_I"</span>, <span class="st">"BEAN_I"</span>, <span class="st">"CHIC_I"</span>, <span class="st">"COWP_I"</span>, <span class="st">"PIGE_I"</span>, <span class="st">"LENT_I"</span>,</span>
 <span>                <span class="st">"GROU_I"</span>, <span class="st">"SUNF_I"</span>, <span class="st">"RAPE_I"</span>, <span class="st">"SESA_I"</span>, <span class="st">"SUGC_I"</span>, <span class="st">"SUGB_I"</span>, <span class="st">"COTT_I"</span>, <span class="st">"OFIB_I"</span>, <span class="st">"BANA_I"</span>,</span>
@@ -156,14 +157,14 @@ mapping:</p>
 <span>                <span class="st">"REST_I"</span>,</span>
 <span>                <span class="st">"WHEA_R"</span>, <span class="st">"RICE_R"</span>, <span class="st">"MAIZ_R"</span>, <span class="st">"SOYB_R"</span>, <span class="st">"BARL_R"</span>, <span class="st">"MILL_R"</span>, <span class="st">"PMIL_R"</span>, <span class="st">"SORG_R"</span>, <span class="st">"OCER_R"</span>,</span>
 <span>                <span class="st">"POTA_R"</span>, <span class="st">"SWPO_R"</span>, <span class="st">"YAMS_R"</span>, <span class="st">"CASS_R"</span>, <span class="st">"BEAN_R"</span>, <span class="st">"CHIC_R"</span>, <span class="st">"COWP_R"</span>, <span class="st">"PIGE_R"</span>, <span class="st">"LENT_R"</span>,</span>
-<span>                <span class="st">"GROU_R"</span>, <span class="st">"SUNF_R"</span>, <span class="st">"RAPE_R"</span>, <span class="st">"SESA_R"</span>, <span class="st">"SUGC_R"</span>, <span class="st">"SUGB_R"</span>, <span class="st">"COTT_R"</span>, <span class="st">"OFIB_R"</span>, <span class="st">"BANA_R"</span>,</span>
+<span>                <span class="st">"GROU_R"</span>, <span class="st">"MAIZ_R"</span>, <span class="st">"RAPE_R"</span>, <span class="st">"SESA_R"</span>, <span class="st">"SUGC_R"</span>, <span class="st">"SUGB_R"</span>, <span class="st">"COTT_R"</span>, <span class="st">"OFIB_R"</span>, <span class="st">"BANA_R"</span>,</span>
 <span>                <span class="st">"PLNT_R"</span>, <span class="st">"CITR_R"</span>, <span class="st">"TROF_R"</span>, <span class="st">"TEMF_R"</span>, <span class="st">"TOMA_R"</span>, <span class="st">"ONIO_R"</span>, <span class="st">"VEGE_R"</span>, <span class="st">"ORTS_R"</span>, <span class="st">"OPUL_R"</span>,</span>
 <span>                <span class="st">"CNUT_R"</span>, <span class="st">"OILP_R"</span>, <span class="st">"OOIL_R"</span>, <span class="st">"COFF_R"</span>, <span class="st">"RCOF_R"</span>, <span class="st">"COCO_R"</span>, <span class="st">"RUBB_R"</span>, <span class="st">"TEAS_R"</span>, <span class="st">"TOBA_R"</span>,</span>
 <span>                <span class="st">"REST_R"</span>,</span>
 <span>                <span class="st">"NONCROP"</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="section level3">
-<h3 id="table-1--crop-mapping-between-data-sources-">Table 1. Crop mapping between data sources.<a class="anchor" aria-label="anchor" href="#table-1--crop-mapping-between-data-sources-"></a>
+<h3 id="table-1--mapping-ggcmi-crop-calendar-to-spam-crops-">Table 1. Mapping ggcmi crop calendar to SPAM crops.<a class="anchor" aria-label="anchor" href="#table-1--mapping-ggcmi-crop-calendar-to-spam-crops-"></a>
 </h3>
 <table class="table">
 <thead><tr class="header">
@@ -459,21 +460,22 @@ mapping:</p>
 <div class="section level3">
 <h3 id="step1-1-calculate-daily-gridded-heat-stress">Step1.1: calculate daily gridded heat stress<a class="anchor" aria-label="anchor" href="#step1-1-calculate-daily-gridded-heat-stress"></a>
 </h3>
-<p>This step employs <code><a href="../reference/HeatStress.html">HeatStress()</a></code> function, which takes
-multiple arguments. <code>SECTOR</code> denotes which sector the labor
-is involved in. The current version of <strong>HELPS</strong> supports
-93 sectors, consists of 92 crop sectors (46 SPAM crops by 2 irrigation
-practices) and 1 non-crop sector. <code>HS</code> denotes the heat
-stress function that takes atmospheric variables as input and outputs
-heat stress level. The current version of <strong>HELPS</strong> covers
-3 <code>HS()</code>, <code><a href="../reference/WBGT_ESI.html">WBGT_ESI()</a></code>, <code><a href="../reference/WBGT_shade.html">WBGT_shade()</a></code>,
-and <code><a href="../reference/WBGT_sun.html">WBGT_sun()</a></code>. <code>WBGT_ESI</code>, Environmental Stress
-Index, takes hurs, tas, and rsds as inputs to approximate WBGT.
-<code>WBGT_shade</code>, from Dunne et al. (2013), takes hurs, tas, and
-ps as inputs to approximate WBGT. This method assumes full shade and
-night adaptation and optimization of structures, clothing, activity
-scheduling. <code>WBGT_sun</code>, is <code>WBGT_shade + 3</code>, that
-approximate the WBGT without shade.</p>
+<p>This step employs <code><a href="../reference/cal_heat_stress.html">cal_heat_stress()</a></code> function, which
+takes multiple arguments. <code>SECTOR</code> denotes which sector the
+labor is involved in. The current version of <strong>HELPS</strong>
+supports 93 sectors, consists of 92 crop sectors (46 SPAM crops by 2
+irrigation practices) and 1 non-crop sector. <code>HS</code> denotes the
+heat stress function that takes atmospheric variables as input and
+outputs heat stress level. The current version of <strong>HELPS</strong>
+covers 3 <code>HS()</code>, <code><a href="../reference/WBGT_ESI.html">WBGT_ESI()</a></code>,
+<code><a href="../reference/WBGT_shade.html">WBGT_shade()</a></code>, and <code><a href="../reference/WBGT_sun.html">WBGT_sun()</a></code>.
+<code>WBGT_ESI</code>, Environmental Stress Index, takes hurs, tas, and
+rsds as inputs to approximate WBGT. <code>WBGT_shade</code>, from Dunne
+et al. (2013), takes hurs, tas, and ps as inputs to approximate WBGT.
+This method assumes full shade and night adaptation and optimization of
+structures, clothing, activity scheduling. <code>WBGT_sun</code>, is
+<code>WBGT_shade + 3</code>, that approximate the WBGT without
+shade.</p>
 <p><code>YEAR_INPUT</code> denotes a year of interest. <code>...</code>
 denotes the file name(s) of atmospheric variable projections. Note that
 the number of files need to be equal to the number of argument of
@@ -482,19 +484,20 @@ humidity), <em>tas</em> (near-surface air temperature), and <em>ps</em>
 (surface air pressure) and <em>WBGT_ESI</em> to calculate heat stress
 levels.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">wbgt.sun.day</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/HeatStress.html">HeatStress</a></span><span class="op">(</span>TempRes <span class="op">=</span> <span class="st">"day"</span>, SECTOR <span class="op">=</span> <span class="st">"SUNF_R"</span>, HS <span class="op">=</span> <span class="va">WBGT_sun</span>, YEAR_INPUT <span class="op">=</span> <span class="fl">2024</span>,</span>
+<code class="sourceCode R"><span><span class="va">wbgt.sun.day</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cal_heat_stress.html">cal_heat_stress</a></span><span class="op">(</span>TempRes <span class="op">=</span> <span class="st">"day"</span>, SECTOR <span class="op">=</span> <span class="st">"MAIZ_R"</span>, HS <span class="op">=</span> <span class="va">WBGT_sun</span>, YEAR_INPUT <span class="op">=</span> <span class="fl">2024</span>,</span>
 <span>                    <span class="st">"../HELPS_Example_Data/hurs_example_day.nc"</span>,</span>
 <span>                    <span class="st">"../HELPS_Example_Data/tas_example_day.nc"</span>,</span>
 <span>                    <span class="st">"../HELPS_Example_Data/ps_example_day.nc"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; |---------|---------|---------|---------|=========================================                                          |---------|---------|---------|---------|=========================================                                          |---------|---------|---------|---------|=========================================                                          </span></span>
 <span><span class="va">wbgt.sun.day</span></span>
 <span><span class="co">#&gt; class      : RasterStack </span></span>
 <span><span class="co">#&gt; dimensions : 360, 720, 259200, 366  (nrow, ncol, ncell, nlayers)</span></span>
 <span><span class="co">#&gt; resolution : 0.5, 0.5  (x, y)</span></span>
 <span><span class="co">#&gt; extent     : -180, 180, -90, 90  (xmin, xmax, ymin, ymax)</span></span>
 <span><span class="co">#&gt; crs        : +proj=longlat +datum=WGS84 +no_defs </span></span>
-<span><span class="co">#&gt; names      : X2024.01.01, X2024.01.02, X2024.01.03, X2024.01.04, X2024.01.05, X2024.01.06, X2024.01.07, X2024.01.08, X2024.01.09, X2024.01.10, X2024.01.11, X2024.01.12, X2024.01.13, X2024.01.14, X2024.01.15, ... </span></span>
-<span><span class="co">#&gt; min values : -28.8657546, -31.2721103, -29.6222304, -28.9700138, -29.0203853, -28.0533651, -26.2058375, -27.1035955, -27.5056191, -26.6484150, -26.3776234, -24.1762260, -20.4372738, -21.8856453, -24.4694440, ... </span></span>
-<span><span class="co">#&gt; max values :    32.56666,    32.66616,    32.51359,    32.28911,    32.17094,    32.32722,    31.97848,    32.51823,    32.47137,    31.89902,    32.41639,    32.13375,    31.96044,    31.98161,    32.69230, ...</span></span></code></pre></div>
+<span><span class="co">#&gt; names      :  X2024.01.01,  X2024.01.02,  X2024.01.03,  X2024.01.04,  X2024.01.05,  X2024.01.06,  X2024.01.07,  X2024.01.08,  X2024.01.09,  X2024.01.10,  X2024.01.11,  X2024.01.12,  X2024.01.13,  X2024.01.14,  X2024.01.15, ... </span></span>
+<span><span class="co">#&gt; min values : -26.40895633, -29.58631649, -29.48563671, -32.64279411, -32.68470744, -31.52423488, -30.81504258, -31.72978783, -32.97928824, -31.53499160, -30.23718614, -26.68727971, -27.45448612, -30.39889939, -29.37254204, ... </span></span>
+<span><span class="co">#&gt; max values :     33.69000,     33.01880,     32.68530,     33.07450,     32.27624,     32.50649,     32.55792,     32.97666,     33.03015,     33.14957,     33.11487,     32.81420,     32.97180,     32.96513,     32.74074, ...</span></span></code></pre></div>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">wbgt.day.plot</span> <span class="op">&lt;-</span> <span class="va">wbgt.sun.day</span><span class="op">[[</span><span class="fl">183</span><span class="op">]</span><span class="op">]</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span>xy <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span>
 <span></span>
@@ -520,7 +523,7 @@ levels.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_gradient.html" class="external-link">scale_fill_gradient2</a></span><span class="op">(</span>low <span class="op">=</span> <span class="st">"blue"</span>, mid <span class="op">=</span> <span class="st">"grey95"</span>, high <span class="op">=</span> <span class="st">"red"</span>, midpoint <span class="op">=</span> <span class="fl">25</span>,</span>
 <span>                       na.value <span class="op">=</span> <span class="st">"white"</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"longitude"</span>, y <span class="op">=</span> <span class="st">"latitude"</span>, fill <span class="op">=</span> <span class="st">"WBGT"</span>,</span>
-<span>       title <span class="op">=</span> <span class="st">"Heat stress for labor in rain-fed sunflower sector: 2024-07-01"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>       title <span class="op">=</span> <span class="st">"Heat stress for labor in rain-fed maize sector: 2024-07-01"</span><span class="op">)</span> <span class="op">+</span></span>
 <span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_x_continuous</a></span><span class="op">(</span></span>
 <span>    breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">180</span>, <span class="fl">180</span>, by <span class="op">=</span> <span class="fl">60</span><span class="op">)</span>, <span class="co"># Longitude breaks</span></span>
@@ -536,11 +539,11 @@ levels.</p>
 <div class="section level3">
 <h3 id="step1-2-calculate-daily-gridded-physical-work-capacity">Step1.2: calculate daily gridded physical work capacity<a class="anchor" aria-label="anchor" href="#step1-2-calculate-daily-gridded-physical-work-capacity"></a>
 </h3>
-<p>This step employs <code><a href="../reference/PWC.html">PWC()</a></code> function, which takes multiple
-arguments. <code>WBGT</code> denotes the output of
-<code><a href="../reference/HeatStress.html">HeatStress()</a></code> from last step. <code>LHR</code> denotes the
-labor-heat response function that takes heat stress level and workload
-intensity as input and outputs physical work capacity (PWC).
+<p>This step employs <code><a href="../reference/cal_pwc.html">cal_pwc()</a></code> function, which takes
+multiple arguments. <code>WBGT</code> denotes the output of
+<code><a href="../reference/cal_heat_stress.html">cal_heat_stress()</a></code> from last step. <code>LHR</code> denotes
+the labor-heat response function that takes heat stress level and
+workload intensity as input and outputs physical work capacity (PWC).
 <code>workload</code> varies across alternative industries, we suggest
 ‘high’ for construction or agricultural work, ‘moderate’ for average
 manufacturing industry work, and ‘low’ for office desk work and service
@@ -556,7 +559,7 @@ productivity based on Foster et al (2021) Table 3. Note that
 <code>LHR_Foster</code> does not need workload as input, while the rest
 three LHRs need.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">pwc.hothaps.day</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/PWC.html">PWC</a></span><span class="op">(</span>WBGT <span class="op">=</span> <span class="va">wbgt.sun.day</span>,  LHR <span class="op">=</span> <span class="va">LHR_Hothaps</span>, workload <span class="op">=</span> <span class="st">"high"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">pwc.hothaps.day</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cal_pwc.html">cal_pwc</a></span><span class="op">(</span>WBGT <span class="op">=</span> <span class="va">wbgt.sun.day</span>,  LHR <span class="op">=</span> <span class="va">LHR_Hothaps</span>, workload <span class="op">=</span> <span class="st">"high"</span><span class="op">)</span></span>
 <span><span class="va">pwc.hothaps.day</span></span>
 <span><span class="co">#&gt; class      : RasterStack </span></span>
 <span><span class="co">#&gt; dimensions : 360, 720, 259200, 366  (nrow, ncol, ncell, nlayers)</span></span>
@@ -564,7 +567,7 @@ three LHRs need.</p>
 <span><span class="co">#&gt; extent     : -180, 180, -90, 90  (xmin, xmax, ymin, ymax)</span></span>
 <span><span class="co">#&gt; crs        : +proj=longlat +datum=WGS84 +no_defs </span></span>
 <span><span class="co">#&gt; names      : X2024.01.01, X2024.01.02, X2024.01.03, X2024.01.04, X2024.01.05, X2024.01.06, X2024.01.07, X2024.01.08, X2024.01.09, X2024.01.10, X2024.01.11, X2024.01.12, X2024.01.13, X2024.01.14, X2024.01.15, ... </span></span>
-<span><span class="co">#&gt; min values :   0.3689949,   0.3595205,   0.3741416,   0.3966001,   0.4088548,   0.3927091,   0.4294157,   0.3736882,   0.3782798,   0.4381085,   0.3837300,   0.4127714,   0.4313789,   0.4290754,   0.3570691, ... </span></span>
+<span><span class="co">#&gt; min values :   0.2756310,   0.3278060,   0.3577239,   0.3230669,   0.3979197,   0.3748341,   0.3698383,   0.3314406,   0.3268341,   0.3167981,   0.3196790,   0.3458487,   0.3318618,   0.3324419,   0.3525687, ... </span></span>
 <span><span class="co">#&gt; max values :           1,           1,           1,           1,           1,           1,           1,           1,           1,           1,           1,           1,           1,           1,           1, ...</span></span></code></pre></div>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pwc.day.plot</span> <span class="op">&lt;-</span> <span class="va">pwc.hothaps.day</span><span class="op">[[</span><span class="fl">183</span><span class="op">]</span><span class="op">]</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span>xy <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span>
@@ -591,7 +594,7 @@ three LHRs need.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_gradient.html" class="external-link">scale_fill_gradient</a></span><span class="op">(</span>low <span class="op">=</span> <span class="st">"grey95"</span>, high <span class="op">=</span> <span class="st">"red"</span>,</span>
 <span>                      na.value <span class="op">=</span> <span class="st">"white"</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"longitude"</span>, y <span class="op">=</span> <span class="st">"latitude"</span>, fill <span class="op">=</span> <span class="st">"PWC \nloss(%)"</span>,</span>
-<span>       title <span class="op">=</span> <span class="st">"Heat-induced PWC loss for labor in rain-fed sunflower sector: 2024-07-01"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>       title <span class="op">=</span> <span class="st">"Heat-induced PWC loss for labor in rain-fed maize sector: 2024-07-01"</span><span class="op">)</span> <span class="op">+</span></span>
 <span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_x_continuous</a></span><span class="op">(</span></span>
 <span>    breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">180</span>, <span class="fl">180</span>, by <span class="op">=</span> <span class="fl">60</span><span class="op">)</span>, <span class="co"># Longitude breaks</span></span>
@@ -607,14 +610,14 @@ three LHRs need.</p>
 <div class="section level3">
 <h3 id="step1-3-aggregate-daily-value-to-monthly-value">Step1.3: aggregate daily value to monthly value<a class="anchor" aria-label="anchor" href="#step1-3-aggregate-daily-value-to-monthly-value"></a>
 </h3>
-<p>This step employs <code><a href="../reference/DAY2MON.html">DAY2MON()</a></code> function, which takes the
-daily output (a raster rack with 365/366 layers) from
-<code><a href="../reference/HeatStress.html">HeatStress()</a></code> or <code><a href="../reference/PWC.html">PWC()</a></code> as input, and outputs a
-raster rack of 12 layers with monthly mean.</p>
+<p>This step employs <code><a href="../reference/daily_to_monthly.html">daily_to_monthly()</a></code> function, which
+takes the daily output (a raster rack with 365/366 layers) from
+<code><a href="../reference/cal_heat_stress.html">cal_heat_stress()</a></code> or <code><a href="../reference/cal_pwc.html">cal_pwc()</a></code> as input, and
+outputs a raster rack of 12 layers with monthly mean.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">wbgt.sun.mon</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/DAY2MON.html">DAY2MON</a></span><span class="op">(</span>input_rack <span class="op">=</span> <span class="va">wbgt.sun.day</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">wbgt.sun.mon</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/daily_to_monthly.html">daily_to_monthly</a></span><span class="op">(</span>input_rack <span class="op">=</span> <span class="va">wbgt.sun.day</span><span class="op">)</span></span>
 <span><span class="co"># rm(wbgt.sun.day)</span></span>
-<span><span class="va">pwc.hothaps.mon</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/DAY2MON.html">DAY2MON</a></span><span class="op">(</span>input_rack <span class="op">=</span> <span class="va">pwc.hothaps.day</span><span class="op">)</span></span>
+<span><span class="va">pwc.hothaps.mon</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/daily_to_monthly.html">daily_to_monthly</a></span><span class="op">(</span>input_rack <span class="op">=</span> <span class="va">pwc.hothaps.day</span><span class="op">)</span></span>
 <span><span class="co"># rm(pwc.hothaps.day)</span></span>
 <span><span class="va">wbgt.sun.mon</span></span>
 <span><span class="co">#&gt; class      : RasterStack </span></span>
@@ -622,9 +625,9 @@ raster rack of 12 layers with monthly mean.</p>
 <span><span class="co">#&gt; resolution : 0.5, 0.5  (x, y)</span></span>
 <span><span class="co">#&gt; extent     : -180, 180, -90, 90  (xmin, xmax, ymin, ymax)</span></span>
 <span><span class="co">#&gt; crs        : +proj=longlat +datum=WGS84 +no_defs </span></span>
-<span><span class="co">#&gt; names      :   index_01,   index_02,   index_03,   index_04,   index_05,   index_06,   index_07,   index_08,   index_09,   index_10,   index_11,   index_12 </span></span>
-<span><span class="co">#&gt; min values : -21.628034, -22.268741, -11.431610,   1.495750,   8.653015,   8.763290,   7.843687,   7.952302,   8.796518,   2.792140,  -8.256615, -19.244850 </span></span>
-<span><span class="co">#&gt; max values :   31.61075,   32.21583,   32.90010,   34.04256,   36.81503,   36.44158,   35.34668,   33.13324,   32.88175,   33.30904,   30.35087,   30.78955</span></span>
+<span><span class="co">#&gt; names      :     index_01,     index_02,     index_03,     index_04,     index_05,     index_06,     index_07,     index_08,     index_09,     index_10,     index_11,     index_12 </span></span>
+<span><span class="co">#&gt; min values : -25.68471515, -23.78440403, -12.62054358,   1.75700482,   6.92253558,   6.54223091,   5.56819113,   6.83117556,   7.97842251,  -0.04127564, -12.79007390, -22.36117065 </span></span>
+<span><span class="co">#&gt; max values :     32.50636,     32.81493,     33.21978,     34.08683,     36.81503,     36.44158,     35.34854,     33.97071,     33.59198,     33.30904,     32.27484,     32.16073</span></span>
 <span><span class="va">pwc.hothaps.mon</span></span>
 <span><span class="co">#&gt; class      : RasterStack </span></span>
 <span><span class="co">#&gt; dimensions : 360, 720, 259200, 12  (nrow, ncol, ncell, nlayers)</span></span>
@@ -632,8 +635,8 @@ raster rack of 12 layers with monthly mean.</p>
 <span><span class="co">#&gt; extent     : -180, 180, -90, 90  (xmin, xmax, ymin, ymax)</span></span>
 <span><span class="co">#&gt; crs        : +proj=longlat +datum=WGS84 +no_defs </span></span>
 <span><span class="co">#&gt; names      :  index_01,  index_02,  index_03,  index_04,  index_05,  index_06,  index_07,  index_08,  index_09,  index_10,  index_11,  index_12 </span></span>
-<span><span class="co">#&gt; min values : 0.4729112, 0.4056536, 0.3503070, 0.2577084, 0.1491326, 0.1614964, 0.1957440, 0.3282891, 0.3468584, 0.3163960, 0.6132447, 0.5664076 </span></span>
-<span><span class="co">#&gt; max values : 1.0000000, 1.0000000, 1.0000000, 1.0000000, 0.9999999, 1.0000000, 1.0000000, 1.0000000, 1.0000000, 1.0000000, 1.0000000, 1.0000000</span></span></code></pre></div>
+<span><span class="co">#&gt; min values : 0.3763610, 0.3469435, 0.3125562, 0.2535550, 0.1491326, 0.1614964, 0.1957440, 0.2707452, 0.2842605, 0.3163960, 0.4007928, 0.4139707 </span></span>
+<span><span class="co">#&gt; max values :         1,         1,         1,         1,         1,         1,         1,         1,         1,         1,         1,         1</span></span></code></pre></div>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pwc.mon.plot</span> <span class="op">&lt;-</span> <span class="va">pwc.hothaps.mon</span><span class="op">[[</span><span class="fl">7</span><span class="op">]</span><span class="op">]</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span>xy <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span>
 <span></span>
@@ -659,7 +662,7 @@ raster rack of 12 layers with monthly mean.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_gradient.html" class="external-link">scale_fill_gradient</a></span><span class="op">(</span>low <span class="op">=</span> <span class="st">"grey95"</span>, high <span class="op">=</span> <span class="st">"red"</span>,</span>
 <span>                      na.value <span class="op">=</span> <span class="st">"white"</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"longitude"</span>, y <span class="op">=</span> <span class="st">"latitude"</span>, fill <span class="op">=</span> <span class="st">"PWC \nloss(%)"</span>,</span>
-<span>       title <span class="op">=</span> <span class="st">"Monthly heat-induced PWC loss for labor in rain-fed sunflower sector: 2024-07"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>       title <span class="op">=</span> <span class="st">"Monthly heat-induced PWC loss for labor in rain-fed maize sector: 2024-07"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_x_continuous</a></span><span class="op">(</span></span>
 <span>    breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">180</span>, <span class="fl">180</span>, by <span class="op">=</span> <span class="fl">60</span><span class="op">)</span>, <span class="co"># Longitude breaks</span></span>
 <span>    labels <span class="op">=</span> <span class="va">format_longitude</span>         <span class="co"># Apply custom labels</span></span>
@@ -674,33 +677,34 @@ raster rack of 12 layers with monthly mean.</p>
 <div class="section level3">
 <h3 id="step1-4-aggregate-monthly-value-to-annual-value">Step1.4: aggregate monthly value to annual value<a class="anchor" aria-label="anchor" href="#step1-4-aggregate-monthly-value-to-annual-value"></a>
 </h3>
-<p>This step employs <code><a href="../reference/MON2ANN.html">MON2ANN()</a></code> function, which takes a
-raster rack with 12 layers of monthly mean as input, and outputs a data
-frame with grid-level annual mean. In this step, make sure the
-<code>SECTOR</code> input in <code><a href="../reference/MON2ANN.html">MON2ANN()</a></code> is identical to the
-<code>SECTOR</code> input in <code><a href="../reference/HeatStress.html">HeatStress()</a></code>.</p>
+<p>This step employs <code><a href="../reference/monthly_to_annual.html">monthly_to_annual()</a></code> function, which
+takes a raster rack with 12 layers of monthly mean as input, and outputs
+a data frame with grid-level annual mean. In this step, make sure the
+<code>SECTOR</code> input in <code><a href="../reference/monthly_to_annual.html">monthly_to_annual()</a></code> is
+identical to the <code>SECTOR</code> input in
+<code><a href="../reference/cal_heat_stress.html">cal_heat_stress()</a></code>.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">wbgt.sun.ann</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/MON2ANN.html">MON2ANN</a></span><span class="op">(</span>input_rack <span class="op">=</span> <span class="va">wbgt.sun.mon</span>, SECTOR <span class="op">=</span> <span class="st">"SUNF_R"</span><span class="op">)</span></span>
-<span><span class="va">pwc.hothaps.ann</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/MON2ANN.html">MON2ANN</a></span><span class="op">(</span>input_rack <span class="op">=</span> <span class="va">pwc.hothaps.mon</span>, SECTOR <span class="op">=</span> <span class="st">"SUNF_R"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">wbgt.sun.ann</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/monthly_to_annual.html">monthly_to_annual</a></span><span class="op">(</span>input_rack <span class="op">=</span> <span class="va">wbgt.sun.mon</span>, SECTOR <span class="op">=</span> <span class="st">"MAIZ_R"</span><span class="op">)</span></span>
+<span><span class="va">pwc.hothaps.ann</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/monthly_to_annual.html">monthly_to_annual</a></span><span class="op">(</span>input_rack <span class="op">=</span> <span class="va">pwc.hothaps.mon</span>, SECTOR <span class="op">=</span> <span class="st">"MAIZ_R"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">wbgt.sun.ann</span><span class="op">)</span></span>
 <span><span class="co">#&gt;        x                 y              value       </span></span>
-<span><span class="co">#&gt;  Min.   :-179.75   Min.   :-89.75   Min.   : 9.30   </span></span>
-<span><span class="co">#&gt;  1st Qu.: -89.88   1st Qu.:-44.88   1st Qu.:16.66   </span></span>
-<span><span class="co">#&gt;  Median :   0.00   Median :  0.00   Median :21.41   </span></span>
-<span><span class="co">#&gt;  Mean   :   0.00   Mean   :  0.00   Mean   :21.64   </span></span>
-<span><span class="co">#&gt;  3rd Qu.:  89.88   3rd Qu.: 44.88   3rd Qu.:26.61   </span></span>
-<span><span class="co">#&gt;  Max.   : 179.75   Max.   : 89.75   Max.   :32.99   </span></span>
-<span><span class="co">#&gt;                                     NA's   :248396</span></span>
+<span><span class="co">#&gt;  Min.   :-179.75   Min.   :-89.75   Min.   : 8.87   </span></span>
+<span><span class="co">#&gt;  1st Qu.: -89.88   1st Qu.:-44.88   1st Qu.:19.46   </span></span>
+<span><span class="co">#&gt;  Median :   0.00   Median :  0.00   Median :25.74   </span></span>
+<span><span class="co">#&gt;  Mean   :   0.00   Mean   :  0.00   Mean   :24.41   </span></span>
+<span><span class="co">#&gt;  3rd Qu.:  89.88   3rd Qu.: 44.88   3rd Qu.:29.17   </span></span>
+<span><span class="co">#&gt;  Max.   : 179.75   Max.   : 89.75   Max.   :34.00   </span></span>
+<span><span class="co">#&gt;                                     NA's   :238410</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">pwc.hothaps.ann</span><span class="op">)</span></span>
 <span><span class="co">#&gt;        x                 y              value       </span></span>
-<span><span class="co">#&gt;  Min.   :-179.75   Min.   :-89.75   Min.   :0.36    </span></span>
-<span><span class="co">#&gt;  1st Qu.: -89.88   1st Qu.:-44.88   1st Qu.:0.87    </span></span>
-<span><span class="co">#&gt;  Median :   0.00   Median :  0.00   Median :0.98    </span></span>
-<span><span class="co">#&gt;  Mean   :   0.00   Mean   :  0.00   Mean   :0.91    </span></span>
-<span><span class="co">#&gt;  3rd Qu.:  89.88   3rd Qu.: 44.88   3rd Qu.:1.00    </span></span>
+<span><span class="co">#&gt;  Min.   :-179.75   Min.   :-89.75   Min.   :0.29    </span></span>
+<span><span class="co">#&gt;  1st Qu.: -89.88   1st Qu.:-44.88   1st Qu.:0.73    </span></span>
+<span><span class="co">#&gt;  Median :   0.00   Median :  0.00   Median :0.90    </span></span>
+<span><span class="co">#&gt;  Mean   :   0.00   Mean   :  0.00   Mean   :0.85    </span></span>
+<span><span class="co">#&gt;  3rd Qu.:  89.88   3rd Qu.: 44.88   3rd Qu.:0.99    </span></span>
 <span><span class="co">#&gt;  Max.   : 179.75   Max.   : 89.75   Max.   :1.00    </span></span>
-<span><span class="co">#&gt;                                     NA's   :248396</span></span></code></pre></div>
+<span><span class="co">#&gt;                                     NA's   :238410</span></span></code></pre></div>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">format_longitude</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">lon</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">lon</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
@@ -724,7 +728,7 @@ frame with grid-level annual mean. In this step, make sure the
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_gradient.html" class="external-link">scale_fill_gradient</a></span><span class="op">(</span>low <span class="op">=</span> <span class="st">"grey95"</span>, high <span class="op">=</span> <span class="st">"red"</span>,</span>
 <span>                      na.value <span class="op">=</span> <span class="st">"white"</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"longitude"</span>, y <span class="op">=</span> <span class="st">"latitude"</span>, fill <span class="op">=</span> <span class="st">"PWC \nloss(%)"</span>,</span>
-<span>       title <span class="op">=</span> <span class="st">"Annual heat-induced PWC loss for labor in rain-fed sunflower sector: 2024"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>       title <span class="op">=</span> <span class="st">"Annual heat-induced PWC loss for labor in rain-fed maize sector: 2024"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_x_continuous</a></span><span class="op">(</span></span>
 <span>    breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">180</span>, <span class="fl">180</span>, by <span class="op">=</span> <span class="fl">60</span><span class="op">)</span>, <span class="co"># Longitude breaks</span></span>
 <span>    labels <span class="op">=</span> <span class="va">format_longitude</span>         <span class="co"># Apply custom labels</span></span>
@@ -744,12 +748,12 @@ frame with grid-level annual mean. In this step, make sure the
 <h3 id="step2-1-calculate-monthly-gridded-heat-stress">Step2.1: calculate monthly gridded heat stress<a class="anchor" aria-label="anchor" href="#step2-1-calculate-monthly-gridded-heat-stress"></a>
 </h3>
 <p>Similar to <em>Step1.1</em>, this steps
-employs<code><a href="../reference/HeatStress.html">HeatStress()</a></code> function. Example below takes monthly
-<em>hurs</em> (relative humidity), <em>tas</em> (near-surface air
-temperature), and <em>rsds</em> (surface downwelling shortwave
+employs<code><a href="../reference/cal_heat_stress.html">cal_heat_stress()</a></code> function. Example below takes
+monthly <em>hurs</em> (relative humidity), <em>tas</em> (near-surface
+air temperature), and <em>rsds</em> (surface downwelling shortwave
 radiation) and <em>WBGT_ESI</em> to calculate heat stress levels.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">esi.mon</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/HeatStress.html">HeatStress</a></span><span class="op">(</span>TempRes <span class="op">=</span> <span class="st">"month"</span>, SECTOR <span class="op">=</span> <span class="st">"SUNF_R"</span>, HS <span class="op">=</span> <span class="va">WBGT_ESI</span>, YEAR_INPUT <span class="op">=</span> <span class="fl">2024</span>,</span>
+<code class="sourceCode R"><span><span class="va">esi.mon</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cal_heat_stress.html">cal_heat_stress</a></span><span class="op">(</span>TempRes <span class="op">=</span> <span class="st">"month"</span>, SECTOR <span class="op">=</span> <span class="st">"MAIZ_R"</span>, HS <span class="op">=</span> <span class="va">WBGT_ESI</span>, YEAR_INPUT <span class="op">=</span> <span class="fl">2024</span>,</span>
 <span>                    <span class="st">"../HELPS_Example_Data/hurs_example_month.nc"</span>,</span>
 <span>                    <span class="st">"../HELPS_Example_Data/tas_example_month.nc"</span>,</span>
 <span>                    <span class="st">"../HELPS_Example_Data/rsds_example_month.nc"</span><span class="op">)</span></span>
@@ -760,22 +764,22 @@ radiation) and <em>WBGT_ESI</em> to calculate heat stress levels.</p>
 <span><span class="co">#&gt; extent     : -180, 180, -90, 90  (xmin, xmax, ymin, ymax)</span></span>
 <span><span class="co">#&gt; crs        : +proj=longlat +datum=WGS84 +no_defs </span></span>
 <span><span class="co">#&gt; names      : X2024.01.01, X2024.02.01, X2024.03.01, X2024.04.01, X2024.05.01, X2024.06.01, X2024.07.01, X2024.08.01, X2024.09.01, X2024.10.01, X2024.11.01, X2024.12.01 </span></span>
-<span><span class="co">#&gt; min values : -27.0358499, -18.5977207, -13.1788176,  -3.1948663,  -3.2108038,  -0.3438204,   0.6038005,   1.3499213,   1.7499020,  -5.9289555, -14.5242858, -24.4400775 </span></span>
-<span><span class="co">#&gt; max values :    28.94284,    28.47362,    28.75524,    31.85417,    32.80001,    31.40392,    32.64251,    35.16210,    31.99175,    29.14553,    28.54823,    28.52959</span></span></code></pre></div>
+<span><span class="co">#&gt; min values : -30.0640459, -19.3581926, -11.5180495,  -3.6726991,  -3.2108038,  -0.2240083,  -0.4961621,   0.2276950,   1.7499020,  -5.9289555, -15.8256390, -26.2432665 </span></span>
+<span><span class="co">#&gt; max values :    30.42680,    30.49348,    30.82212,    31.40889,    32.81928,    32.28757,    32.19278,    34.97054,    31.99175,    30.88973,    30.47448,    30.35880</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="step2-2-calculate-daily-gridded-physical-work-capacity">Step2.2: calculate daily gridded physical work capacity<a class="anchor" aria-label="anchor" href="#step2-2-calculate-daily-gridded-physical-work-capacity"></a>
 </h3>
-<p>Similar to <em>Step1.2</em>, this step employs <code><a href="../reference/PWC.html">PWC()</a></code>
+<p>Similar to <em>Step1.2</em>, this step employs <code><a href="../reference/cal_pwc.html">cal_pwc()</a></code>
 function to translate heat stress to PWC. Here we demonstrate the
 uncertainty in PWC introduced by alternative choices of
 <code>LHR()</code>.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">start_t</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="va">pwc.mon.foster</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/PWC.html">PWC</a></span><span class="op">(</span>WBGT <span class="op">=</span> <span class="va">esi.mon</span>,  LHR <span class="op">=</span> <span class="va">LHR_Foster</span>, workload <span class="op">=</span> <span class="st">"high"</span><span class="op">)</span></span>
+<span><span class="va">pwc.mon.foster</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cal_pwc.html">cal_pwc</a></span><span class="op">(</span>WBGT <span class="op">=</span> <span class="va">esi.mon</span>,  LHR <span class="op">=</span> <span class="va">LHR_Foster</span>, workload <span class="op">=</span> <span class="st">"high"</span><span class="op">)</span></span>
 <span><span class="va">end_t</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">end_t</span> <span class="op">-</span> <span class="va">start_t</span></span>
-<span><span class="co">#&gt; Time difference of 12.05804 secs</span></span>
+<span><span class="co">#&gt; Time difference of 24.06208 secs</span></span>
 <span><span class="va">pwc.mon.foster</span></span>
 <span><span class="co">#&gt; class      : RasterStack </span></span>
 <span><span class="co">#&gt; dimensions : 360, 720, 259200, 12  (nrow, ncol, ncell, nlayers)</span></span>
@@ -783,14 +787,14 @@ uncertainty in PWC introduced by alternative choices of
 <span><span class="co">#&gt; extent     : -180, 180, -90, 90  (xmin, xmax, ymin, ymax)</span></span>
 <span><span class="co">#&gt; crs        : +proj=longlat +datum=WGS84 +no_defs </span></span>
 <span><span class="co">#&gt; names      : X2024.01.01, X2024.02.01, X2024.03.01, X2024.04.01, X2024.05.01, X2024.06.01, X2024.07.01, X2024.08.01, X2024.09.01, X2024.10.01, X2024.11.01, X2024.12.01 </span></span>
-<span><span class="co">#&gt; min values :   0.7211364,   0.7414596,   0.7293386,   0.5850173,   0.5394641,   0.6067125,   0.5470242,   0.4299628,   0.5783792,   0.7121666,   0.7382712,   0.7390694 </span></span>
+<span><span class="co">#&gt; min values :   0.6533050,   0.6501601,   0.6345732,   0.6064736,   0.5385404,   0.5641103,   0.5686807,   0.4384579,   0.5783792,   0.6313511,   0.6510568,   0.6565059 </span></span>
 <span><span class="co">#&gt; max values :           1,           1,           1,           1,           1,           1,           1,           1,           1,           1,           1,           1</span></span></code></pre></div>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">start_t</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="va">pwc.mon.hothaps</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/PWC.html">PWC</a></span><span class="op">(</span>WBGT <span class="op">=</span> <span class="va">esi.mon</span>,  LHR <span class="op">=</span> <span class="va">LHR_Hothaps</span>, workload <span class="op">=</span> <span class="st">"high"</span><span class="op">)</span></span>
+<span><span class="va">pwc.mon.hothaps</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cal_pwc.html">cal_pwc</a></span><span class="op">(</span>WBGT <span class="op">=</span> <span class="va">esi.mon</span>,  LHR <span class="op">=</span> <span class="va">LHR_Hothaps</span>, workload <span class="op">=</span> <span class="st">"high"</span><span class="op">)</span></span>
 <span><span class="va">end_t</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">end_t</span> <span class="op">-</span> <span class="va">start_t</span></span>
-<span><span class="co">#&gt; Time difference of 0.7341189 secs</span></span>
+<span><span class="co">#&gt; Time difference of 2.135873 secs</span></span>
 <span><span class="va">pwc.mon.hothaps</span></span>
 <span><span class="co">#&gt; class      : RasterStack </span></span>
 <span><span class="co">#&gt; dimensions : 360, 720, 259200, 12  (nrow, ncol, ncell, nlayers)</span></span>
@@ -798,14 +802,14 @@ uncertainty in PWC introduced by alternative choices of
 <span><span class="co">#&gt; extent     : -180, 180, -90, 90  (xmin, xmax, ymin, ymax)</span></span>
 <span><span class="co">#&gt; crs        : +proj=longlat +datum=WGS84 +no_defs </span></span>
 <span><span class="co">#&gt; names      : X2024.01.01, X2024.02.01, X2024.03.01, X2024.04.01, X2024.05.01, X2024.06.01, X2024.07.01, X2024.08.01, X2024.09.01, X2024.10.01, X2024.11.01, X2024.12.01 </span></span>
-<span><span class="co">#&gt; min values :   0.7769727,   0.8194265,   0.7946270,   0.4430649,   0.3471370,   0.4945610,   0.3617521,   0.1957157,   0.4279751,   0.7569270,   0.8130585,   0.8146632 </span></span>
+<span><span class="co">#&gt; min values :   0.6122205,   0.6041627,   0.5642868,   0.4939780,   0.3453890,   0.3967577,   0.4065681,   0.2037740,   0.4279751,   0.5560881,   0.6064606,   0.6204154 </span></span>
 <span><span class="co">#&gt; max values :           1,           1,           1,           1,           1,           1,           1,           1,           1,           1,           1,           1</span></span></code></pre></div>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">start_t</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="va">pwc.mon.niosh</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/PWC.html">PWC</a></span><span class="op">(</span>WBGT <span class="op">=</span> <span class="va">esi.mon</span>,  LHR <span class="op">=</span> <span class="va">LHR_NIOSH</span>, workload <span class="op">=</span> <span class="st">"high"</span><span class="op">)</span></span>
+<span><span class="va">pwc.mon.niosh</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cal_pwc.html">cal_pwc</a></span><span class="op">(</span>WBGT <span class="op">=</span> <span class="va">esi.mon</span>,  LHR <span class="op">=</span> <span class="va">LHR_NIOSH</span>, workload <span class="op">=</span> <span class="st">"high"</span><span class="op">)</span></span>
 <span><span class="va">end_t</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">end_t</span> <span class="op">-</span> <span class="va">start_t</span></span>
-<span><span class="co">#&gt; Time difference of 18.30968 secs</span></span>
+<span><span class="co">#&gt; Time difference of 36.07453 secs</span></span>
 <span><span class="va">pwc.mon.niosh</span></span>
 <span><span class="co">#&gt; class      : RasterStack </span></span>
 <span><span class="co">#&gt; dimensions : 360, 720, 259200, 12  (nrow, ncol, ncell, nlayers)</span></span>
@@ -813,14 +817,14 @@ uncertainty in PWC introduced by alternative choices of
 <span><span class="co">#&gt; extent     : -180, 180, -90, 90  (xmin, xmax, ymin, ymax)</span></span>
 <span><span class="co">#&gt; crs        : +proj=longlat +datum=WGS84 +no_defs </span></span>
 <span><span class="co">#&gt; names      : X2024.01.01, X2024.02.01, X2024.03.01, X2024.04.01, X2024.05.01, X2024.06.01, X2024.07.01, X2024.08.01, X2024.09.01, X2024.10.01, X2024.11.01, X2024.12.01 </span></span>
-<span><span class="co">#&gt; min values :  0.64711915,  0.72354541,  0.67767593,  0.17292735,  0.01887039,  0.24626187,  0.04452392,  0.00000000,  0.15051810,  0.61410533,  0.71139217,  0.71442830 </span></span>
+<span><span class="co">#&gt; min values :  0.40541344,  0.39455381,  0.34102517,  0.24545289,  0.01573204,  0.10233571,  0.11777393,  0.00000000,  0.15051810,  0.33001362,  0.39764804,  0.41648961 </span></span>
 <span><span class="co">#&gt; max values :           1,           1,           1,           1,           1,           1,           1,           1,           1,           1,           1,           1</span></span></code></pre></div>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">start_t</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="va">pwc.mon.iso</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/PWC.html">PWC</a></span><span class="op">(</span>WBGT <span class="op">=</span> <span class="va">esi.mon</span>,  LHR <span class="op">=</span> <span class="va">LHR_ISO</span>, workload <span class="op">=</span> <span class="st">"high"</span><span class="op">)</span></span>
+<span><span class="va">pwc.mon.iso</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cal_pwc.html">cal_pwc</a></span><span class="op">(</span>WBGT <span class="op">=</span> <span class="va">esi.mon</span>,  LHR <span class="op">=</span> <span class="va">LHR_ISO</span>, workload <span class="op">=</span> <span class="st">"high"</span><span class="op">)</span></span>
 <span><span class="va">end_t</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">end_t</span> <span class="op">-</span> <span class="va">start_t</span></span>
-<span><span class="co">#&gt; Time difference of 18.64814 secs</span></span>
+<span><span class="co">#&gt; Time difference of 35.56711 secs</span></span>
 <span><span class="va">pwc.mon.iso</span></span>
 <span><span class="co">#&gt; class      : RasterStack </span></span>
 <span><span class="co">#&gt; dimensions : 360, 720, 259200, 12  (nrow, ncol, ncell, nlayers)</span></span>
@@ -828,26 +832,26 @@ uncertainty in PWC introduced by alternative choices of
 <span><span class="co">#&gt; extent     : -180, 180, -90, 90  (xmin, xmax, ymin, ymax)</span></span>
 <span><span class="co">#&gt; crs        : +proj=longlat +datum=WGS84 +no_defs </span></span>
 <span><span class="co">#&gt; names      : X2024.01.01, X2024.02.01, X2024.03.01, X2024.04.01, X2024.05.01, X2024.06.01, X2024.07.01, X2024.08.01, X2024.09.01, X2024.10.01, X2024.11.01, X2024.12.01 </span></span>
-<span><span class="co">#&gt; min values :  0.55487397,  0.63114344,  0.58536805,  0.08165499,  0.00000000,  0.15483906,  0.00000000,  0.00000000,  0.05929171,  0.52192787,  0.61901513,  0.62204503 </span></span>
+<span><span class="co">#&gt; min values :  0.31366412,  0.30282677,  0.24940795,  0.15403174,  0.00000000,  0.01120817,  0.02661472,  0.00000000,  0.05929171,  0.23841899,  0.30591465,  0.32471757 </span></span>
 <span><span class="co">#&gt; max values :           1,           1,           1,           1,           1,           1,           1,           1,           1,           1,           1,           1</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="step2-3-aggregate-monthly-value-to-annual-value">Step2.3: aggregate monthly value to annual value<a class="anchor" aria-label="anchor" href="#step2-3-aggregate-monthly-value-to-annual-value"></a>
 </h3>
 <p>Same as <em>Step1.4</em>, make sure the <code>SECTOR</code> input in
-<code><a href="../reference/MON2ANN.html">MON2ANN()</a></code> is identical to the <code>SECTOR</code> input in
-<code><a href="../reference/HeatStress.html">HeatStress()</a></code>.</p>
+<code><a href="../reference/monthly_to_annual.html">monthly_to_annual()</a></code> is identical to the <code>SECTOR</code>
+input in <code><a href="../reference/cal_heat_stress.html">cal_heat_stress()</a></code>.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">pwc.hothaps.ann2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/MON2ANN.html">MON2ANN</a></span><span class="op">(</span>input_rack <span class="op">=</span> <span class="va">pwc.mon.hothaps</span>, SECTOR <span class="op">=</span> <span class="st">"SUNF_R"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">pwc.hothaps.ann2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/monthly_to_annual.html">monthly_to_annual</a></span><span class="op">(</span>input_rack <span class="op">=</span> <span class="va">pwc.mon.hothaps</span>, SECTOR <span class="op">=</span> <span class="st">"MAIZ_R"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">pwc.hothaps.ann2</span><span class="op">)</span></span>
 <span><span class="co">#&gt;        x                 y              value       </span></span>
-<span><span class="co">#&gt;  Min.   :-179.75   Min.   :-89.75   Min.   :0.57    </span></span>
-<span><span class="co">#&gt;  1st Qu.: -89.88   1st Qu.:-44.88   1st Qu.:0.98    </span></span>
-<span><span class="co">#&gt;  Median :   0.00   Median :  0.00   Median :1.00    </span></span>
-<span><span class="co">#&gt;  Mean   :   0.00   Mean   :  0.00   Mean   :0.98    </span></span>
+<span><span class="co">#&gt;  Min.   :-179.75   Min.   :-89.75   Min.   :0.45    </span></span>
+<span><span class="co">#&gt;  1st Qu.: -89.88   1st Qu.:-44.88   1st Qu.:0.95    </span></span>
+<span><span class="co">#&gt;  Median :   0.00   Median :  0.00   Median :0.99    </span></span>
+<span><span class="co">#&gt;  Mean   :   0.00   Mean   :  0.00   Mean   :0.97    </span></span>
 <span><span class="co">#&gt;  3rd Qu.:  89.88   3rd Qu.: 44.88   3rd Qu.:1.00    </span></span>
 <span><span class="co">#&gt;  Max.   : 179.75   Max.   : 89.75   Max.   :1.00    </span></span>
-<span><span class="co">#&gt;                                     NA's   :248396</span></span></code></pre></div>
+<span><span class="co">#&gt;                                     NA's   :238410</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -855,9 +859,9 @@ uncertainty in PWC introduced by alternative choices of
 </h2>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># aggregate grid level PWC to country level</span></span>
-<span><span class="va">ctry_pwc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/G2R.html">G2R</a></span><span class="op">(</span>grid_annual_value <span class="op">=</span> <span class="va">pwc.hothaps.ann</span>, SECTOR <span class="op">=</span> <span class="st">"SUNF_R"</span>, rast_boundary <span class="op">=</span> <span class="va">country_raster</span><span class="op">)</span></span>
+<span><span class="va">ctry_pwc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/grid_to_region.html">grid_to_region</a></span><span class="op">(</span>grid_annual_value <span class="op">=</span> <span class="va">pwc.hothaps.ann</span>, SECTOR <span class="op">=</span> <span class="st">"MAIZ_R"</span>, rast_boundary <span class="op">=</span> <span class="va">country_raster</span><span class="op">)</span></span>
 <span><span class="co"># aggregate grid level PWC to GCAM water basin level</span></span>
-<span><span class="va">glu_pwc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/G2R.html">G2R</a></span><span class="op">(</span>grid_annual_value <span class="op">=</span> <span class="va">pwc.hothaps.ann</span>, SECTOR <span class="op">=</span> <span class="st">"SUNF_R"</span>, rast_boundary <span class="op">=</span> <span class="va">reg_WB_raster</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">glu_pwc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/grid_to_region.html">grid_to_region</a></span><span class="op">(</span>grid_annual_value <span class="op">=</span> <span class="va">pwc.hothaps.ann</span>, SECTOR <span class="op">=</span> <span class="st">"MAIZ_R"</span>, rast_boundary <span class="op">=</span> <span class="va">reg_WB_raster</span><span class="op">)</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="step3-1-aggregate-grid-level-values-to-country-level-values">Step3.1: aggregate grid-level values to country-level values<a class="anchor" aria-label="anchor" href="#step3-1-aggregate-grid-level-values-to-country-level-values"></a>
 </h3>
@@ -873,7 +877,7 @@ uncertainty in PWC introduced by alternative choices of
 <span>                  pattern_spacing <span class="op">=</span> <span class="fl">0.02</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_gradient.html" class="external-link">scale_fill_gradient</a></span><span class="op">(</span>low <span class="op">=</span> <span class="st">"grey95"</span>, high <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"longitude"</span>, y <span class="op">=</span> <span class="st">"latitude"</span>, fill <span class="op">=</span> <span class="st">"PWC \nloss(%)"</span>,</span>
-<span>       title <span class="op">=</span> <span class="st">"Country-level heat-induced PWC loss for labor in rain-fed sunflower sector: 2024"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>       title <span class="op">=</span> <span class="st">"Country-level heat-induced PWC loss for labor in rain-fed maize sector: 2024"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="HELPS-vignette_files/figure-html/Step3.1-1.png" width="960"></p>
 </div>
@@ -893,7 +897,7 @@ values<a class="anchor" aria-label="anchor" href="#step3-2-aggregate-grid-level-
 <span>                  pattern_spacing <span class="op">=</span> <span class="fl">0.02</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_gradient.html" class="external-link">scale_fill_gradient</a></span><span class="op">(</span>low <span class="op">=</span> <span class="st">"grey95"</span>, high <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"longitude"</span>, y <span class="op">=</span> <span class="st">"latitude"</span>, fill <span class="op">=</span> <span class="st">"PWC \nloss(%)"</span>,</span>
-<span>       title <span class="op">=</span> <span class="st">"Water basin-level heat-induced PWC loss for labor in rain-fed sunflower sector: 2024"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>       title <span class="op">=</span> <span class="st">"Water basin-level heat-induced PWC loss for labor in rain-fed maize sector: 2024"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="HELPS-vignette_files/figure-html/Step3.2-1.png" width="960"></p>
 </div>
@@ -910,7 +914,7 @@ values<a class="anchor" aria-label="anchor" href="#step3-2-aggregate-grid-level-
 
       <footer><div class="copyright">
   <p></p>
-<p>Developed by Di Sheng.</p>
+<p>Developed by Di Sheng, Xin Zhao, Stephanie Waldhoff, Abigail Snyder, Chris Vernon.</p>
 </div>
 
 <div class="pkgdown">

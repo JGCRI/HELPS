@@ -4,9 +4,13 @@
 <url><loc>/articles/index.html</loc></url>
 <url><loc>/authors.html</loc></url>
 <url><loc>/index.html</loc></url>
+<url><loc>/reference/cal_heat_stress.html</loc></url>
+<url><loc>/reference/cal_pwc.html</loc></url>
+<url><loc>/reference/daily_to_monthly.html</loc></url>
 <url><loc>/reference/DAY2MON.html</loc></url>
 <url><loc>/reference/G2R.html</loc></url>
 <url><loc>/reference/get_example_data.html</loc></url>
+<url><loc>/reference/grid_to_region.html</loc></url>
 <url><loc>/reference/HeatStress.html</loc></url>
 <url><loc>/reference/index.html</loc></url>
 <url><loc>/reference/LHR_Foster.html</loc></url>
@@ -14,6 +18,7 @@
 <url><loc>/reference/LHR_ISO.html</loc></url>
 <url><loc>/reference/LHR_NIOSH.html</loc></url>
 <url><loc>/reference/MON2ANN.html</loc></url>
+<url><loc>/reference/monthly_to_annual.html</loc></url>
 <url><loc>/reference/PWC.html</loc></url>
 <url><loc>/reference/WBGT_ESI.html</loc></url>
 <url><loc>/reference/WBGT_shade.html</loc></url>
