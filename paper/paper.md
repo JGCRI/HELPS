@@ -11,7 +11,7 @@ authors:
   name: Abigail Snyder
   orcid: 0000-0002-9034-9948
 - affiliation: 1
-  name: Stephanie Waldhoff
+  name: Stephanie Morris
   orcid: 0000-0002-8073-0868
 - affiliation: 1
   name: Chris Vernon
