@@ -13,7 +13,7 @@
 #' @importFrom dplyr %>%
 #' @import assertthat
 #'
-#' @return A sf data frame of regional annual value
+#' @return A sf data frame of regional annual weighted value and sum of harvested area
 #' @export
 #'
 #' @examples
@@ -47,7 +47,8 @@ grid_to_region <- function(grid_annual_value, SECTOR, rast_boundary) {
 
   grid_annual_value %>%
     dplyr::group_by(region_id) %>%
-    dplyr::summarise(value = weighted.mean(value, smw, na.rm = T)) ->
+    dplyr::summarise(value = weighted.mean(value, smw, na.rm = T),
+                     smw = sum(smw, na.rm = T)) ->
   reg_annual_value
   return(reg_annual_value)
 }
