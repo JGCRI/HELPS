@@ -14,7 +14,7 @@ grid_to_region(grid_annual_value, SECTOR, rast_boundary)
 \item{rast_boundary}{rasterized regional boundaries, 0.5 degree, Set to global extent}
 }
 \value{
-A sf data frame of regional annual value
+A sf data frame of regional annual weighted value and sum of harvested area
 }
 \description{
 Aggregate Grid-Level Annual Values to Regional-Level
