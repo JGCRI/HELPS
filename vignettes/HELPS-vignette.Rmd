@@ -34,10 +34,10 @@ get_example_data()
 
 ### Prepare your own input data
 
-The `HELPS` package operates on 0.5 degree resolution, bias-corrected outputs from Earth System Models and General Circulation Models participating in the CMIP process. Several options to access such data exist:
-- The [ISIMIP2b](https://data.isimip.org/search/tree/ISIMIP2b/InputData/climate/atmosphere/) repository contains outputs from CMIP5-era models (GFDL-ESM2M, HadGEM2-ES, IPSL-CM5A-LR, and MIROC5) for specific scenarios
-- The [ISIMIP3b](https://data.isimip.org/search/tree/ISIMIP3b/InputData/climate/atmosphere/) repository contains outputs from CMIP6-era models (GFDL-ESM4, IPSL-CM6A-LR, MPI-ESM1-2-HR, MRI-ESM2-0, and UKSEM1-0-LL) for specific scenarios
-- If a user wishes to explore other CMIP models or bias-correct model data against different observational data than that used by ISIMIP, the [BASD](https://github.com/JGCRI/basd) python package is available for ease of use. BASD implements an extension of the bias adjustment and statistical downscaling method used in ISIMIP3b ([ISIMIP3BASD](https://zenodo.org/records/4686991 and  https://gmd.copernicus.org/articles/12/3055/2019/), Lange 2021). The ISIMIP3BASD code base can also be used directly. For additional information, please see [here](https://www.isimip.org/documents/413/ISIMIP3b_bias_adjustment_fact_sheet_Gnsz7CO.pdf). 
+The `HELPS` package operates on 0.5 degree resolution, bias-corrected outputs from Earth System Models and General Circulation Models participating in the CMIP process. Several options to access such data exist:<br>
+- The [ISIMIP2b](https://data.isimip.org/search/tree/ISIMIP2b/InputData/climate/atmosphere/) repository contains outputs from CMIP5-era models (GFDL-ESM2M, HadGEM2-ES, IPSL-CM5A-LR, and MIROC5) for specific scenarios<br>
+- The [ISIMIP3b](https://data.isimip.org/search/tree/ISIMIP3b/InputData/climate/atmosphere/) repository contains outputs from CMIP6-era models (GFDL-ESM4, IPSL-CM6A-LR, MPI-ESM1-2-HR, MRI-ESM2-0, and UKSEM1-0-LL) for specific scenarios<br>
+- If a user wishes to explore other CMIP models or bias-correct model data against different observational data than that used by ISIMIP, the [BASD](https://github.com/JGCRI/basd) python package is available for ease of use. BASD implements an extension of the bias adjustment and statistical downscaling method used in ISIMIP3b ([ISIMIP3BASD](https://zenodo.org/records/4686991 and  https://gmd.copernicus.org/articles/12/3055/2019/), Lange 2021). The ISIMIP3BASD code base can also be used directly. For additional information, please see [here](https://www.isimip.org/documents/413/ISIMIP3b_bias_adjustment_fact_sheet_Gnsz7CO.pdf). <br>
 - If a user wishes to explore novel scenarios not covered by CMIP models or the ISIMIP collection, we suggest a combination of [STITCHES](https://github.com/JGCRI/stitches) emulation and BASD bias correction and downscaling. 
 
 HELPS has been tested with both ISIMIP data and outputs from BASD.
@@ -181,7 +181,7 @@ This step employs `cal_pwc()` function, which takes multiple arguments.
 `LHR` denotes the labor-heat response function that takes heat stress level and workload intensity as input and outputs physical work capacity (PWC). `workload` varies across alternative industries, we suggest 'high' for construction or agricultural work, 'moderate' for average manufacturing industry work, and 'low' for office desk work and service industries. 
 There are 4 built-in `LHR` functions in `HELPS`. 
 `LHR_Hothaps` is based on the *high occupational temperature health and productivity suppression (Hothaps)* programme, derived by Kjellstrom et al. (2018).
-`LHR_NOISH` calculate the labor productivity based on the National Institute for Occupational Safety and Health (NIOSH) standard.
+`LHR_NIOSH` calculate the labor productivity based on the National Institute for Occupational Safety and Health (NIOSH) standard.
 `LHR_ISO` calculate the labor productivity based on the ISO7243 standard.
 `LHR_Foster` calculate the labor productivity based on Foster et al (2021) Table 3. 
 Note that `LHR_Foster` does not need workload as input, while the rest three LHRs need.
