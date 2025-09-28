@@ -37,7 +37,9 @@
 <!-------------------------->
 <!-------------------------->
 
-`HELPS` is designed to translate climate projections to heat-induced labor productivity loss by sectors.
+
+Rising evidence shows that heat stress significantly reduces labor productivity, particularly in agriculture. Existing tools often calculate heat stress metrics at fine spatial and temporal resolutions, but they do not capture variations across crops and farming practices, limiting their relevance for agriculture-focused studies and for research conducted at coarser spatio-temporal scales. The `HELPS` R package addresses this gap by integrating crop calendars and harvested area data to align heat stress exposure with real-world agricultural practices. It provides a comprehensive and user-friendly tool for quantifying heat stress levels and the resulting PWC losses at annual resolution across flexible spatial scales, supporting applications in global economic and multisector dynamics modeling.
+
 
 ![Figure. 1. HELPS package schematic. HELPS can process daily and monthly 0.5-degree grid-level input data. Stars denote package functions.](vignettes/Schematic.jpg)
 
@@ -51,7 +53,7 @@
 <!-------------------------->
 <!-------------------------->
 
-Sheng, D. et al. Omitting labor responses to heat stress underestimates future climate impact on agriculture. (Under review). doi: https://doi.org/10.21203/rs.3.rs-5000229/v1.
+Sheng, D., Zhao, X., Edmonds, J.A., Morris, S.T., Patel, P., O’Neill, B.C., Tebaldi, C. and Wise, M.A., 2025. Omitting labor responses underestimates the effects of future heat stress on agriculture. Communications Earth & Environment, 6(1), p.400.
 
 
 [Back to Contents](#Contents)
@@ -74,6 +76,7 @@ Sheng, D. et al. Omitting labor responses to heat stress underestimates future c
 
 ```
 install.packages('devtools')
+install.packages('assertthat')
 devtools::install_github('JGCRI/HELPS')
 renv::restore()
 devtools::load_all()
@@ -122,6 +125,19 @@ The `HELPS` package operates on 0.5 degree resolution, bias-corrected outputs fr
 - If a user wishes to explore novel scenarios not covered by CMIP models or the ISIMIP collection, we suggest a combination of [STITCHES](https://github.com/JGCRI/stitches) emulation and BASD bias correction and downscaling. 
 
 HELPS has been tested with both ISIMIP data and outputs from BASD.
+
+
+[Back to Contents](#Contents)
+
+<br />
+
+<!-------------------------->
+<!-------------------------->
+# <a name="Community Guidelines"></a>Community Guidelines
+<!-------------------------->
+<!-------------------------->
+
+We welcome third-party contributions, which are essential for advancing the science and architecture of HELPS. We ask contributors to follow the [How to Contribute](https://jgcri.github.io/HELPS/articles/HELPS-How-to-Contribute.html) that ease the maintainers’ organizational and logistical duties, while encouraging development by others. All contributors agree to abide by the code of conduct.
 
 
 [Back to Contents](#Contents)
