@@ -35,8 +35,9 @@
 <!-------------------------->
 <!-------------------------->
 
-`HELPS` is designed to translate climate projections to heat-induced labor productivity loss by sectors.
+`HELPS` is designed to translate climate projections to heat-induced labor productivity loss by sectors. <br>
 
+Rising evidence shows that heat stress significantly reduces labor productivity, particularly in agriculture. Existing tools often calculate heat stress metrics at fine spatial and temporal resolutions, but they do not capture variations across crops and farming practices, limiting their relevance for agriculture-focused studies and for research conducted at coarser spatio-temporal scales. The `HELPS` R package addresses this gap by integrating crop calendars and harvested area data to align heat stress exposure with real-world agricultural practices. It provides a comprehensive and user-friendly tool for quantifying heat stress levels and the resulting PWC losses at annual resolution across flexible spatial scales, supporting applications in global economic and multisector dynamics modeling.
 
 ![Figure. 1. HELPS package schematic. HELPS can process daily and monthly 0.5-degree grid-level input data. Stars denote package functions.](vignettes/Schematic.jpg)
 
