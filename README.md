@@ -130,4 +130,17 @@ HELPS has been tested with both ISIMIP data and outputs from BASD.
 
 <br />
 
+<!-------------------------->
+<!-------------------------->
+# <a name="Community Guidelines"></a>Community Guidelines
+<!-------------------------->
+<!-------------------------->
+
+We welcome third-party contributions, which are essential for advancing the science and architecture of HELPS. We ask contributors to follow the [How to Contribute](https://jgcri.github.io/HELPS/articles/HELPS-How-to-Contribute.html) that ease the maintainers’ organizational and logistical duties, while encouraging development by others. All contributors agree to abide by the code of conduct.
+
+
+[Back to Contents](#Contents)
+
+<br />
+
 

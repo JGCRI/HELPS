@@ -1,0 +1,48 @@
+---
+title: "HELPS-How-to-Contribute"
+output: rmarkdown::html_document
+vignette: >
+  %\VignetteIndexEntry{HELPS-vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+1.	Open an issue at https://github.com/JGCRI/HELPS/issues to discuss proposed changes or additions before development. Be sure to tag Di Sheng (`@dsheng1026`) in the issue description.
+
+
+2.	If the proposed changes and contributions are approved. Fork the repository and create your branch from main.
+
+
+3.	If your changes are for a specific function in the existing file structure, please edit the existing file(s).
+
+
+4.	If your changes are for a new function, please create a new file in the `R/directory`. Please ensure to document the function using `roxygen2`.
+
+
+5.	If relevant, please add tests for your changes in the `tests/testthat/` directory. This will help ensure that your changes work as expected.
+
+
+6.	Make sure to run `devtools::document()` to update the documentation.
+
+
+7.	Run `devtools::check()` to ensure your changes do not introduce any errors or warnings.
+
+
+8.	Commit and push your changes to your forked repository.
+
+
+9.	Open a pull request against the main branch of the original repository. Write a brief description of the changes/features that were added.
+
+
+10.	 Your pull request should include one of the following two statements: <br>
+&nbsp;(1) You own the copyright on the code being contributed, and you hereby grant PNNL unlimited license to use this code in this version or any future version of HELPS. You reserve all other rights to the code.<br>
+&nbsp;(2) Somebody else owns the copyright on the code being contributed (e.g., your employer because you did it as part of your work for them); you are authorized by that owner to grant PNNL an unlimited license to use this code in this version or any future version of HELPS, and you hereby do so. All other rights to the code are reserved by the copyright owner.
+11.	 After reviewing the changes and their approval, the changes will be merged into the main branch of the original repository. Thank you for your contribution!
