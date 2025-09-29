@@ -4,13 +4,13 @@ authors:
 - affiliation: 1
   name: Di Sheng
   orcid: 0009-0006-7567-380X
-- affiliation: [1, 2]
+- affiliation: "1, 2"
   name: Xin Zhao
   orcid: 0000-0002-1801-4393
 - affiliation: 1
   name: Abigail Snyder
   orcid: 0000-0002-9034-9948
-- affiliation: [1, 2]
+- affiliation: "1, 2"
   name: Stephanie Morris
   orcid: 0000-0002-8073-0868
 - affiliation: 1
