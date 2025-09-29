@@ -4,13 +4,13 @@ authors:
 - affiliation: 1
   name: Di Sheng
   orcid: 0009-0006-7567-380X
-- affiliation: 1
+- affiliation: [1, 2]
   name: Xin Zhao
   orcid: 0000-0002-1801-4393
 - affiliation: 1
   name: Abigail Snyder
   orcid: 0000-0002-9034-9948
-- affiliation: 1
+- affiliation: [1, 2]
   name: Stephanie Morris
   orcid: 0000-0002-8073-0868
 - affiliation: 1
@@ -32,6 +32,8 @@ tags:
 affiliations:
 - index: 1
   name: Joint Global Change Research Institute, Pacific Northwest National Laboratory, College Park, MD, USA
+- index: 2
+  name: Center for Global Sustainability, School of Public Policy, University of Maryland, College Park, MD, USA
 ---
 
 # Summary
@@ -50,7 +52,7 @@ HELPS fills this gap by introducing relevant datasets for meaningful temporal an
 
 ![HELPS package schematic. HELPS processes daily and monthly input data at 0.5-degree grid resolution. Stars denote package functions.](Schematic.jpg)
 
-HELPS processes daily or monthly 0.5-degree grid-level atmospheric projections from Earth System Models to generate outputs that tailored to diverse research needs through five key functions (Figure 1). The HeatStress function translates atmospheric variables into heat stress levels, and it includes a sector argument to filter and keep relevant grids for a specific sector. For example, Figure 2.a presents grid-level WBGT for grids with rain-fed maize harvested area. The PWC function further translates the heat stress level to the PWC (Figure 2.b). The DAY2MON function aggregates daily values into monthly means (Figure 2.c), and the MON2ANN function further aggregates monthly values into annual means, incorporating monthly weights aligned with the sector's production cycle (Figure 2.d). Grid-level outputs from HELPS can be further aggregated to user-defined regional levels using the G2R function.
+HELPS processes daily or monthly 0.5-degree grid-level atmospheric projections from Earth System Models and generates outputs that tailored to diverse research needs through five key functions (Figure 1). The HeatStress function translates atmospheric variables, such as temperature, relative humidity, and air pressure, into heat stress levels. It also includes a sector argument to filter and retain only the grids relevant to a specific sector. For example, Figure 2.a presents grid-level WBGT for grids with rain-fed maize harvested area. The PWC function further translates the heat stress level to the PWC (Figure 2.b). The DAY2MON function aggregates daily values into monthly means (Figure 2.c), and the MON2ANN function further aggregates monthly values into annual means, incorporating monthly weights aligned with the sector's production cycle (Figure 2.d). Grid-level outputs from HELPS can be further aggregated to user-defined regional levels using the G2R function.
 
 ![Example plots of outputs from the HELPS package. (a) daily grid-level WBGT for rain-fed maize labor on 2024-07-01. When WBGT is greater than 25 degrees, human physical work capacity (PWC) starts to decrease WBGT = 25 is in grey, above 25 is in red, and below 25 is in purple; (b-d) grid-level heat-induced PWC loss for rain-fed maize labor, at daily (b), monthly (c), and annual (d) levels. Grids shown in panels b-d are grids with rain-fed maize harvested area.](Figure2.jpg)
 
