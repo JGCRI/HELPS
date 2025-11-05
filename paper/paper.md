@@ -60,6 +60,6 @@ Here we demonstrate an example of producing heat-induced agricultural labor prod
 
 # Acknowledgements
 
-This research was supported by the U.S. Department of Energy, Office of Science, as part of research in MultiSector Dynamics, Earth and Environmental System Modeling Program. We also appreciate the support from Mengqi Zhao and Noah Prime. The views and opinions expressed in this paper are those of the authors alone.
+This research was supported by the U.S. Department of Energy, Office of Science, as part of research in MultiSector Dynamics, Earth and Environmental System Modeling Program. We also appreciate the support from Mengqi Zhao and Noah Prime. The views and opinions expressed in this paper are those of the authors alone. Di Sheng is currently affiliated with International Institute for Applied Systems Analysis.
 
 # References
