@@ -54,7 +54,7 @@ Rising evidence shows that heat stress significantly reduces labor productivity,
 <!-------------------------->
 <!-------------------------->
 
-Sheng, D., Zhao, X., Edmonds, J.A., Morris, S.T., Patel, P., O’Neill, B.C., Tebaldi, C. and Wise, M.A. 2025. Omitting labor responses underestimates the effects of future heat stress on agriculture. Communications Earth & Environment, 6(1), p.400.
+Sheng, D., Zhao, X., Edmonds, J.A., Morris, S.T., Patel, P., O’Neill, B.C., Tebaldi, C. and Wise, M.A. 2025. Omitting labor responses underestimates the effects of future heat stress on agriculture. Communications Earth & Environment, 6(1), p.400. https://doi.org/10.1038/s43247-025-02318-w
 
 If you use this package, please cite: <br>
 Sheng, D., Zhao, X., Snyder, A., Morris, S., & Vernon, C. 2025. HELPS: an R package to project future Heat Effects on Labor Productivity by Sector.
