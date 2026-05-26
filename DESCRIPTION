@@ -1,6 +1,6 @@
 Package: HELPS
 Title: Heat Effects on Labor Productivity by Sector
-Version: 0.0.0.9000
+Version: V1.0.0
 Authors@R: c(
     person("Di", "Sheng", , "di.sheng@pnnl.gov", role = c("aut", "cre"),
            comment = c(ORCID = "0009-0006-7567-380X")),
